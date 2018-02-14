@@ -41,8 +41,8 @@ sed -i -e "s/^#kernel.printk = 3 4 1 3/kernel.printk = 3 4 1 3/" /etc/sysctl.con
 
 rm -f /etc/apt/sources.list.save
 
-apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync gamin lighttpd openvpn
-apt-get -y install php-cgi libpam0g-dev
+apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync \
+	gamin lighttpd openvpn php-cgi libpam0g-dev
 dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-glib-2.0 iso-codes \
 	gir1.2-packagekitglib-1.0 jq libasound2 libasound2-data libdbus-glib-1-2 libfftw3-single3 \
 	libgirepository-1.0-1 libjq1 libmpdec2 libonig4 libpackagekit-glib2-18 libpython3-stdlib \
