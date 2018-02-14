@@ -1,6 +1,81 @@
 # rock64-webgui
 Web GUI for the Rock64
 
-Used in ayufan's debian stretch minimal image to configure the rock64 via a web browser.
+Below is the steps to take to use (ayufan's debian stretch minimal image)[https://github.com/ayufan-rock64/linux-build/releases/] to configure the rock64 via a web browser.
 
-More to come.
+Below is the steps needed to modify ayufan's build to use the webgui
+
+wget https://github.com/ayufan-rock64/linux-build/releases/download/0.6.20/stretch-minimal-rock64-0.6.20-184-arm64.img.xz
+xz -d -v stretch-minimal-rock64-0.6.20-184-arm64.img.xz
+mv stretch-minimal-rock64-0.6.20-184-arm64.img stretch-router-rock64-0.6.20-184-arm64.img
+
+losetup -Pf stretch-router-rock64-0.6.20-184-arm64.img
+mount /dev/loop0p7 /mnt
+mount /dev/loop0p6 /mnt/boot/efi
+
+cp -a /usr/local/sbin/resize_rootfs.sh /mnt/usr/local/sbin/resize_rootfs.sh
+cp -a /usr/local/sbin/rock64_diagnostics.sh /mnt/usr/local/sbin/rock64_diagnostics.sh
+cp -a /usr/local/sbin/setup.sh /mnt/usr/local/sbin/setup.sh
+echo -e "if [ \"\$(id -u)\" -eq \"0\" ]\nthen\n\t/usr/local/sbin/setup.sh\nfi" > /mnt/etc/profile.d/setup.sh
+chmod 755 /mnt/etc/profile.d/setup.sh
+cp /usr/local/sbin/rtl8812au-dkms_5.2.20-1_all.deb /mnt/usr/src/rtl8812au-dkms_5.2.20-1_all.deb
+cp -a /usr/local/sbin/config /mnt/etc/skel/.config
+chown -R root: /mnt/etc/skel
+
+echo -e "#disable eth1 from working in network manager\niface eth1 inet manual" > /mnt/etc/network/interfaces.d/eth1
+
+chroot /mnt
+mount -t proc proc /proc
+
+sed -i -e "s/--noclear %I/--noclear -a root %I/" /etc/systemd/system/getty.target.wants/getty@tty1.service
+
+sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+sed -i -e 's/# en_AU.UTF-8 UTF-8/en_AU.UTF-8 UTF-8/' /etc/locale.gen
+echo 'LANG="en_US.UTF-8"'>/etc/default/locale
+dpkg-reconfigure --frontend=noninteractive locales
+update-locale LANG=en_US.UTF-8
+
+sed -i -e "s/^# deb /deb /" /etc/apt/sources.list.d/ayufan-rock64.list
+sed -i -e "s/^deb-src/# deb-src/" /etc/apt/sources.list
+
+sed -i -e "s/^#kernel.printk = 3 4 1 3/kernel.printk = 3 4 1 3/" /etc/sysctl.conf
+
+rm -f /etc/apt/sources.list.save
+
+apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync gamin lighttpd openvpn php-cgi libpam0g-dev
+dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-glib-2.0 gir1.2-packagekitglib-1.0 iso-codes jq libasound2 libasound2-data libdbus-glib-1-2 libfftw3-single3 libgirepository-1.0-1 libjq1 libmpdec2 libonig4 libpackagekit-glib2-18 libpython3-stdlib libpython3.5-minimal libpython3.5-stdlib libsamplerate0 lsb-release python-apt-common python3 python3-apt python3-dbus python3-gi python3-minimal python3-pycurl python3-software-properties python3.5 python3.5-minimal software-properties-common
+apt-get -y dist-upgrade; apt-get autoremove; apt-get clean
+
+cd /var/www
+rm -rf /var/www/html
+git clone https://github.com/evilbunny2008/rock64-webgui.git html
+cd /var/ww/html
+gcc -g -lpam -o chkpasswd pam.c
+lighty-enable-mod fastcgi-php
+
+TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
+
+rm -f /var/lib/apt/lists/*
+rm -f /var/lib/dpkg/*-old /var/cache/debconf/*-old /etc/*- /boot/filesystem.packages* /boot/dtbs/4.4.103-rockchip-ayufan-166/*.bak 
+cd /usr/share/locale
+rm -rf aa as bn ca@valencia csb dv es_AR es_MX es_UY fil ga haw hu ja kok lb mai mr ne oc pms ru shn sr@ijekavian szl ti tt uz@cyrillic wo zu ace ast bn_IN ce cv dz es_CL es_NI
+rm -rf es_VE fo gd he hy jv ks li mg ms nl om ps rw si sr@ijekavianlatin ta tig tt@iqtelif ve xh af az bo chr cy el es_CO es_PA et fr gez hi ia ka ku ln mhr mt nl_NL or pt sa
+rm -rf sk sr@latin ta_LK tk ug vec yi am be br ckb da es_CR es_PE eu fr_CA gl hne id kk ku_IQ lo mi my nn os pt_BR sc sl sr@Latn te tl uk vi yo an be@latin bs cmn de eo es_DO
+rm -rf es_PR fa frp gu hr ig km kw mk nah no pa pt_PT sco so st tet tr ur wa zh_CN ar bem byn crh de_CH en@boldquot es es_EC es_SV fa_AF fur gv hsb is kn ky lt ml nb nqo pam
+rm -rf qu sd sq sv tg trv ur_PK wae zh_HK ary bg ca cs de_DE es_419 es_ES es_US fi fy ha ht it ko la lv mn nds nso pl ro se sr sw th ts uz wal zh_TW
+cd /
+rm -rf /usr/share/doc /usr/share/man
+rm -f /usr/local/sbin/install_*
+rm -f /var/cache/apt/*.bin
+
+dd if=/dev/zero of=zero.txt bs=30M
+dd if=/dev/zero of=/boot/efi/zero.txt bs=30M
+rm -f zero.txt /boot/efi/zero.txt
+
+umount /proc
+exit
+rm -f /mnt/root/.bash_history /mnt/root/.nano/*
+rmdir /mnt/root/.nano
+umount /dev/loop0p6
+umount /dev/loop0p7
+losetup -d /dev/loop0
