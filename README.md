@@ -1,7 +1,7 @@
 # rock64-webgui
 Web GUI for the Rock64
 
-Below is the steps to take to use (ayufan's debian stretch minimal image)[https://github.com/ayufan-rock64/linux-build/releases/] to configure the rock64 via a web browser.
+Below is the steps to take to use ayufan's debian stretch minimal image, https://github.com/ayufan-rock64/linux-build/releases/, to configure the rock64 via a web browser.
 
 Below is the steps needed to modify ayufan's build to use the webgui
 
