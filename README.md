@@ -60,6 +60,7 @@ cd /var/ww/html
 gcc -g -lpam -o chkpasswd pam.c
 lighty-enable-mod fastcgi-php
 
+echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
 
 rm -f /var/lib/apt/lists/*
