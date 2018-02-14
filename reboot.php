@@ -9,5 +9,5 @@
 
 	$_SESSION['login'] = false;
 	header("location: login.php");
-	$do = `sudo /var/www/html/bs/reboot.sh > /dev/null 2>/dev/null &`;
+	$do = `sudo /var/www/html/reboot.sh > /dev/null 2>/dev/null &`;
 	echo $do;
