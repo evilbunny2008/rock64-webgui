@@ -88,4 +88,4 @@ Below is the steps to take to use [ayufan's debian stretch minimal image](https:
 	umount /dev/loop0p6
 	umount /dev/loop0p7
 	losetup -d /dev/loop0
-	```
+```
