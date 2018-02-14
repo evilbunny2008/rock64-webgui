@@ -16,7 +16,7 @@
 		$passphrase = escapeshellarg(trim($_POST['passphrase']));
 		$passphrase1 = escapeshellarg(trim($_POST['passphrase1']));
 		$passphrase2 = escapeshellarg(trim($_POST['passphrase2']));
-		exec("sudo /var/www/html/bs/chkpasswd $username $passphrase", $output, $ret);
+		exec("sudo /var/www/html/chkpasswd $username $passphrase", $output, $ret);
 
 		if($ret != 0)
 		{
