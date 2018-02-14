@@ -89,3 +89,8 @@ Below is the steps to take to use [ayufan's debian stretch minimal image](https:
 	umount /dev/loop0p7
 	losetup -d /dev/loop0
 ```
+
+## License
+
+These scripts are made available under the GPLv3 license in the hope they might be useful to others. See LICENSE for details.
+
