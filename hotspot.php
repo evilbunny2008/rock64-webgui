@@ -165,7 +165,7 @@
 	} else {
 		$channel = "40";
 		$ssid = "Pine64.org";
-		$passphrase = "rock64";
+		$passphrase = "password";
 	}
 
         if(file_exists("/etc/dnsmasq.conf"))
@@ -253,8 +253,8 @@
 				<input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Enter Passphrase" /><br style="clear:left;"/>
 				<div style="width:160px;float:left">Enable NAT:</div>
 				<input type="checkbox" style="width:25px;float:left;margin-left:20px;" class="form-control" name="enableNAT" value="<?=$passphrase?>"<?php if($enableNAT == 2) { echo "checked"; } ?> /><br style="clear:left;"/>
-				<div style="width:160px;float:left">Server IP:</div>
-                                <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="dhcpIP" value="<?=$dhcpIP?>" placeholder="Enter Server IP" /><br/>
+				<div style="width:160px;float:left">DHCP Server IP:</div>
+                                <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="dhcpIP" value="<?=$dhcpIP?>" placeholder="Enter DHCP Server IP" /><br/>
 				<div style="width:160px;float:left">DHCP Start IP:</div>
                                 <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="dhcpstart" value="<?=$dhcpstart?>" placeholder="Enter DHCP Start IP" /><br/>
                                 <div style="width:160px;float:left">DHCP End IP:</div>
