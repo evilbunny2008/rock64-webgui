@@ -56,6 +56,7 @@
 		$channel = intval($_POST['channel']);
 		$wificard = escapeshellarg(trim($_POST['int']));
 		$wificard2 = substr($wificard, 1, -1);
+		$oldint = trim(substr(escapeshellarg(trim($_POST['oldint'])), 1, -1));
 		$passphrase = str_replace('"', "'", escapeshellarg(trim($_POST['passphrase'])));
                 $dhcpIP = substr(escapeshellarg(trim($_POST['dhcpIP'])), 1, -1);
                 $dhcpstart = substr(escapeshellarg(trim($_POST['dhcpstart'])), 1, -1);
@@ -63,11 +64,13 @@
                 $dhcpnm = substr(escapeshellarg(trim($_POST['dhcpnm'])), 1, -1);
                 $dhcptime = substr(escapeshellarg(trim($_POST['dhcptime'])), 1, -1);
 
-
-		if(file_exists("/etc/network/interfaces.d/$wificard2"))
+		if(file_exists("/etc/network/interfaces.d/$wificard2") ||
+			file_exists("/etc/network/interfaces.d/$oldint"))
 		{
-			$do = `sudo ifdown --force $wificard`;
-			$do = `sudo ifconfig $wificard 0.0.0.0 down`;
+			$do = `sudo ifdown --force "$oldint"`;
+			$do = `sudo ifconfig "$oldint" 0.0.0.0 down`;
+			$do = `sudo ifdown --force "$wificard2"`;
+			$do = `sudo ifconfig "$wificard2" 0.0.0.0 down`;
 			$do = `sudo killall -KILL wpa_supplicant`;
 		}
 
@@ -124,6 +127,9 @@
 	{
 		$do = `sudo ifdown --force $wificard`;
 		$do = `sudo ifconfig $wificard 0.0.0.0 down`;
+		$do = `sudo ifdown --force "$oldint"`;
+		$do = `sudo ifconfig "$oldint" 0.0.0.0 down`;
+		$do = `sudo rm -f "/etc/network/interfaces.d/$oldint"`;
 		$do = `sudo rm -f "/etc/network/interfaces.d/$wificard2"`;
 		$do = `sudo rm -f "/etc/hostapd/hostapd.conf"`;
 		$do = `sudo rm -f "/etc/dnsmasq.conf"`;
@@ -225,6 +231,7 @@
                             <div class="tab-pane fade active in" id="home">
 				<h4>Home</h4>
 				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
+				<input type="hidden" name="oldint" value="<?=$wificard2?>" />
 	                        <div style="width:160px;float:left">Interface:</div>
                                 <select name="int" class="form-control" style="width:300px;float:left;margin-left:20px;">
 <?php for($i = 1; $i <= count($wifiArr); $i++) { ?>
