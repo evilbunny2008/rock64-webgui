@@ -43,12 +43,34 @@
 		$do = `echo "ff02::2 ip6-allrouters" | sudo tee -a "/etc/hosts"`;
 	}
 
+	$pkgStatus = 0;
+	$getStatus = trim(`dpkg --list|grep rtl8812au-dkms`);
+	if($getStatus == "")
+		$pkgStatus = 0;
+	if(substr($getStatus, 0, 2) == "iF" || substr($getStatus, 0, 2) == "pF")
+		$pkgStatus = 1;
+	if(substr($getStatus, 0, 2) == "ii")
+		$pkgStatus = 2;
+
+	if(isset($_POST['remove']) && $pkgStatus == 2)
+	{
+		$do = `sudo dpkg --purge rtl8812au-dkms > /dev/null 2>/dev/null &`;
+		$pkgStatus = 1;
+	}
+
+	if(isset($_POST['install']) && $pkgStatus == 0)
+	{
+		$do = `sudo dpkg -i /usr/src/rtl8812au-dkms_5.2.20-1_all.deb > /dev/null 2>/dev/null &`;
+		$pkgStatus = 1;
+	}
+
 	$hostname = trim(file_get_contents("/etc/hostname"));
 	$domain = trim(file_get_contents("/etc/mailname"));
 	list($crud, $domain) = explode(".", $domain, 2);
 	$timezone = trim(file_get_contents("/etc/timezone"));
 
 	$page = 7;
+	$refresh = 60;
 	$pageTitle = "Other Settings";
 	include_once("header.php");
 ?>
@@ -76,6 +98,23 @@
 <?php } ?>
 		    </select><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="button" value="Update Settings" />
+		    </form>
+		    <br/><br/>
+		</div>
+		<div class="row" style="padding-right:15px;padding-left:15px;">
+		    <h2>RTL8812AU Driver</h2>
+		    <hr />
+		    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
+		    <p>Do you need to install or remove the rtl8812au drivers? This is for the 802.11ac usb device sold on the
+			<a href="https://www.pine64.org/?product=rock64-usb-3-0-dual-band-1200mbps-wifi-802-11abgnac-rtl8812au-adapter" target="_blank">Pine64.org website</a></p>
+<?php if($pkgStatus == 2) { ?>
+		    <input type="submit" class="btn btn-primary" name="remove" value="Remove Driver" />
+<?php } elseif($pkgStatus == 0) { ?>
+		    <p>Installing the driver takes a few minutes to complete, so please be patient about this.</p>
+		    <input type="submit" class="btn btn-primary" name="install" value="Install Driver" />
+<?php } else { ?>
+		    <p>The driver is currently being removed or installed, this page will update when installation or removal is complete.</p>
+<?php } ?>
 		    </form>
 		</div>
 	    </div>

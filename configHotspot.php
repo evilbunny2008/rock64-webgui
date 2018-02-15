@@ -104,8 +104,12 @@
 		$cmd = "echo 'pre-down killall hostapd' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 		$do = `$cmd`;
 
-		$cmd = "echo 'interface=$wificard2\nno-dhcp-interface=lo\ndhcp-range=192.168.99.100,192.168.99.199,255.255.255.0,12h' | sudo tee '/etc/dnsmasq.conf'";
-		$do = `$cmd`;
+		if(!file_exists('/etc/dnsmasq.conf'))
+		{
+			$cmd = "echo 'interface=$wificard2\nno-dhcp-interface=lo\ndhcp-range=192.168.99.100,192.168.99.199,255.255.255.0,1d' | sudo tee '/etc/dnsmasq.conf'";
+			$do = `$cmd`;
+			$do = `sudo /etc/init.d/dnsmasq restart`;
+		}
 
 		$cmd = "sudo sed -i -e 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf";
 		$do = `$cmd`;

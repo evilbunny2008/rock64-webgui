@@ -50,7 +50,7 @@
 		$fp = fopen("/etc/dnsmasq.conf", "r");
 		while(!feof($fp))
 		{
-//interface=wlx08107a65e3f0
+//interface=wlan0
 //no-dhcp-interface=lo
 //dhcp-range=192.168.99.100,192.168.99.199,255.255.255.0,12h
 
@@ -73,6 +73,9 @@
 		}
 		fclose($fp);
 	}
+
+	if(!isset($dhcptime))
+		$dhcptime = "1d";
 
 	$page = 6;
 	$pageTitle = "DHCP Settings";

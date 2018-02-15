@@ -7,6 +7,9 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
+<?php if($refresh >= 60) { ?>
+    <meta http-equiv="refresh" content="<?=$refresh?>">
+<?php } ?>
 </head>
 <body>
     <div id="wrapper">
@@ -59,12 +62,12 @@
                     <?php if($page == 7) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="other.php"><i class="fa fa-table "></i>Other Settings</a>
                     </li>
-                    <?php if($page == 8) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
+                    <!-- <?php if($page == 8) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="openvpn.php"><i class="fa fa-lock "></i>OpenVPN Settings</a>
-                    </li>
-                    <?php if($page == 9) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
+                    </li -->
+                    <!-- <?php if($page == 9) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="iptables.php"><i class="fa fa-lock "></i>Firewall Settings</a>
-                    </li>
+                    </li -->
                 </ul>
             </div>
         </nav>
