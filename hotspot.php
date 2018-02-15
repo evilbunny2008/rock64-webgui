@@ -110,7 +110,7 @@
 		$cmd = "echo 'pre-down killall hostapd' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 		$do = `$cmd`;
 
-		$cmd = "echo 'interface=$wificard2\nno-dhcp-interface=lo\ndhcp-range=$dhcpstart,$dhcpstop,255.255.255.0,$dhcptime' | sudo tee '/etc/dnsmasq.conf'";
+		$cmd = "echo 'interface=$wificard2\nno-dhcp-interface=lo\ndhcp-range=$dhcpstart,$dhcpstop,$dhcpnm,$dhcptime' | sudo tee '/etc/dnsmasq.conf'";
 		$do = `$cmd`;
 		$do = `sudo /etc/init.d/dnsmasq restart`;
 
@@ -182,7 +182,7 @@
 		$dhcpIP = "192.168.99.1";
 		$dhcpstart = "192.168.99.100";
 		$dhcpstop = "192.168.99.199";
-		$dhcpstop = "255.255.255.0";
+		$dhcpnm = "255.255.255.0";
 		$dhcptime = "1d";
 	}
 

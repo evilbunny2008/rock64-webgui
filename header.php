@@ -48,10 +48,10 @@
                         <a href="dashboard.php" ><i class="fa fa-desktop"></i>WiFi Dashboard</a>
                     </li>
                     <?php if($page == 3) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="configWifi.php"><i class="fa fa-signal"></i>WiFi Client Settings</a>
+                        <a href="wifi.php"><i class="fa fa-signal"></i>WiFi Client Settings</a>
                     </li>
                     <?php if($page == 4) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="configHotspot.php"><i class="fa fa-dot-circle-o"></i>WiFi Hotspot Settings</a>
+                        <a href="hotspot.php"><i class="fa fa-dot-circle-o"></i>WiFi Hotspot Settings</a>
                     </li>
                     <?php if($page == 5) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="auth.php"><i class="fa fa-lock"></i>User Settings</a>
