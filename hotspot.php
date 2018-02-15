@@ -120,12 +120,14 @@
 		$cmd = "sudo sed -i -e 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf";
 		$do = `$cmd`;
 
+		$do = `sudo killall -KILL wpa_supplicant`;
 		$do = `sudo ifconfig $wificard up`;
 		$do = `sudo ifup $wificard`;
 	}
 
 	if(isset($_POST['disable']))
 	{
+		$do = `sudo killall -KILL wpa_supplicant`;
 		$do = `sudo ifdown --force $wificard`;
 		$do = `sudo ifconfig $wificard 0.0.0.0 down`;
 		$do = `sudo ifdown --force "$oldint"`;
@@ -185,7 +187,10 @@
                         }
                 }
                 fclose($fp);
-        } else {
+        }
+
+	if($dhcpIP == "")
+	{
 		$dhcpIP = "192.168.99.1";
 		$dhcpstart = "192.168.99.100";
 		$dhcpstop = "192.168.99.199";
