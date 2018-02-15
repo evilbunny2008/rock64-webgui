@@ -15,20 +15,13 @@ mount /dev/loop0p6 /mnt/boot/efi
 
 cp -a /usr/local/sbin/resize_rootfs.sh /mnt/usr/local/sbin/resize_rootfs.sh
 cp -a /usr/local/sbin/rock64_diagnostics.sh /mnt/usr/local/sbin/rock64_diagnostics.sh
-cp -a /usr/local/sbin/setup.sh /mnt/usr/local/sbin/setup.sh
-
-echo -e "if [ \"\$(id -u)\" -eq \"0\" ]\nthen\n\t/usr/local/sbin/setup.sh\nfi" > /mnt/etc/profile.d/setup.sh
-chmod 755 /mnt/etc/profile.d/setup.sh
 cp /usr/local/sbin/rtl8812au-dkms_5.2.20-1_all.deb /mnt/usr/src/rtl8812au-dkms_5.2.20-1_all.deb
-cp -a /usr/local/sbin/config /mnt/etc/skel/.config
 
-chown -R root: /mnt/etc/skel
 echo -e "#disable eth1 from working in network manager\niface eth1 inet manual" > /mnt/etc/network/interfaces.d/eth1
 
 chroot /mnt
 mount -t proc proc /proc
 
-sed -i -e "s/--noclear %I/--noclear -a root %I/" /etc/systemd/system/getty.target.wants/getty@tty1.service
 sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 sed -i -e 's/# en_AU.UTF-8 UTF-8/en_AU.UTF-8 UTF-8/' /etc/locale.gen
 echo 'LANG="en_US.UTF-8"'>/etc/default/locale
@@ -43,6 +36,7 @@ rm -f /etc/apt/sources.list.save
 
 apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync \
 	gamin lighttpd openvpn php-cgi libpam0g-dev
+
 dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-glib-2.0 iso-codes \
 	gir1.2-packagekitglib-1.0 jq libasound2 libasound2-data libdbus-glib-1-2 libfftw3-single3 \
 	libgirepository-1.0-1 libjq1 libmpdec2 libonig4 libpackagekit-glib2-18 libpython3-stdlib \
