@@ -57,6 +57,12 @@
 		$wificard = escapeshellarg(trim($_POST['int']));
 		$wificard2 = substr($wificard, 1, -1);
 		$passphrase = str_replace('"', "'", escapeshellarg(trim($_POST['passphrase'])));
+                $dhcpIP = substr(escapeshellarg(trim($_POST['dhcpIP'])), 1, -1);
+                $dhcpstart = substr(escapeshellarg(trim($_POST['dhcpstart'])), 1, -1);
+                $dhcpstop = substr(escapeshellarg(trim($_POST['dhcpstop'])), 1, -1);
+                $dhcpnm = substr(escapeshellarg(trim($_POST['dhcpnm'])), 1, -1);
+                $dhcptime = substr(escapeshellarg(trim($_POST['dhcptime'])), 1, -1);
+
 
 		if(file_exists("/etc/network/interfaces.d/$wificard2"))
 		{
@@ -83,12 +89,12 @@
 		$cmd = "echo '$hostapd' | sudo tee '/etc/hostapd/hostapd.conf'";
 		$do = `$cmd`;
 
-		$cmd = "echo 'auto $wificard2\nallow-hotplug $wificard2\niface $wificard2 inet static\naddress 192.168.99.1\nnetmask 255.255.255.0' | sudo tee '/etc/network/interfaces.d/$wificard2'";
+		$cmd = "echo 'auto $wificard2\nallow-hotplug $wificard2\niface $wificard2 inet static\naddress $dhcpIP\nnetmask $dhcpnm' | sudo tee '/etc/network/interfaces.d/$wificard2'";
 		$do = `$cmd`;
 
 		if(isset($_POST['enableNAT']))
 		{
-			$cmd = "echo 'post-up iptables -t nat -A POSTROUTING -s 192.168.99.0/24 ! -d 192.168.99.0/24 -j MASQUERADE' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
+			$cmd = "echo 'post-up iptables -t nat -A POSTROUTING -s ".substr($dhcpIP, 0, -1)."0/24 ! -d ".substr($dhcpIP, 0, -1)."0/24 -j MASQUERADE' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 			$do = `$cmd`;
 		}
 
@@ -97,19 +103,16 @@
 
 		if(isset($_POST['enableNAT']))
 		{
-			$cmd = "echo 'pre-down iptables -t nat -D POSTROUTING -s 192.168.99.0/24 ! -d 192.168.99.0/24 -j MASQUERADE' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
+			$cmd = "echo 'pre-down iptables -t nat -D POSTROUTING -s ".substr($dhcpIP, 0, -1)."0/24 ! -d ".substr($dhcpIP, 0, -1)."0/24 -j MASQUERADE' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 			$do = `$cmd`;
 		}
 
 		$cmd = "echo 'pre-down killall hostapd' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 		$do = `$cmd`;
 
-		if(!file_exists('/etc/dnsmasq.conf'))
-		{
-			$cmd = "echo 'interface=$wificard2\nno-dhcp-interface=lo\ndhcp-range=192.168.99.100,192.168.99.199,255.255.255.0,1d' | sudo tee '/etc/dnsmasq.conf'";
-			$do = `$cmd`;
-			$do = `sudo /etc/init.d/dnsmasq restart`;
-		}
+		$cmd = "echo 'interface=$wificard2\nno-dhcp-interface=lo\ndhcp-range=$dhcpstart,$dhcpstop,255.255.255.0,$dhcptime' | sudo tee '/etc/dnsmasq.conf'";
+		$do = `$cmd`;
+		$do = `sudo /etc/init.d/dnsmasq restart`;
 
 		$cmd = "sudo sed -i -e 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf";
 		$do = `$cmd`;
@@ -123,6 +126,7 @@
 		$do = `sudo ifconfig $wificard 0.0.0.0 down`;
 		$do = `sudo rm -f "/etc/network/interfaces.d/$wificard2"`;
 		$do = `sudo rm -f "/etc/hostapd/hostapd.conf"`;
+		$do = `sudo rm -f "/etc/dnsmasq.conf"`;
 	}
 
 	if(file_exists("/etc/hostapd/hostapd.conf"))
@@ -149,7 +153,39 @@
 				list($crud, $passphrase) = explode("=", $line, 2);
 		}
 		fclose($fp);
+
+		$dhcpIP = trim(`grep 'address ' '/etc/network/interfaces.d/$wificard2'`);
+		list($crud, $dhcpIP) = explode('address ', $dhcpIP, 2);
+	} else {
+		$channel = "40";
+		$ssid = "Pine64.org";
+		$passphrase = "rock64";
 	}
+
+        if(file_exists("/etc/dnsmasq.conf"))
+        {
+                $fp = fopen("/etc/dnsmasq.conf", "r");
+                while(!feof($fp))
+                {
+                        $line = trim(fgets($fp, 1024));
+                        if($line === false)
+                                break;
+
+                        if(strpos($line, "dhcp-range=") === 0)
+                        {
+                                list($crud, $dhcp) = explode("=", $line, 2);
+                                list($dhcpstart, $dhcpstop, $dhcpnm, $dhcptime) = explode(",", $dhcp);
+                        }
+                }
+                fclose($fp);
+        } else {
+		$dhcpIP = "192.168.99.1";
+		$dhcpstart = "192.168.99.100";
+		$dhcpstop = "192.168.99.199";
+		$dhcpstop = "255.255.255.0";
+		$dhcptime = "1d";
+	}
+
 
 	if(isset($_POST['clearlog']) && file_exists('/var/log/hostapd.log'))
 		$do = `echo -n | sudo tee '/var/log/hostapd.log'`;
@@ -177,12 +213,13 @@
                 <hr />
 		<div class="row" style="padding-left:15px;padding-right:15px;">
                     <div class="col-lg-4 col-md-4">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs" style="width:1000px;">
                             <li class="active"><a href="#home" data-toggle="tab">Home</a>
                             </li>
                             <li class=""><a href="#logging" data-toggle="tab">Logging</a>
                             </li>
-
+                            <li class=""><a href="#clients" data-toggle="tab">Clients</a>
+                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="home">
@@ -209,6 +246,28 @@
 				<input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Enter Passphrase" /><br style="clear:left;"/>
 				<div style="width:160px;float:left">Enable NAT:</div>
 				<input type="checkbox" style="width:25px;float:left;margin-left:20px;" class="form-control" name="enableNAT" value="<?=$passphrase?>"<?php if($enableNAT == 2) { echo "checked"; } ?> /><br style="clear:left;"/>
+				<div style="width:160px;float:left">Server IP:</div>
+                                <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="dhcpIP" value="<?=$dhcpIP?>" placeholder="Enter Server IP" /><br/>
+				<div style="width:160px;float:left">DHCP Start IP:</div>
+                                <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="dhcpstart" value="<?=$dhcpstart?>" placeholder="Enter DHCP Start IP" /><br/>
+                                <div style="width:160px;float:left">DHCP End IP:</div>
+                                <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="dhcpstop" value="<?=$dhcpstop?>" placeholder="Enter DHCP Ending IP" /><br/>
+                                <div style="width:160px;float:left">DHCP Netmask:</div>
+                                <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="dhcpnm" value="<?=$dhcpnm?>" placeholder="Enter DHCP Netmask" /><br/>
+                                <div style="width:160px;float:left">DHCP Lease Time:</div>
+                                <select name="dhcptime" class="form-control" style="width:300px;float:left;margin-left:20px;">
+                                        <option value="1h"<?php if($dhcptime == "1h") { echo " selected"; } ?>>1 Hour</option>
+                                        <option value="3h"<?php if($dhcptime == "3h") { echo " selected"; } ?>>3 Hours</option>
+                                        <option value="5h"<?php if($dhcptime == "5h") { echo " selected"; } ?>>5 Hours</option>
+                                        <option value="9h"<?php if($dhcptime == "9h") { echo " selected"; } ?>>9 Hours</option>
+                                        <option value="12h"<?php if($dhcptime == "12h") { echo " selected"; } ?>>12 Hours</option>
+                                        <option value="18h"<?php if($dhcptime == "18h") { echo " selected"; } ?>>18 Hours</option>
+                                        <option value="1d"<?php if($dhcptime == "1d") { echo " selected"; } ?>>1 Day</option>
+                                        <option value="2d"<?php if($dhcptime == "2d") { echo " selected"; } ?>>2 Days</option>
+                                        <option value="5d"<?php if($dhcptime == "5d") { echo " selected"; } ?>>5 Days</option>
+                                        <option value="7d"<?php if($dhcptime == "7d") { echo " selected"; } ?>>7 Days</option>
+                                </select><br/>
+
 				<input type="submit" class="btn btn-primary" name="button" value="Update and Re-start" />
 				<input type="submit" class="btn btn-primary" name="disable" value="Disable" />
 				</form>
@@ -234,6 +293,38 @@
 					<input type="submit" class="btn btn-primary" name="clearlog" value="Clear log" />
 				    </form>
                                 </p>
+                            </div>
+                            <div class="tab-pane fade" id="clients" style="width:1000px;">
+                                <h4>Clients</h4>
+	<table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Expire time</th>
+                <th>MAC Address</th>
+                <th>IP Address</th>
+                <th>Host name</th>
+                <th>Client ID</th>
+              </tr>
+            </thead>
+<?php
+        if(file_exists("/var/lib/misc/dnsmasq.leases"))
+        {
+                echo "\t<tbody>\n";
+// 1519117391 ac:cf:85:63:a1:19 192.168.99.157 android-1101aeccbf975a1c 01:ac:cf:85:63:a1:19
+                $clients = explode("\n", trim(file_get_contents("/var/lib/misc/dnsmasq.leases")));
+                foreach($clients as $client)
+                {
+                        list($expire, $mac, $ip, $hostname, $cliid) = explode(" ", $client);
+?>
+              <tr><td><?=date('Y-m-d H:i:s', $expire)?></td><td><?=$mac?></td><td><?=$ip?></td><td><?=$hostname?></td><td><?=$cliid?></td></tr>
+<?php
+                }
+
+                echo "\t</tbody>\n";
+        }
+?>
+          </table>
+
                             </div>
                         </div>
                     </div>

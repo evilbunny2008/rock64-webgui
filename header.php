@@ -57,15 +57,12 @@
                         <a href="auth.php"><i class="fa fa-lock"></i>User Settings</a>
                     </li>
                     <?php if($page == 6) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="dhcp.php"><i class="fa fa-exchange"></i>DHCPd Settings</a>
-                    </li>
-                    <?php if($page == 7) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="other.php"><i class="fa fa-table "></i>Other Settings</a>
                     </li>
-                    <!-- <?php if($page == 8) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
+                    <!-- <?php if($page == 7) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="openvpn.php"><i class="fa fa-lock "></i>OpenVPN Settings</a>
                     </li -->
-                    <!-- <?php if($page == 9) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
+                    <!-- <?php if($page == 8) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="iptables.php"><i class="fa fa-lock "></i>Firewall Settings</a>
                     </li -->
                 </ul>
