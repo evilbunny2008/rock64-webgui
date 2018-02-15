@@ -10,7 +10,7 @@
 	$_SESSION['login'] = false;
 	$do = `sudo /var/www/html/reboot.sh > /dev/null 2>/dev/null &`;
 
-        $pageTitle = "User Settings";
+        $pageTitle = "System Rebooting...";
         include_once("header.php");
 ?>
         <div id="page-wrapper">
