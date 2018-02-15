@@ -93,3 +93,7 @@ umount /dev/loop0p6
 umount /dev/loop0p7
 losetup -d /dev/loop0
 ```
+
+## License
+
+These scripts are made available under the GPLv3 license in the hope they might be useful to others. See LICENSE for details.
