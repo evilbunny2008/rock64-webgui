@@ -7,7 +7,7 @@
                 exit;
         }
 
-	$lines = explode("\n", trim(`nmcli dev stat|grep ethernet`));
+	$lines = explode("\n", trim(`nmcli dev stat|grep ethernet|sort -n`));
 	$ethArr = array();
 	$i = 0;
 	foreach($lines as $line)
