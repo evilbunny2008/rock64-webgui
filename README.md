@@ -2,8 +2,6 @@
 
 This is community maintained project in my free time. Don't expect everything to be perfect and working. Rather be prepared that there are problems, as always try to fix them and contribute, but if you can't drop the issue here so we can track the progress and resolution of the problem.
 
-Below is the steps to take to use [ayufan's debian stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/) to configure the rock64 via a web browser.
-
 ## Contents
 
  - [Manual installation](#manual-install)
@@ -13,6 +11,8 @@ Below is the steps to take to use [ayufan's debian stretch minimal image](https:
  - [Credits](#credits)
 
 ## Manual install
+
+Below is the steps to take to use [ayufan's debian stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/) to configure the rock64 via a web browser.
 
 ```
 wget https://github.com/ayufan-rock64/linux-build/releases/download/0.6.15/stretch-minimal-rock64-0.6.15-175-arm64.img.xz
