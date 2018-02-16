@@ -104,8 +104,8 @@ These scripts are made available under the GPLv3 license in the hope they might 
 
 ## Full Image
 
-For those not able or willing to set this up themselves I have an image on my website based on (ayufan's stretch minimal image)[https://github.com/ayufan-rock64/linux-build/releases/download/0.6.15/stretch-minimal-rock64-0.6.15-175-arm64.img.xz].
+For those not able or willing to set this up themselves I have an [image on my website](https://files.evilbunny.org/stretch-router-rock64-0.6.15-175-arm64.img.xz) based on [ayufan's stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/download/0.6.15/stretch-minimal-rock64-0.6.15-175-arm64.img.xz).
 
 ## Credits
 
-Inspired by the (raspap webgui)[https://github.com/billz/raspap-webgui]
+Inspired by the [raspap webgui](https://github.com/billz/raspap-webgui)
