@@ -88,6 +88,16 @@ umount /dev/loop0p7
 losetup -d /dev/loop0
 ```
 
+## Screen Shots
+
+![](https://i.imgur.com/q9vq6ZB.jpg)
+![](https://i.imgur.com/JbSQOxY.jpg)
+![](https://i.imgur.com/cNCQCwB.jpg)
+![](https://i.imgur.com/cxHO9bv.jpg)
+![](https://i.imgur.com/Z4US3TX.jpg)
+![](https://i.imgur.com/cxHO9bv.jpg)
+![](https://i.imgur.com/MGfCNOk.jpg)
+
 ## License
 
 These scripts are made available under the GPLv3 license in the hope they might be useful to others. See LICENSE for details.
