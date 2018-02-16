@@ -211,7 +211,7 @@
 		$enableNAT = 2;
 	}
 
-	$page = 4;
+	$page = 5;
 	$pageTitle = "WiFi Hotspot Settings";
 	include_once("header.php");
 ?>

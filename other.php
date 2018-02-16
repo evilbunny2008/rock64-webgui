@@ -69,7 +69,7 @@
 	list($crud, $domain) = explode(".", $domain, 2);
 	$timezone = trim(file_get_contents("/etc/timezone"));
 
-	$page = 7;
+	$page = 8;
 	$refresh = 60;
 	$pageTitle = "Other Settings";
 	include_once("header.php");

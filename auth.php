@@ -41,7 +41,7 @@
 	}
 
 	$userinfo = posix_getpwuid(1000);
-	$page = 5;
+	$page = 6;
 	$pageTitle = "User Settings";
 	include_once("header.php");
 ?>

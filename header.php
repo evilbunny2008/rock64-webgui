@@ -48,23 +48,20 @@
                         <a href="dashboard.php" ><i class="fa fa-desktop"></i>WiFi Dashboard</a>
                     </li>
                     <?php if($page == 3) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="wifi.php"><i class="fa fa-signal"></i>WiFi Client Settings</a>
+                        <a href="ethernet.php"><i class="fa fa-signal"></i>Ethernet Settings</a>
                     </li>
                     <?php if($page == 4) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="hotspot.php"><i class="fa fa-dot-circle-o"></i>WiFi Hotspot Settings</a>
+                        <a href="wifi.php"><i class="fa fa-signal"></i>WiFi Client Settings</a>
                     </li>
                     <?php if($page == 5) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="auth.php"><i class="fa fa-lock"></i>User Settings</a>
+                        <a href="hotspot.php"><i class="fa fa-dot-circle-o"></i>WiFi Hotspot Settings</a>
                     </li>
                     <?php if($page == 6) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
+                        <a href="auth.php"><i class="fa fa-lock"></i>User Settings</a>
+                    </li>
+                    <?php if($page == 7) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="other.php"><i class="fa fa-table "></i>Other Settings</a>
                     </li>
-                    <!-- <?php if($page == 7) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="openvpn.php"><i class="fa fa-lock "></i>OpenVPN Settings</a>
-                    </li -->
-                    <!-- <?php if($page == 8) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="iptables.php"><i class="fa fa-lock "></i>Firewall Settings</a>
-                    </li -->
                 </ul>
             </div>
         </nav>

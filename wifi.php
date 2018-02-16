@@ -104,7 +104,7 @@
 		}
 	}
 
-	$page = 3;
+	$page = 4;
 	$pageTitle = "WiFi Client Settings";
 	include_once("header.php");
 ?>
