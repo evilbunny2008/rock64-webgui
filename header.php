@@ -60,7 +60,10 @@
                         <a href="auth.php"><i class="fa fa-lock"></i>User Settings</a>
                     </li>
                     <?php if($page == 7) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
-                        <a href="other.php"><i class="fa fa-table "></i>Other Settings</a>
+                        <a href="other.php"><i class="fa fa-table "></i>Server Settings</a>
+                    </li>
+                    <?php if($page == 8) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
+                        <a href="blacklist.php"><i class="fa fa-table "></i>DNS Blacklist</a>
                     </li>
                 </ul>
             </div>
