@@ -59,7 +59,7 @@ apt-get -y dist-upgrade; apt-get autoremove; apt-get clean
 # This takes 3-4minutes if nothing else is using CPUs
 dpkg -i /usr/src/rtl8812au-dkms_5.2.20-1_all.deb
 
-# disable predictive hostnames to make it easier to support unknown wifi devices 
+# disable predictive device names to make it easier for scripts to support unknown wifi devices 
 sed -i -e "s/swapaccount=1/swapaccount=1 net.ifnames=0 biosdevname=0/" /boot/efi/extlinux/extlinux.conf
 
 rm -rf /var/www/html
