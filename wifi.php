@@ -116,17 +116,18 @@
                     </div>
                 </div>
                 <hr />
-		<div class="row" style="padding-left:15px;padding-right:15px;">
+		<div class="row" style="padding-left:10px;">
 			<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
-			<div style="width:140px;float:left">Interface:</div>
-				<select name="int" class="form-control" style="width:200px;float:left;margin-left:20px;">
+			<div style="width:50px;float:left">Interface:</div>
+				<select name="int" class="form-control" style="width:150px;float:left;">
 <?php for($i = 1; $i <= count($wifiArr); $i++) { ?>
 					<option value="<?=$wifiArr[$i]['int']?>"<?php if(isset($_POST['int']) && $wifiArr[$i]['int'] == $wificard2) { ?> selected<?php } ?>><?=$wifiArr[$i]['int']?></option>
 <?php } ?>
 				</select>
 				<input class="btn btn-primary" style="width:100px;float:left;margin-left:20px;" type="submit" value="Rescan"/>
 			</form>
-			<br/><br/>
+			<br style="clear:left;"/>
+			<br style="clear:left;"/>
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -186,7 +187,7 @@
 				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 				<input type="hidden" name="int" value="<?=$wificard2?>" />
 				<td>
-				    <input type="text" class="form-control" name="ssid" placeholder="Enter a hidden SSID" />
+				    <input type="text" class="form-control" name="ssid" placeholder="Enter a hidden SSID" style="width:150px;"/>
 				</td>
 				<td>
 				    n/a
@@ -195,13 +196,13 @@
 				    n/a
 				</td>
 				<td>
-				    <select name="isEnc" class="form-control">
+				    <select name="isEnc" class="form-control" style="width:150px;">
 					<option value="1">WPA/WPA2 (CCMP)</option>
 					<option value="0">Open</option>
 				    </select>
 				</td>
 				<td>
-				    <input type="text" class="form-control" name="passphrase" placeholder="Enter router pass pharse" />
+				    <input type="text" class="form-control" name="passphrase" placeholder="Enter router pass pharse" style="width:150px;"/>
 				</td>
 				<td>
 				    <input type="submit" class="btn btn-primary" name="button" value="Connect"/>
