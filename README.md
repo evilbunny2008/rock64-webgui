@@ -106,10 +106,10 @@ losetup -d /dev/loop0
 ## Screen Shots
 
 ![](https://i.imgur.com/q9vq6ZB.jpg)
-![](https://i.imgur.com/JbSQOxY.jpg)
+![](https://i.imgur.com/cxHO9bv.jpg)
 ![](https://i.imgur.com/cNCQCwB.jpg)
 ![](https://i.imgur.com/Z4US3TX.jpg)
-![](https://i.imgur.com/cxHO9bv.jpg)
+![](https://i.imgur.com/JbSQOxY.jpg)
 ![](https://i.imgur.com/MGfCNOk.jpg)
 
 ## License
