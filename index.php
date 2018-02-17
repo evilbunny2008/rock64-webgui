@@ -16,13 +16,13 @@
 ?>
         <div id="page-wrapper">
             <div id="page-inner">
-                <div class="row" style="padding-right:15px;padding-left:15px;">
+                <div class="row" style="padding-right:15px;padding-right:20px;">
                     <div class="col-md-12">
                         <h2><?=$pageTitle?></h2>
                     </div>
                 </div>
                 <hr />
-		<div class="row" style="padding-right:15px;padding-left:15px;">
+		<div class="row" style="padding-right:15px;padding-right:20px;">
 <?php
 	if(is_array($ints))
 	foreach($ints as $int)
@@ -57,7 +57,7 @@
                 $strTxPackets = $result[1];
                 $strTxBytes = $result[2];
 ?>
-		    <div class="col-md-6" style="width:500px;">
+		    <div class="col-md-6" style="width:350px;">
                         <div class="panel panel-primary">
 			    <div class="panel-heading"><?=$int?></div>
 			    <div class="panel-body">

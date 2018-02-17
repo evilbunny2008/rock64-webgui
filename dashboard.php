@@ -86,7 +86,7 @@
 	{
 ?>
 		<div class="row" style="padding-right:15px;padding-left:15px;">
-			<div class="panel panel-primary" style="width:500px;float:left;">
+			<div class="panel panel-primary" style="width:325px;float:left;margin-right:20px;">
                             <div class="panel-heading">
                                 Interface: <?=$wifi['int']?>
                             </div>
@@ -101,7 +101,7 @@
                                 <div style="width:160px;float:left;">Sent Bytes:</div>	<?=$wifi['strTxBytes']?></br>
                             </div>
                         </div>
-			<div class="panel panel-primary" style="width:500px;float:left;margin-left:20px;">
+			<div class="panel panel-primary" style="width:325px;float:left;margin-right:20px;">
 			    <div class="panel-heading">
 				Wireless Information
 			    </div>
@@ -120,7 +120,6 @@
 				<br/>
 			    </div>
 			</div>
-			<br/>
 		</div>
 <?php
 	}

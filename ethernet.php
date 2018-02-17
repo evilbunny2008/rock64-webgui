@@ -124,14 +124,14 @@
                 <hr />
 		<div class="row" style="padding-left:15px;padding-right:15px;">
 			<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
-			<div style="width:160px;float:left">Interface:</div>
-			<select name="int" class="form-control" style="width:300px;float:left;margin-left:20px;" onClick="this.form.submit()">
+			<div style="width:140px;float:left">Interface:</div>
+			<select name="int" class="form-control" style="width:200px;float:left;margin-left:20px;" onClick="this.form.submit()">
 <?php for($i = 1; $i <= count($ethArr); $i++) { ?>
 				<option value="<?=$ethArr[$i]['int']?>"<?php if($ethArr[$i]['int'] == $ethernet2) { ?> selected<?php } ?>><?=$ethArr[$i]['int']?></option>
 <?php } ?>
                         </select><br style="clear:left;"/>
 
-			<div style="width:160px;float:left">Enable Interface:</div>
+			<div style="width:140px;float:left">Enable Interface:</div>
 
 			<div style="width:100px;float:left;padding-left:25px;">
 				<input style="width:20px;float:left" class="form-control" name="enable" value="yes" type="radio" id="ifup"<?php if($enable != "no") { echo " checked='checked'"; } ?>>
@@ -145,7 +145,7 @@
 
 			<br style="clear:left;"/>
 
-			<div style="width:160px;float:left">Use DHCP:</div>
+			<div style="width:140px;float:left">Use DHCP:</div>
 
 			<div style="width:100px;float:left;padding-left:25px;">
 				<input style="width:20px;float:left" class="form-control" name="dhcp" value="yes" type="radio" id="useDHCP"<?php if($dhcp != "no") { echo " checked='checked'"; } ?>>
@@ -159,15 +159,15 @@
 
 			<br style="clear:left;"/>
 
-			<div style="width:160px;float:left">Gateway IP:</div>
-                        <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="gw" value="<?=$gw?>" placeholder="Enter Gateway IP" /><br style="clear:left;"/>
-			<div style="width:160px;float:left">Ethernet IP:</div>
-                        <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="IP" value="<?=$IP?>" placeholder="Enter Ethernet IP" /><br style="clear:left;"/>
-                        <div style="width:160px;float:left">Netmask:</div>
-                        <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="nm" value="<?=$nm?>" placeholder="Enter Ethernet Netmask" /><br style="clear:left;"/>
-			<div style="width:160px;float:left">DNS IP:</div>
-                        <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="dns" value="<?=$dns?>" placeholder="Enter DNS IP" /><br style="clear:left;"/>
-			<br/>
+			<div style="width:140px;float:left">Gateway IP:</div>
+                        <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="gw" value="<?=$gw?>" placeholder="Enter Gateway IP" /><br style="clear:left;"/>
+			<div style="width:140px;float:left">Ethernet IP:</div>
+                        <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="IP" value="<?=$IP?>" placeholder="Enter Ethernet IP" /><br style="clear:left;"/>
+                        <div style="width:140px;float:left">Netmask:</div>
+                        <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="nm" value="<?=$nm?>" placeholder="Enter Ethernet Netmask" /><br style="clear:left;"/>
+			<div style="width:140px;float:left">DNS IP:</div>
+                        <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="dns" value="<?=$dns?>" placeholder="Enter DNS IP" /><br style="clear:left;"/>
+			<br style="clear:left;"/>
 			<input type="submit" class="btn btn-primary" name="button" value="Update and Reload" />
 			<input type="submit" class="btn btn-primary" name="disable" value="Disable" />
 			</form>
