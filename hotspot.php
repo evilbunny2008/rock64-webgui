@@ -119,6 +119,8 @@
 
 		$cmd = "sudo sed -i -e 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf";
 		$do = `$cmd`;
+		$cmd = "sudo sysctl -w net.ipv4.ip_forward=1";
+		$do = `$cmd`;
 
 		$do = `sudo killall -KILL wpa_supplicant`;
 		$do = `sudo ifconfig $wificard up`;
