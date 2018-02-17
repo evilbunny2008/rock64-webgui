@@ -56,9 +56,14 @@ dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-gli
 
 apt-get -y dist-upgrade; apt-get autoremove; apt-get clean
 
-cd /var/www
+# This takes 3-4minutes if nothing else is using CPUs
+dpkg -i /usr/src/rtl8812au-dkms_5.2.20-1_all.deb
+
+# disable predictive hostnames to make it easier to support unknown wifi devices 
+sed -i -e "s/swapaccount=1/swapaccount=1 net.ifnames=0 biosdevname=0/" /boot/efi/extlinux/extlinux.conf
+
 rm -rf /var/www/html
-git clone https://github.com/evilbunny2008/rock64-webgui.git html
+git clone https://github.com/evilbunny2008/rock64-webgui.git /var/www/html
 
 cd /var/www/html
 gcc -g -lpam -o chkpasswd pam.c
@@ -103,7 +108,6 @@ losetup -d /dev/loop0
 ![](https://i.imgur.com/q9vq6ZB.jpg)
 ![](https://i.imgur.com/JbSQOxY.jpg)
 ![](https://i.imgur.com/cNCQCwB.jpg)
-![](https://i.imgur.com/cxHO9bv.jpg)
 ![](https://i.imgur.com/Z4US3TX.jpg)
 ![](https://i.imgur.com/cxHO9bv.jpg)
 ![](https://i.imgur.com/MGfCNOk.jpg)
