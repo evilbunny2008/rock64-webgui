@@ -61,16 +61,16 @@
 		    <p><div class="alert alert-success alert-dismissable"><?=$okmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
 <?php } ?>
 		    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
-		    <div style="width:160px;float:left">Existing Username:</div>
-		    <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="username" value="<?=$userinfo['name']?>" placeholder="Existing Username" /><br style="clear:left;"/>
-		    <div style="width:160px;float:left">New Username:</div>
-		    <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="username1" value="<?=substr($username1, 1, -1)?>" placeholder="Enter New Username" /><br style="clear:left;"/>
-		    <div style="width:160px;float:left">Existing Passphrase:</div>
-		    <input type="password" style="width:300px;float:left;margin-left:20px;" class="form-control" name="passphrase" placeholder="Enter the current Passphrase" /><br style="clear:left;"/>
-		    <div style="width:160px;float:left">New Passphrase:</div>
-		    <input type="password" style="width:300px;float:left;margin-left:20px;" class="form-control" name="passphrase1" placeholder="Enter a New Passphrase" /><br style="clear:left;"/>
-		    <div style="width:160px;float:left">Re-enter Passphrase:</div>
-		    <input type="password" style="width:300px;float:left;margin-left:20px;" class="form-control" name="passphrase2" placeholder="Re-enter your Passphrase" /><br style="clear:left;"/>
+		    <div style="width:140px;float:left">Existing Username:</div>
+		    <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="username" value="<?=$userinfo['name']?>" placeholder="Existing Username" /><br style="clear:left;"/>
+		    <div style="width:140px;float:left">New Username:</div>
+		    <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="username1" value="<?=substr($username1, 1, -1)?>" placeholder="Enter New Username" /><br style="clear:left;"/>
+		    <div style="width:140px;float:left">Existing Passphrase:</div>
+		    <input type="password" style="width:200px;float:left;margin-left:20px;" class="form-control" name="passphrase" placeholder="Enter the current Passphrase" /><br style="clear:left;"/>
+		    <div style="width:140px;float:left">New Passphrase:</div>
+		    <input type="password" style="width:200px;float:left;margin-left:20px;" class="form-control" name="passphrase1" placeholder="Enter a New Passphrase" /><br style="clear:left;"/>
+		    <div style="width:140px;float:left">Redo Passphrase:</div>
+		    <input type="password" style="width:200px;float:left;margin-left:20px;" class="form-control" name="passphrase2" placeholder="Re-enter your Passphrase" /><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="button" value="Update User" />
 		    </form>
 		</div>

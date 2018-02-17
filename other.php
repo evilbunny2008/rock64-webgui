@@ -84,12 +84,12 @@
                 <hr />
 		<div class="row" style="padding-right:15px;padding-left:15px;">
 		    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
-		    <div style="width:160px;float:left">System Hostname:</div>
-		    <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="hostname" value="<?=$hostname?>" placeholder="Enter a Hostname" /><br style="clear:left;"/>
-		    <div style="width:160px;float:left">System Domain:</div>
-		    <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="domain" value="<?=$domain?>" placeholder="Enter a Domain" /><br style="clear:left;"/>
-		    <div style="width:160px;float:left">System TimeZone:</div>
-		    <select name="timezone" class="form-control" style="width:300px;float:left;margin-left:20px;">
+		    <div style="width:140px;float:left">System Hostname:</div>
+		    <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="hostname" value="<?=$hostname?>" placeholder="Enter a Hostname" /><br style="clear:left;"/>
+		    <div style="width:140px;float:left">System Domain:</div>
+		    <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="domain" value="<?=$domain?>" placeholder="Enter a Domain" /><br style="clear:left;"/>
+		    <div style="width:140px;float:left">System TimeZone:</div>
+		    <select name="timezone" class="form-control" style="width:200px;float:left;margin-left:20px;">
 <?php
 	foreach($timezones as $tz)
 	{
@@ -108,7 +108,7 @@
 		    <p>Do you need to install or remove the rtl8812au drivers? This is for the 802.11ac usb device sold on the
 			<a href="https://www.pine64.org/?product=rock64-usb-3-0-dual-band-1200mbps-wifi-802-11abgnac-rtl8812au-adapter" target="_blank">Pine64.org website</a></p>
 <?php if($pkgStatus == 2) { ?>
-		    <input type="submit" class="btn btn-primary" name="remove" value="Remove Driver" />
+		    <input type="submit" class="btn btn-primary" name="remove" value="Remove Driver" onClick="return confirm('Are you sure you want to do this?');" />
 <?php } elseif($pkgStatus == 0) { ?>
 		    <p>Installing the driver takes a few minutes to complete, so please be patient about this.</p>
 		    <input type="submit" class="btn btn-primary" name="install" value="Install Driver" />
