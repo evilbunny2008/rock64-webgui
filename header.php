@@ -30,7 +30,7 @@
 	if($_SESSION['login'] == true)
 	{
 ?>
-		    <a href="reboot.php" class="btn btn-default">Reboot</a>
+		    <a href="reboot.php" class="btn btn-default" onClick="return confirm('Are you sure you want to do this?');">Reboot</a>
 		    <a href="logout.php" class="btn btn-default">Logout</a>
 <?php } else { ?>
 		    <a href="login.php" class="btn btn-default">Login</a>

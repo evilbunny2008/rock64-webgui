@@ -225,7 +225,7 @@
                     </div>
                 </div>
                 <hr />
-		<div class="row" style="padding-left:15px;padding-right:15px;">
+		<div class="row" style="padding-right:15px;">
                     <div class="col-lg-4 col-md-4">
                         <ul class="nav nav-tabs" style="width:1000px;">
                             <li class="active"><a href="#home" data-toggle="tab">Home</a>
@@ -240,16 +240,16 @@
 				<h4>Home</h4>
 				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 				<input type="hidden" name="oldint" value="<?=$wificard2?>" />
-	                        <div style="width:110px;float:left">Interface:</div>
-                                <select name="int" class="form-control" style="width:200px;float:left;margin-right:20px;">
+	                        <div style="width:140px;float:left">Interface:</div>
+                                <select name="int" class="form-control" style="width:200px;float:left">
 <?php for($i = 1; $i <= count($wifiArr); $i++) { ?>
                                         <option value="<?=$wifiArr[$i]['int']?>"<?php if($wifiArr[$i]['int'] == $wificard2) { ?> selected<?php } ?>><?=$wifiArr[$i]['int']?></option>
 <?php } ?>
                                 </select><br style="clear:left;"/>
-				<div style="width:110px;float:left">SSID:</div>
-				<input type="text" style="width:200px;float:left;margin-right:20px;" class="form-control" name="ssid" value="<?=$ssid?>" placeholder="Enter SSID" /><br style="clear:left;"/>
-				<div style="width:110px;float:left">WiFi Channel:</div>
-				<select class="form-control" name="channel" style="width:200px;float:left;margin-right:20px;">
+				<div style="width:140px;float:left">SSID:</div>
+				<input type="text" style="width:200px;float:left;" class="form-control" name="ssid" value="<?=$ssid?>" placeholder="Enter SSID" /><br style="clear:left;"/>
+				<div style="width:140px;float:left">WiFi Channel:</div>
+				<select class="form-control" name="channel" style="width:200px;float:left;">
 <?php
 	foreach($channels as $chan => $freq)
 	{
@@ -258,20 +258,20 @@
 <?php } ?>
 				</select><br style="clear:left;"/>
 
-				<div style="width:110px;float:left">Pass Phrase:</div>
-				<input type="text" style="width:200px;float:left;margin-right:20px;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Enter Passphrase" /><br style="clear:left;"/>
-				<div style="width:110px;float:left">Enable NAT:</div>
-				<input type="checkbox" style="width:25px;float:left;margin-right:20px;" class="form-control" name="enableNAT" value="<?=$passphrase?>"<?php if($enableNAT == 2) { echo "checked"; } ?> /><br style="clear:left;"/>
-				<div style="width:110px;float:left">Server IP:</div>
-                                <input type="text" style="width:200px;float:left;margin-right:20px;" class="form-control" name="dhcpIP" value="<?=$dhcpIP?>" placeholder="Enter DHCP Server IP" /><br style="clear:left;"/>
-				<div style="width:110px;float:left">DHCP Start IP:</div>
-                                <input type="text" style="width:200px;float:left;margin-right:20px;" class="form-control" name="dhcpstart" value="<?=$dhcpstart?>" placeholder="Enter DHCP Start IP" /><br style="clear:left;"/>
-                                <div style="width:110px;float:left">DHCP End IP:</div>
-                                <input type="text" style="width:200px;float:left;margin-right:20px;" class="form-control" name="dhcpstop" value="<?=$dhcpstop?>" placeholder="Enter DHCP Ending IP" /><br style="clear:left;"/>
-                                <div style="width:110px;float:left">Netmask:</div>
-                                <input type="text" style="width:200px;float:left;margin-right:20px;" class="form-control" name="dhcpnm" value="<?=$dhcpnm?>" placeholder="Enter DHCP Netmask" /><br style="clear:left;"/>
-                                <div style="width:110px;float:left">Lease Time:</div>
-                                <select name="dhcptime" class="form-control" style="width:200px;float:left;margin-right:20px;">
+				<div style="width:140px;float:left">Pass Phrase:</div>
+				<input type="text" style="width:200px;float:left;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Enter Passphrase" /><br style="clear:left;"/>
+				<div style="width:140px;float:left">Enable NAT:</div>
+				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableNAT" value="<?=$passphrase?>"<?php if($enableNAT == 2) { echo "checked"; } ?> /><br style="clear:left;"/>
+				<div style="width:140px;float:left">Server IP:</div>
+                                <input type="text" style="width:200px;float:left;" class="form-control" name="dhcpIP" value="<?=$dhcpIP?>" placeholder="Enter DHCP Server IP" /><br style="clear:left;"/>
+				<div style="width:140px;float:left">DHCP Start IP:</div>
+                                <input type="text" style="width:200px;float:left;" class="form-control" name="dhcpstart" value="<?=$dhcpstart?>" placeholder="Enter DHCP Start IP" /><br style="clear:left;"/>
+                                <div style="width:140px;float:left">DHCP End IP:</div>
+                                <input type="text" style="width:200px;float:left;" class="form-control" name="dhcpstop" value="<?=$dhcpstop?>" placeholder="Enter DHCP Ending IP" /><br style="clear:left;"/>
+                                <div style="width:140px;float:left">Netmask:</div>
+                                <input type="text" style="width:200px;float:left;" class="form-control" name="dhcpnm" value="<?=$dhcpnm?>" placeholder="Enter DHCP Netmask" /><br style="clear:left;"/>
+                                <div style="width:140px;float:left">Lease Time:</div>
+                                <select name="dhcptime" class="form-control" style="width:200px;float:left;">
                                         <option value="1h"<?php if($dhcptime == "1h") { echo " selected"; } ?>>1 Hour</option>
                                         <option value="3h"<?php if($dhcptime == "3h") { echo " selected"; } ?>>3 Hours</option>
                                         <option value="5h"<?php if($dhcptime == "5h") { echo " selected"; } ?>>5 Hours</option>
