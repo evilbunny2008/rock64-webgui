@@ -118,13 +118,13 @@
                 <hr />
 		<div class="row" style="padding-left:10px;">
 			<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
-			<div style="width:50px;float:left">Interface:</div>
+			<div style="width:75px;float:left">Interface:</div>
 				<select name="int" class="form-control" style="width:150px;float:left;">
 <?php for($i = 1; $i <= count($wifiArr); $i++) { ?>
 					<option value="<?=$wifiArr[$i]['int']?>"<?php if(isset($_POST['int']) && $wifiArr[$i]['int'] == $wificard2) { ?> selected<?php } ?>><?=$wifiArr[$i]['int']?></option>
 <?php } ?>
 				</select>
-				<input class="btn btn-primary" style="width:100px;float:left;margin-left:20px;" type="submit" value="Rescan"/>
+				<input class="btn btn-primary" style="width:75px;float:left;margin-left:20px;" type="submit" value="Rescan"/>
 			</form>
 			<br style="clear:left;"/>
 			<br style="clear:left;"/>
