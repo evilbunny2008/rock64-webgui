@@ -128,15 +128,15 @@
 			</form>
 			<br style="clear:left;"/>
 			<br style="clear:left;"/>
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-striped table-bordered table-hover" style="table-layout:fixed;max-width:1000px;">
                             <thead>
                                 <tr>
-                                    <th>SSID</th>
-                                    <th>Signal Strength</th>
-                                    <th>Channel</th>
-                                    <th>Security</th>
-                                    <th>Pass Phrase</th>
-				    <th>Connect</th>
+                                    <th style="width:150px;max-width:150px;">SSID</th>
+                                    <th style="width:150px;max-width:150px;">Signal Strength</th>
+                                    <th style="width:150px;max-width:150px;">Channel</th>
+                                    <th style="width:150px;max-width:150px;">Security</th>
+                                    <th style="width:150px;max-width:150px;"">Pass Phrase</th>
+				    <th style="width:100px;max-width:100px;">Connect</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -187,7 +187,7 @@
 				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 				<input type="hidden" name="int" value="<?=$wificard2?>" />
 				<td>
-				    <input type="text" class="form-control" name="ssid" placeholder="Enter a hidden SSID" style="width:150px;"/>
+				    <input type="text" class="form-control" name="ssid" placeholder="Enter a hidden SSID" />
 				</td>
 				<td>
 				    n/a
@@ -196,13 +196,13 @@
 				    n/a
 				</td>
 				<td>
-				    <select name="isEnc" class="form-control" style="width:150px;">
+				    <select name="isEnc" class="form-control">
 					<option value="1">WPA/WPA2 (CCMP)</option>
 					<option value="0">Open</option>
 				    </select>
 				</td>
 				<td>
-				    <input type="text" class="form-control" name="passphrase" placeholder="Enter router pass pharse" style="width:150px;"/>
+				    <input type="text" class="form-control" name="passphrase" placeholder="Enter router pass pharse"/>
 				</td>
 				<td>
 				    <input type="submit" class="btn btn-primary" name="button" value="Connect"/>
