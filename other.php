@@ -24,7 +24,7 @@
 		$timezone = escapeshellarg(trim($_POST['timezone']));
 		$timezone2 = substr($timezone, 1, -1);
 
-		$do = `echo $timezone | sudo tee "/etc/timezone"`;
+		$do = `echo -n $timezone | sudo tee "/etc/timezone"`;
 		$do = `sudo dpkg-reconfigure -f noninteractive tzdata`;
 		$do = `sudo ln -sf "/usr/share/zoneinfo/$timezone2" /etc/localtime`;
 
@@ -94,7 +94,7 @@
 	foreach($timezones as $tz)
 	{
 ?>
-			<option value="<?=$tz?>"<?php if($timezone == $tz) { ?> selected<?php } ?>><?=$tz?></option>
+			<option value="<?=$tz?>"<?php if($timezone2 == $tz) { ?> selected<?php } ?>><?=$tz?></option>
 <?php } ?>
 		    </select><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="button" value="Update Settings" />
