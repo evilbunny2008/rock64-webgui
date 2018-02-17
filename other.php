@@ -94,7 +94,7 @@
 	foreach($timezones as $tz)
 	{
 ?>
-			<option value="<?=$tz?>"<?php if($timezone2 == $tz) { ?> selected<?php } ?>><?=$tz?></option>
+			<option value="<?=$tz?>"<?php if($timezone == $tz) { ?> selected<?php } ?>><?=$tz?></option>
 <?php } ?>
 		    </select><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="button" value="Update Settings" />
