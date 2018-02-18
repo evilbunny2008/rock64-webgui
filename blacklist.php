@@ -28,7 +28,7 @@
 	if(isset($_POST['dlBlacklist']) && isset($_POST['enableBL']) && $_POST['enableBL'] == "yes")
 	{
 		$do = `sudo "/var/www/html/scripts/update-blacklist.php"`;
-		$okmsg = "The system has now updated the Blacklist.";
+		$okmsg = "The system has updated the Blacklist.";
 	} else if(isset($_POST['dlBlacklist']) && !isset($_POST['enableBL'])) {
 		$errmsg = "Blacklisting isn't enabled.";
 	}
