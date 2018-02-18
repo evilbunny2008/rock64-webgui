@@ -11,9 +11,10 @@
 	{
 		$do = `sudo rm -f "/etc/adfree.conf"`;
 		$do = `sudo rm -f "/etc/cron.daily/blacklist.sh"`;
+		$do = `sudo rm -f "/etc/dnsmasq.d/adfree.conf"`;
 	}
 
-	if(isset($_POST['button']) && isset($_POST['enableBL']) && $_POST['enableBL'] == "yes")
+	if((isset($_POST['button']) || isset($_POST['dlBlacklist'])) && isset($_POST['enableBL']) && $_POST['enableBL'] == "yes")
 	{
 		$username = substr(escapeshellarg($_POST['username']), 1, -1);
 		$passphrase = substr(escapeshellarg($_POST['passphrase']), 1, -1);

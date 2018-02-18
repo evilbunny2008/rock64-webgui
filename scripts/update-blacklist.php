@@ -3,14 +3,13 @@
 	$username = $passphrase = "";
 
         $enableBL = "no";
-        if(file_exists("/etc/adfree.conf"))
-        {
-                $enableBL = "yes";
-                $do = `cat "/etc/adfree.conf"`;
-                list($username, $passphrase) = explode("\n", trim($do), 2);
-                list($crud, $username) = explode("=", $username, 2);
-                list($crud, $passphrase) = explode("=", $passphrase, 2);
-        }
+        if(!file_exists("/etc/adfree.conf"))
+		exit;
+
+	$do = `cat "/etc/adfree.conf"`;
+	list($username, $passphrase) = explode("\n", trim($do), 2);
+	list($crud, $username) = explode("=", $username, 2);
+	list($crud, $passphrase) = explode("=", $passphrase, 2);
 
 	$url = "https://adfree-hosts.odiousapps.com/dnsmasq.php";
 	if($enableBL == "yes" && $username != "" && $passphrase != "")
