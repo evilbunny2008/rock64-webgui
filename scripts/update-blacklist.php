@@ -1,16 +1,24 @@
 #!/usr/bin/php
 <?php
-	$username = $password = "";
+	$username = $passphrase = "";
 
-	if(file_exists("/etc/adfree.txt"))
-		$ini = parse_ini_file("/etc/adfree.conf");
+        $enableBL = "no";
+        if(file_exists("/etc/adfree.conf"))
+        {
+                $enableBL = "yes";
+                $do = `cat "/etc/adfree.conf"`;
+                list($username, $passphrase) = explode("\n", trim($do), 2);
+                list($crud, $username) = explode("=", $username, 2);
+                list($crud, $passphrase) = explode("=", $passphrase, 2);
+        }
 
 	$url = "https://adfree-hosts.odiousapps.com/dnsmasq.php";
-
-	if($username != "" && $password != "")
-		$url .= "?username="..urlencode($username)."&password=".urlencode($password);
+	if($enableBL == "yes" && $username != "" && $passphrase != "")
+		$url .= "?username=".urlencode($username)."&password=".urlencode($passphrase);
 
 	$data = gzdecode(file_get_contents($url));
 	$fp = fopen("/etc/dnsmasq.d/adblock.conf", "w");
 	fputs($fp, $data);
 	fclose($fp);
+
+	$do = `/etc/init.d/dnsmasq restart`;

@@ -8,7 +8,7 @@
         }
 
 	$_SESSION['login'] = false;
-	$do = `sudo /var/www/html/reboot.sh > /dev/null 2>/dev/null &`;
+	$do = `sudo /var/www/html/scripts/reboot.sh > /dev/null 2>/dev/null &`;
 
         $pageTitle = "System Rebooting...";
         include_once("header.php");
