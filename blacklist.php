@@ -21,7 +21,7 @@
 		$do = `sudo chmod 600 "/etc/adfree.conf"`;
 	}
 
-	if(isset($_POST['dlblacklist']))
+	if(isset($_POST['dlBlacklist']))
 	{
 		$do = `sudo "/var/www/html/scripts/update-blacklist.php" > /dev/null 2>/dev/null &`;
 		$okmsg = "The system is now updating the Blacklist.";
@@ -65,7 +65,7 @@
 			<div style="width:140px;float:left">Adfree Passphrase:</div>
 			<input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Adfree passphrase" /><br style="clear:left;"/>
 			<input type="submit" class="btn btn-primary" name="button" value="Save Settings" />
-			<input type="submit" class="btn btn-primary" name="dlblacklist" value="Download Blacklist" />
+			<input type="submit" class="btn btn-primary" name="dlBlacklist" value="Download Blacklist" />
 		    </form>
 		</div>
 	    </div>

@@ -17,7 +17,7 @@
 		$url .= "?username=".urlencode($username)."&password=".urlencode($passphrase);
 
 	$data = gzdecode(file_get_contents($url));
-	$fp = fopen("/etc/dnsmasq.d/adblock.conf", "w");
+	$fp = fopen("/etc/dnsmasq.d/adfree.conf", "w");
 	fputs($fp, $data);
 	fclose($fp);
 
