@@ -261,7 +261,7 @@
 				<div style="width:140px;float:left">Pass Phrase:</div>
 				<input type="text" style="width:200px;float:left;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Enter Passphrase" /><br style="clear:left;"/>
 				<div style="width:140px;float:left">Enable NAT:</div>
-				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableNAT" value="<?=$passphrase?>"<?php if($enableNAT == 2) { echo "checked"; } ?> /><br style="clear:left;"/>
+				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableNAT"<?php if($enableNAT == 2) { echo " checked"; } ?>/><br style="clear:left;"/>
 				<div style="width:140px;float:left">Server IP:</div>
                                 <input type="text" style="width:200px;float:left;" class="form-control" name="dhcpIP" value="<?=$dhcpIP?>" placeholder="Enter DHCP Server IP" /><br style="clear:left;"/>
 				<div style="width:140px;float:left">DHCP Start IP:</div>
