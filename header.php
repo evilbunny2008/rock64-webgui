@@ -65,6 +65,9 @@
                     <?php if($page == 8) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="blacklist.php"><i class="fa fa-table "></i>DNS Blacklist</a>
                     </li>
+                    <?php if($page == 9) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
+                        <a href="openvpnc.php"><i class="fa fa-table "></i>VPN Client</a>
+                    </li>
                 </ul>
             </div>
         </nav>

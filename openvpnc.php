@@ -7,7 +7,7 @@
                 exit;
         }
 
-	$page = 7;
+	$page = 9;
 	$pageTitle = "OpenVPN Settings";
 	include_once("header.php");
 ?>
