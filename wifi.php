@@ -187,7 +187,7 @@
                             <div class="panel-body">
 				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 				<input type="hidden" name="int" value="<?=$wificard2?>" />
-				<div style="width:100px;float:left;">Strength:</div>
+				<div style="width:100px;float:left;">AP SSID:</div>
 				    <input style="width:170px;float:left;" type="text" class="form-control" name="ssid" placeholder="Enter a hidden SSID" />
 				</br>
 				<div style="width:100px;float:left;">Security:</div>
