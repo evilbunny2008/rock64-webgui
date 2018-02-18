@@ -25,7 +25,7 @@
 		$do = `sudo chmod 755 "/etc/cron.daily/blacklist.sh"`;
 	}
 
-	$okmsg = "";
+	$okmsg = $errmsg = "";
 	if(isset($_POST['dlBlacklist']) && isset($_POST['enableBL']) && $_POST['enableBL'] == "yes")
 	{
 		$do = `sudo "/var/www/html/scripts/update-blacklist.php"`;

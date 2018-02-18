@@ -40,7 +40,7 @@
 		}
 	}
 
-	$lines = explode("\n", trim(`nmcli dev stat|grep wifi`));
+	$lines = explode("\n", trim(`nmcli dev stat|grep wifi|sort -n`));
 	$wifiArr = array();
 	$i = 0;
 	foreach($lines as $line)
@@ -68,7 +68,7 @@
 	if(isset($wificard))
 	{
 		$wifi = array();
-		$do = `sudo ifconfig $wificard up`;
+		$do = `ifconfig $wificard up`;
 		$APs = trim(`iwlist $wificard scanning`);
 		$APs = explode("Cell", $APs);
 		unset($APs['0']);
@@ -126,39 +126,31 @@
 				</select>
 				<input class="btn btn-primary" style="width:75px;float:left;margin-left:20px;" type="submit" value="Rescan"/>
 			</form>
-			<br style="clear:left;"/>
-			<br style="clear:left;"/>
-                        <table class="table table-striped table-bordered table-hover" style="table-layout:fixed;max-width:1000px;">
-                            <thead>
-                                <tr>
-                                    <th style="width:150px;max-width:150px;">SSID</th>
-                                    <th style="width:150px;max-width:150px;">Signal Strength</th>
-                                    <th style="width:150px;max-width:150px;">Channel</th>
-                                    <th style="width:150px;max-width:150px;">Security</th>
-                                    <th style="width:150px;max-width:150px;"">Pass Phrase</th>
-				    <th style="width:100px;max-width:100px;">Connect</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+		</div>
+
+		<br style="clear:left;"/>
 <?php for($i = 1; $i <= count($wifi); $i++) { ?>
-				<form method="post"  action="<?=$_SERVER['PHP_SELF']?>">
-				<input type="hidden" name="ssid" value="<?=$wifi[$i]['SSID']?>" />
-				<input type="hidden" name="int" value="<?=$wificard2?>" />
-                                <tr>
-                                    <td><?=$wifi[$i]['SSID']?></td>
-				    <td>
+		<form method="post"  action="<?=$_SERVER['PHP_SELF']?>">
+		<input type="hidden" name="ssid" value="<?=$wifi[$i]['SSID']?>" />
+		<input type="hidden" name="int" value="<?=$wificard2?>" />
+		<div class="row" style="padding-left:10px;">
+                    <div class="col-md-6" style="width:350px;">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">SSID: <?=$wifi[$i]['SSID']?></div>
+                            <div class="panel-body">
 <?php
 	list($percent, $crud) = explode("/", $wifi[$i]['quality'], 2);
 	$percent = intval($percent);
 ?>
+                                <div style="width:100px;float:left;">Strength:</div>
 				    <div class="progress progress-striped" title="Signal: <?=$percent?>%">
 					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?=$percent?>" aria-valuemin="0" aria-valuemax="100" style="width: <?=$percent?>%">
 					    <span class="sr-only"><?=$percent?>% Complete (success)</span>
 					</div>
 				    </div>
-				    </td>
-                                    <td><?=$wifi[$i]['freq']?></td>
-                                    <td><?php
+                                <div style="width:100px;float:left;">Channel:</div><?=$wifi[$i]['freq']?><br/>
+                                <div style="width:100px;float:left;">Security:</div>
+<?php
 	if($wifi[$i]['enc'] == 0)
 	{
 		echo "Open <input type=\"hidden\" name=\"isEnc\" value=\"0\" />";
@@ -170,47 +162,49 @@
 		echo " (".$wifi[$i]['cipher'].") <input type=\"hidden\" name=\"isEnc\" value=\"1\" />";
 	}
 ?>
-				</td>
-				<td>
+<br/>
+                                <div style="width:100px;float:left;">Pass Phrase:</div>
 <?php if($wifi[$i]['enc'] != 0) { ?>
-					<input type="text" class="form-control" name="passphrase" placeholder="Enter router pass pharse" />
+					<input style="width:170px;float:left;" type="text" class="form-control" name="passphrase" placeholder="Enter router pass pharse" />
 <?php } else { ?>
-					&nbsp;
+					n/a
 <?php } ?>
-				</td>
-				<td><input type="submit" class="btn btn-primary" name="button" value="Connect" /> <input type="submit" class="btn btn-danger" name="button" value="Remove" />
-				</td>
-			    </form>
-			    </tr>
+				<br style="clear:left;"/>
+                                <div style="width:100px;float:left;">Connect:</div>
+				    <input type="submit" class="btn btn-primary" name="button" value="Connect" /> <input type="submit" class="btn btn-danger" name="button" value="Forget" />
+				<br/>
+                            </div>
+                        </div>
+                    </div>
+		</div>
+		</form>
 <?php } ?>
-			    <tr>
+		<div class="row" style="padding-left:10px;">
+                    <div class="col-md-6" style="width:350px;">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Connect to Hidden AP</div>
+                            <div class="panel-body">
 				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 				<input type="hidden" name="int" value="<?=$wificard2?>" />
-				<td>
-				    <input type="text" class="form-control" name="ssid" placeholder="Enter a hidden SSID" />
-				</td>
-				<td>
-				    n/a
-				</td>
-				<td>
-				    n/a
-				</td>
-				<td>
-				    <select name="isEnc" class="form-control">
+				<div style="width:100px;float:left;">Strength:</div>
+				    <input style="width:170px;float:left;" type="text" class="form-control" name="ssid" placeholder="Enter a hidden SSID" />
+				</br>
+				<div style="width:100px;float:left;">Security:</div>
+				    <select style="width:170px;float:left;" name="isEnc" class="form-control">
 					<option value="1">WPA/WPA2 (CCMP)</option>
 					<option value="0">Open</option>
 				    </select>
-				</td>
-				<td>
-				    <input type="text" class="form-control" name="passphrase" placeholder="Enter router pass pharse"/>
-				</td>
-				<td>
+				<br/>
+				<div style="width:100px;float:left;">Pass Phrase:</div>
+				    <input style="width:170px;float:left;" type="text" class="form-control" name="passphrase" placeholder="Enter router pass pharse"/>
+				<br/>
+				<div style="width:100px;float:left;">Connect:</div>
 				    <input type="submit" class="btn btn-primary" name="button" value="Connect"/>
-				</td>
+				<br/>
 				</form>
-			    </tr>
-			</tbody>
-		    </table>
+			    </div>
+			</div>
+		    </div>
 		</div>
 	    </div>
         </div>

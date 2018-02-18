@@ -227,7 +227,7 @@
                 <hr />
 		<div class="row" style="padding-right:15px;">
                     <div class="col-lg-4 col-md-4">
-                        <ul class="nav nav-tabs" style="width:1000px;">
+                        <ul class="nav nav-tabs">
                             <li class="active"><a href="#home" data-toggle="tab">Home</a>
                             </li>
                             <li class=""><a href="#logging" data-toggle="tab">Logging</a>
@@ -303,46 +303,39 @@
 
 	$log = trim(implode("\n", $loglines));
 ?>
-				    <textarea style="width:900px;height:500px;" id="textarea"><?=$log?></textarea>
+				    <textarea style="width:500px;height:500px;" id="textarea"><?=$log?></textarea>
 				    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 					<input type="submit" class="btn btn-primary" name="clearlog" value="Clear log" />
 				    </form>
                                 </p>
                             </div>
-                            <div class="tab-pane fade" id="clients" style="width:1000px;">
+                            <div class="tab-pane fade" id="clients">
                                 <h4>Clients</h4>
-	<table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Expire time</th>
-                <th>MAC Address</th>
-                <th>IP Address</th>
-                <th>Host name</th>
-                <th>Client ID</th>
-              </tr>
-            </thead>
 <?php
-        if(file_exists("/var/lib/misc/dnsmasq.leases"))
-        {
-                echo "\t<tbody>\n";
+	if(file_exists("/var/lib/misc/dnsmasq.leases"))
+	{
 // 1519117391 ac:cf:85:63:a1:19 192.168.99.157 android-1101aeccbf975a1c 01:ac:cf:85:63:a1:19
                 $clients = explode("\n", trim(file_get_contents("/var/lib/misc/dnsmasq.leases")));
                 foreach($clients as $client)
                 {
                         list($expire, $mac, $ip, $hostname, $cliid) = explode(" ", $client);
 ?>
-              <tr><td><?=date('Y-m-d H:i:s', $expire)?></td><td><?=$mac?></td><td><?=$ip?></td><td><?=$hostname?></td><td><?=$cliid?></td></tr>
-<?php
-                }
-
-                echo "\t</tbody>\n";
-        }
-?>
-          </table>
-
+		<div class="row" style="padding-left:10px;">
+                    <div class="col-md-6" style="width:350px;">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Cli: <?=$cliid?></div>
+                            <div class="panel-body">
+				<div style="width:100px;float:left;">IP:</div><?=$ip?><br/>
+				<div style="width:100px;float:left;">Expiry:</div><?=date('Y-m-d H:i:s', $expire)?><br/>
+				<div style="width:100px;float:left;">MAC:</div><?=$mac?><br/>
+				<div style="width:100px;float:left;">Hostname:</div><?=$hostname?><br/>
                             </div>
                         </div>
                     </div>
+		</div>
+<?php } } ?>
+		</div>
+		</div>
 		</div>
 	    </div>
         </div>
