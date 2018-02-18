@@ -105,7 +105,7 @@
 	{
 		if(intval(trim(`ps auxww|grep -v grep|grep openvpn|wc -l`)) > 0)
 			$do = `sudo killall openvpn`;
-		$do = `sudo /usr/sbin/openvpn --config "/etc/openvpn/client/client1.ovpn --daemon"`;
+		$do = `sudo /usr/sbin/openvpn --config "/etc/openvpn/client/client1.ovpn" --daemon`;
 	}
 
 	$enableCli = "no";
