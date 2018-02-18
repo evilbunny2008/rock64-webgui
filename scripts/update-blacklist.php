@@ -2,7 +2,6 @@
 <?php
 	$username = $passphrase = "";
 
-        $enableBL = "no";
         if(!file_exists("/etc/adfree.conf"))
 		exit;
 
@@ -12,7 +11,7 @@
 	list($crud, $passphrase) = explode("=", $passphrase, 2);
 
 	$url = "https://adfree-hosts.odiousapps.com/dnsmasq.php";
-	if($enableBL == "yes" && $username != "" && $passphrase != "")
+	if($username != "" && $passphrase != "")
 		$url .= "?username=".urlencode($username)."&password=".urlencode($passphrase);
 
 	$data = gzdecode(file_get_contents($url));
