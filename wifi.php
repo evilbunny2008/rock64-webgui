@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <hr />
-		<div class="row" style="padding-left:10px;">
+		<div class="row" style="padding-left:10px;float:left;">
 			<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 			<div style="width:75px;float:left">Interface:</div>
 				<select name="int" class="form-control" style="width:150px;float:left;">
@@ -129,11 +129,12 @@
 		</div>
 
 		<br style="clear:left;"/>
+		<br style="clear:left;"/>
 <?php for($i = 1; $i <= count($wifi); $i++) { ?>
 		<form method="post"  action="<?=$_SERVER['PHP_SELF']?>">
 		<input type="hidden" name="ssid" value="<?=$wifi[$i]['SSID']?>" />
 		<input type="hidden" name="int" value="<?=$wificard2?>" />
-		<div class="row" style="padding-left:10px;">
+		<div class="row" style="padding-left:10px;float:left;">
                     <div class="col-md-6" style="width:350px;">
                         <div class="panel panel-primary">
                             <div class="panel-heading">SSID: <?=$wifi[$i]['SSID']?></div>
@@ -179,7 +180,7 @@
 		</div>
 		</form>
 <?php } ?>
-		<div class="row" style="padding-left:10px;">
+		<div class="row" style="padding-left:10px;float:left;">
                     <div class="col-md-6" style="width:350px;">
                         <div class="panel panel-primary">
                             <div class="panel-heading">Connect to Hidden AP</div>

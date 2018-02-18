@@ -112,14 +112,14 @@
 		    </select><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="button" value="Update Settings" />
 		    </form>
-		    <br/><br/>
+		    <br/>
 		</div>
 		<div class="row" style="padding-right:15px;padding-left:15px;">
 		    <h2>RTL8812AU Driver</h2>
 		    <hr />
 		    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 		    <p>Do you need to install or remove the rtl8812au driver? This is for the 802.11ac usb device sold on the
-			<a href="https://www.pine64.org/?product=rock64-usb-3-0-dual-band-1200mbps-wifi-802-11abgnac-rtl8812au-adapter" target="_blank">Pine64.org website</a></p>
+			<a target="_blank" href="https://www.pine64.org/?product=rock64-usb-3-0-dual-band-1200mbps-wifi-802-11abgnac-rtl8812au-adapter" target="_blank">Pine64.org website</a></p>
 <?php if($pkgStatus == 2) { ?>
 		    <input type="submit" class="btn btn-primary" name="remove" value="Remove Driver" onClick="return confirm('Are you sure you want to do this?');" />
 <?php } elseif($pkgStatus == 0) { ?>
@@ -129,11 +129,13 @@
 		    <p>The driver is currently being removed or installed, this page will update when installation or removal is complete.</p>
 <?php } ?>
 		    </form>
+		    <br/>
 		</div>
 		<div class="row" style="padding-right:15px;padding-left:15px;">
 		    <h2>Upgrade Rock64 WebGUI</h2>
 		    <hr />
-		    <p>This keeps your system up to date with all the featurs and bug fixes.</p>
+		    <p>This keeps your system up to date with all the latest features and bug fixes.</p>
+		    <p>If you find a bug, or would like additional features, please file a report <a target="_blank" href="https://github.com/evilbunny2008/rock64-webgui/issues">issue/push request on github</a>.</p>
 		    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 		    <input type="submit" class="btn btn-primary" name="upgrade" value="Upgrade WebGUI" onClick="return confirm('Are you sure you want to do this?');" />
 		    </form>

@@ -41,10 +41,10 @@
 		    <p><div class="alert alert-warning alert-dismissable"><?=$errmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
 <?php } ?>
 		    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
-		    <div style="width:160px;float:left">Username:</div>
-		    <input type="text" style="width:300px;float:left;margin-left:20px;" class="form-control" name="username" placeholder="Enter your Username" /><br style="clear:left;"/>
-		    <div style="width:160px;float:left">Passphrase:</div>
-		    <input type="password" style="width:300px;float:left;margin-left:20px;" class="form-control" name="passphrase" placeholder="Enter your Passphrase" /><br style="clear:left;"/>
+		    <div style="width:100px;float:left">Username:</div>
+		    <input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="username" placeholder="Enter your Username" /><br style="clear:left;"/>
+		    <div style="width:100px;float:left">Passphrase:</div>
+		    <input type="password" style="width:200px;float:left;margin-left:20px;" class="form-control" name="passphrase" placeholder="Enter your Passphrase" /><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="button" value="Login" />
 		    </form>
 		</div>
