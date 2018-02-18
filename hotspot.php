@@ -254,7 +254,7 @@
 	foreach($channels as $chan => $freq)
 	{
 ?>
-				    <option value="<?=$chan?>"<?php if($channel == $chan) { ?> selected <?php } ?>>Channel <?=$chan?> -- <?=$freq?></options>
+				    <option value="<?=$chan?>"<?php if($channel == $chan) { echo " selected"; } ?>>Channel <?=$chan?> -- <?=$freq?></options>
 <?php } ?>
 				</select><br style="clear:left;"/>
 
@@ -298,8 +298,7 @@
 	if($i < 0)
 		$i = 0;
 
-	for(; $i <= count($log); $i++)
-
+	for(; $i < count($log); $i++)
 		$loglines[] = $log[$i];
 
 	$log = trim(implode("\n", $loglines));

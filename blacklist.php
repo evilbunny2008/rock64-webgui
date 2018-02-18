@@ -21,6 +21,7 @@
 		$do = `sudo chmod 600 "/etc/adfree.conf"`;
 	}
 
+	$okmsg = "";
 	if(isset($_POST['dlBlacklist']))
 	{
 		$do = `sudo "/var/www/html/scripts/update-blacklist.php" > /dev/null 2>/dev/null &`;

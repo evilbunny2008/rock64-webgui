@@ -10,6 +10,9 @@
 	$lines = explode("\n", trim(`nmcli dev stat|grep ethernet|sort -n`));
 	$ethArr = array();
 	$i = 0;
+	$enable = "yes";
+	$IP = $gw = $nm = $dns = "";
+
 	foreach($lines as $line)
 	{
 		$line = trim($line);
@@ -102,7 +105,6 @@
 				list($crud, $dns) = explode(" ", $line, 2);
 		}
 	} else {
-		$enable = "no";
 		$IP = "192.168.100.2";
 		$nm = "255.255.255.0";
 		$gw = "192.168.100.1";
