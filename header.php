@@ -31,7 +31,7 @@
                 </div>
                 <span class="logout-spn" style="float:left;padding-left:190px;">
 <?php
-	if($_SESSION['login'] == true)
+	if(isset($_SESSION['login']) && $_SESSION['login'] == true)
 	{
 ?>
 		    <a href="reboot.php" class="btn btn-default" onClick="return confirm('Are you sure you want to do this?');">Reboot</a>
