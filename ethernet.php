@@ -53,14 +53,70 @@
 		if($enable == "yes")
 		{
 			if($dhcp != "no")
-				$cmd = "echo 'auto $ethernet2\nallow-hotplug $ethernet2\niface $ethernet2 inet dhcp\naddress $IP\nnetmask $nm\ngateway $gw\ndns-nameservers $dns' | sudo tee '/etc/network/interfaces.d/$ethernet2'";
-			else
-				$cmd = "echo 'auto $ethernet2\nallow-hotplug $ethernet2\niface $ethernet2 inet static\naddress $IP\nnetmask $nm\ngateway $gw\ndns-nameservers $dns' | sudo tee '/etc/network/interfaces.d/$ethernet2'";
+			{
+				$cmd = "echo 'auto $ethernet2\nallow-hotplug $ethernet2\niface $ethernet2 inet dhcp' | sudo tee '/etc/network/interfaces.d/$ethernet2'";
+				$do = `$cmd`;
+				if($IP != "")
+				{
+					$cmd = "echo 'address $IP' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+					$do = `$cmd`;
+				}
+
+				if($nm != "")
+				{
+					$cmd = "echo 'netmask $nm' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+					$do = `$cmd`;
+				}
+
+				if($gateway != "")
+				{
+					$cmd = "echo 'gateway $gw' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+					$do = `$cmd`;
+				}
+
+				if($dns != "")
+				{
+					$cmd = "echo 'dns-nameservers $dns' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+					$do = `$cmd`;
+				}
+
+				$cmd = "echo 'post-up /var/www/html/scripts/postWAN.sh up\npre-down /var/www/html/scripts/postWAN.sh down' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+				$do = `$cmd`;
+			} else {
+				$cmd = "echo 'auto $ethernet2\nallow-hotplug $ethernet2\niface $ethernet2 inet static' | sudo tee '/etc/network/interfaces.d/$ethernet2'";
+				$do = `$cmd`;
+				if($IP != "")
+				{
+					$cmd = "echo 'address $IP' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+					$do = `$cmd`;
+				}
+
+				if($nm != "")
+				{
+					$cmd = "echo 'netmask $nm' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+					$do = `$cmd`;
+				}
+
+				if($gateway != "")
+				{
+					$cmd = "echo 'gateway $gw' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+					$do = `$cmd`;
+				}
+
+				if($dns != "")
+				{
+					$cmd = "echo 'dns-nameservers $dns' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+					$do = `$cmd`;
+				}
+
+				$cmd = "echo 'post-up /var/www/html/scripts/postWAN.sh up\npre-down /var/www/html/scripts/postWAN.sh down' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+				$do = `$cmd`;
+			}
 		} else {
 			$cmd = "echo 'iface $ethernet2 inet manual' | sudo tee '/etc/network/interfaces.d/$ethernet2'";
+			$do = `$cmd`;
 		}
 
-		$do = `$cmd`;
 		$do = `sudo ifconfig $ethernet up`;
 		$do = `sudo ifup $ethernet`;
 	}
