@@ -58,7 +58,9 @@
 						$ovpn = $start."\n<key>\n$key\n</key>\n$rest";
 						$do = `echo "$ovpn" | sudo tee "/etc/openvpn/client/client1.ovpn"`;
 					} else {
-						$errmsg = "Invalid passphrase supplied, please check your passphrase and retry uploading ovpn file.";
+						$errmsg = "Invalid passphrase supplied, please check your passphrase and retry uploading your ovpn file.";
+						$do = `sudo rm -f "/etc/openvpn/client/client1.ovpn"`;
+						$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
 					}
 
 					unlink($fn1);
@@ -67,9 +69,15 @@
 			}
 
 			if((!isset($_POST['passphrase']) || $_POST['passphrase'] == "") && strpos($ovpn, "-----BEGIN ENCRYPTED PRIVATE KEY-----") !== false)
+			{
 				$errmsg = "ovpn file requires a passphrase, but you didn't supply one.";
+				$do = `sudo rm -f "/etc/openvpn/client/client1.ovpn"`;
+				$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
+			}
 		} else {
 			$errmsg = "No ovpn file was uploaded, can't continue";
+			$do = `sudo rm -f "/etc/openvpn/client/client1.ovpn"`;
+			$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
 		}
 
 		if($errmsg == "")
