@@ -7,7 +7,7 @@
                 exit;
         }
 
-	$lines = explode("\n", trim(`nmcli dev stat|grep wifi`));
+	$lines = explode("\n", trim(`nmcli dev stat|grep wifi|sort -n`));
 
 	$wifiArr = array();
 	$i = 0;
