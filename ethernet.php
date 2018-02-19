@@ -80,7 +80,7 @@
 					$do = `$cmd`;
 				}
 
-				$cmd = "echo 'post-up /var/www/html/scripts/postWAN.sh up\npre-down /var/www/html/scripts/postWAN.sh down' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+				$cmd = "echo 'post-up /var/www/html/scripts/WAN.sh up\npre-down /var/www/html/scripts/WAN.sh down' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
 				$do = `$cmd`;
 			} else {
 				$cmd = "echo 'auto $ethernet2\nallow-hotplug $ethernet2\niface $ethernet2 inet static' | sudo tee '/etc/network/interfaces.d/$ethernet2'";
@@ -109,7 +109,7 @@
 					$do = `$cmd`;
 				}
 
-				$cmd = "echo 'post-up /var/www/html/scripts/postWAN.sh up\npre-down /var/www/html/scripts/postWAN.sh down' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
+				$cmd = "echo 'post-up /var/www/html/scripts/WAN.sh up\npre-down /var/www/html/scripts/WAN.sh down' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
 				$do = `$cmd`;
 			}
 		} else {
