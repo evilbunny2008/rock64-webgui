@@ -294,7 +294,7 @@
 <?php
 	$log = explode("\n", trim(file_get_contents('/var/log/hostapd.log')));
 	$loglines = array();
-	$i = count($log) - 15;
+	$i = count($log) - 30;
 	if($i < 0)
 		$i = 0;
 
@@ -323,12 +323,12 @@
 		<div class="row" style="padding-left:10px;">
                     <div class="col-md-6" style="width:350px;">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">Cli: <?=$cliid?></div>
+                            <div class="panel-heading">MAC Address: <?=$mac?></div>
                             <div class="panel-body">
 				<div style="width:100px;float:left;">IP:</div><?=$ip?><br/>
 				<div style="width:100px;float:left;">Expiry:</div><?=date('Y-m-d H:i:s', $expire)?><br/>
-				<div style="width:100px;float:left;">MAC:</div><?=$mac?><br/>
 				<div style="width:100px;float:left;">Hostname:</div><?=$hostname?><br/>
+				<div style="width:100px;float:left;">Cli:</div><?=$cliid?><br/>
                             </div>
                         </div>
                     </div>
@@ -339,4 +339,12 @@
 		</div>
 	    </div>
         </div>
+<script type="text/javascript" language="JavaScript">
+	function scroll()
+	{
+		document.getElementById('textarea').scrollTop = 9999999;
+	}
+
+	scroll();
+</script>
 <?php include_once("footer.php"); ?>
