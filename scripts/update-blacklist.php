@@ -14,6 +14,7 @@
 	if($username != "" && $passphrase != "")
 		$url .= "?username=".urlencode($username)."&password=".urlencode($passphrase);
 
+echo $url."\n"; die;
 	$data = gzdecode(file_get_contents($url));
 	$fp = fopen("/etc/dnsmasq.d/adfree.conf", "w");
 	fputs($fp, $data);
