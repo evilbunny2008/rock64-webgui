@@ -57,6 +57,12 @@
 
 	if(isset($_POST['dlBlacklist']) && isset($_POST['enableBL']) && $_POST['enableBL'] == "yes")
 	{
+		if(!file_exists("/etc/adfree.conf")
+		{
+			$do = `sudo touch "/etc/adfree.conf"`;
+			$do = `sudo chmod 600 "/etc/adfree.conf"`;
+		}
+
 		$do = `sudo "/var/www/html/scripts/update-blacklist.php"`;
 		$okmsg = "The system has updated the Blacklist.";
 	} else if(isset($_POST['dlBlacklist']) && !isset($_POST['enableBL'])) {
@@ -101,9 +107,9 @@
 			<input type="checkbox" style="width:25px;float:left;margin-left:20px;" class="form-control" name="enableBL" value="yes"<?php if($enableBL == "yes") { echo " checked"; } ?> /><br style="clear:left;"/>
 			<p><a target="_blank" href="https://adfree.odiousapps.com">Adfree</a> is a crowdsourced list of advertising hostnames which can be used for free, with or without an account, although donations are welcome.</p>
 			<div style="width:140px;float:left">Adfree email:</div>
-			<input autocomplete="off" type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="email" value="<?=urldecode($email)?>" placeholder="Adfree email" /><br style="clear:left;"/>
+			<input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="email" value="<?=urldecode($email)?>" placeholder="Adfree email" /><br style="clear:left;"/>
 			<div style="width:140px;float:left">Adfree Passphrase:</div>
-			<input autocomplete="off" type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" id="passphrase" name="passphrase" placeholder="Adfree passphrase" /><br style="clear:left;"/>
+			<input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" id="passphrase" name="passphrase" placeholder="Adfree passphrase" /><br style="clear:left;"/>
 			<input type="submit" class="btn btn-primary" name="button" value="Save Settings" />
 			<input type="submit" class="btn btn-primary" name="dlBlacklist" value="Download Blacklist Now" />
 		    </form>

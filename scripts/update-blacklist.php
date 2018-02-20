@@ -5,10 +5,10 @@
         if(!file_exists("/etc/adfree.conf"))
 		exit;
 
-	$do = `cat "/etc/adfree.conf"`;
-	list($email, $passphrase) = explode("\n", trim($do), 2);
-	list($crud, $email) = explode("=", $email, 2);
-	list($crud, $passphrase) = explode("=", $passphrase, 2);
+	$do = trim(file_get_contents("/etc/adfree.conf"));
+	list($email, $passphrase) = @explode("\n", trim($do), 2);
+	list($crud, $email) = @explode("=", $email, 2);
+	list($crud, $passphrase) = @explode("=", $passphrase, 2);
 
 	$url = "https://adfree-hosts.odiousapps.com/dnsmasq.php";
 	if($email != "" && $passphrase != "")
