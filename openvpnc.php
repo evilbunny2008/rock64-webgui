@@ -152,8 +152,8 @@
 		    </form>
 		    <hr/>
 		    <form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
-		    <div style="width:120px;float:left">Enable Client:</div>
-                    <input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableCli" value="yes"<?php if($enableCli == "yes") { echo " checked"; } ?>/><br style="clear:left;"/>
+		    <div style="width:120px;float:left">Enable:</div>
+                    <input type="checkbox" style="width:25px;float:left;margin-left:20px;" class="form-control" name="enableCli" value="yes"<?php if($enableCli == "yes") { echo " checked"; } ?>/><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="update" value="Update" />
 		    </form>
 		</div>
