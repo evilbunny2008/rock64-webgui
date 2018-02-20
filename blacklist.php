@@ -18,24 +18,27 @@
 
 	if((isset($_POST['button']) || isset($_POST['dlBlacklist'])) && isset($_POST['enableBL']) && $_POST['enableBL'] == "yes")
 	{
-		$username = substr(escapeshellarg($_POST['username']), 1, -1);
+		$email = substr(escapeshellarg($_POST['email']), 1, -1);
 		$passphrase = substr(escapeshellarg($_POST['passphrase']), 1, -1);
 
-		if($username != "" && $passphrase == "")
+		if($email != "" && !filter_var($email, FILTER_VALIDATE_EMAIL))
+			$errmsg = "Invalid email address";
+
+		if($errmsg == "" && $email != "" && $passphrase == "")
 		{
 			if(file_exists("/etc/adfree.conf"))
 			{
 				$do = `sudo cat "/etc/adfree.conf"`;
-				list($username, $passphrase) = explode("\n", trim($do), 2);
-				list($crud, $username) = explode("=", $username, 2);
+				list($email, $passphrase) = explode("\n", trim($do), 2);
+				list($crud, $email) = explode("=", $email, 2);
 				list($crud, $passphrase) = explode("=", $passphrase, 2);
 			}
 		}
 
-		if($username != "" && $passphrase != "")
+		if($errmsg == "" && $email != "" && $passphrase != "")
 		{
 			$url = "https://adfree-hosts.odiousapps.com/dnsmasq.php";
-                	$url .= "?username=".urlencode($username)."&password=".urlencode($passphrase);
+                	$url .= "?username=".urlencode($email)."&password=".urlencode($passphrase);
 			$ret = file_get_contents($url."&checkup=1");
 			if($ret != "ok")
 				$errmsg = $ret;
@@ -45,7 +48,7 @@
 
 		if($errmsg == "")
 		{
-			$do = `echo "username=$username\npassphrase=$passphrase" | sudo tee "/etc/adfree.conf"`;
+			$do = `echo "email=$email\npassphrase=$passphrase" | sudo tee "/etc/adfree.conf"`;
 			$do = `sudo chmod 600 "/etc/adfree.conf"`;
 			$do = `sudo echo "#!/bin/sh\n\n/var/www/html/scripts/update-blacklist.php" | sudo tee "/etc/cron.daily/blacklist.sh"`;
 			$do = `sudo chmod 755 "/etc/cron.daily/blacklist.sh"`;
@@ -65,12 +68,12 @@
 	{
 		$enableBL = "yes";
 		$do = `sudo cat "/etc/adfree.conf"`;
-		list($username, $passphrase) = explode("\n", trim($do), 2);
-		list($crud, $username) = explode("=", $username, 2);
+		list($email, $passphrase) = explode("\n", trim($do), 2);
+		list($crud, $email) = explode("=", $email, 2);
 		list($crud, $passphrase) = explode("=", $passphrase, 2);
 	}
 
-	$username = urlencode($username);
+	$email = urlencode($email);
 	$passphrase = urlencode($passphrase);
 
 	$page = 8;
@@ -93,18 +96,28 @@
                     <p><div class="alert alert-success alert-dismissable"><?=$okmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
 <?php } ?>
 
-		    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
+		    <form method="post" autocomplete="off" action="<?=$_SERVER['PHP_SELF']?>">
 			<div style="width:140px;float:left">Enable blacklisting?</div>
 			<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableBL" value="yes"<?php if($enableBL == "yes") { echo " checked"; } ?> /><br style="clear:left;"/>
 			<p>If you wish to use custom whitelisting and blacklist in conjunction with <a target="_blank" href="https://adfree.odiousapps.com">Adfree</a>, you can set your account details below, if you don't plan to have custom lists you can leave the below fields blank.</p>
-			<div style="width:140px;float:left">Adfree Username:</div>
-			<input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="username" value="<?=urldecode($username)?>" placeholder="Adfree Username" /><br style="clear:left;"/>
+			<div style="width:140px;float:left">Adfree email:</div>
+			<input autocomplete="off" type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="email" value="<?=urldecode($email)?>" placeholder="Adfree email" /><br style="clear:left;"/>
 			<div style="width:140px;float:left">Adfree Passphrase:</div>
-			<input type="password" style="width:200px;float:left;margin-left:20px;" class="form-control" name="passphrase" placeholder="Adfree passphrase" /><br style="clear:left;"/>
+			<input autocomplete="off" type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" id="passphrase" name="passphrase" placeholder="Adfree passphrase" /><br style="clear:left;"/>
 			<input type="submit" class="btn btn-primary" name="button" value="Save Settings" />
 			<input type="submit" class="btn btn-primary" name="dlBlacklist" value="Download Blacklist Now" />
 		    </form>
 		</div>
 	    </div>
         </div>
+<script type="text/javascript" charset="utf-8">
+<!--//
+	function switchType()
+	{
+		document.getElementById('passphrase').type = "password";
+	}
+
+	setTimeout('switchType()', 1000);
+//-->
+</script>
 <?php include_once("footer.php"); ?>
