@@ -68,7 +68,7 @@
 					$do = `$cmd`;
 				}
 
-				if($gateway != "")
+				if($gw != "")
 				{
 					$cmd = "echo 'gateway $gw' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
 					$do = `$cmd`;
@@ -97,7 +97,7 @@
 					$do = `$cmd`;
 				}
 
-				if($gateway != "")
+				if($gw != "")
 				{
 					$cmd = "echo 'gateway $gw' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
 					$do = `$cmd`;
