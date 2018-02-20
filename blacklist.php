@@ -57,7 +57,7 @@
 
 	if(isset($_POST['dlBlacklist']) && isset($_POST['enableBL']) && $_POST['enableBL'] == "yes")
 	{
-		if(!file_exists("/etc/adfree.conf")
+		if(!file_exists("/etc/adfree.conf"))
 		{
 			$do = `sudo touch "/etc/adfree.conf"`;
 			$do = `sudo chmod 600 "/etc/adfree.conf"`;
