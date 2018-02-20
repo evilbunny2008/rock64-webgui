@@ -98,8 +98,8 @@
 
 		    <form method="post" autocomplete="off" action="<?=$_SERVER['PHP_SELF']?>">
 			<div style="width:140px;float:left">Enable blacklisting?</div>
-			<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableBL" value="yes"<?php if($enableBL == "yes") { echo " checked"; } ?> /><br style="clear:left;"/>
-			<p>If you wish to use custom whitelisting and blacklist in conjunction with <a target="_blank" href="https://adfree.odiousapps.com">Adfree</a>, you can set your account details below, if you don't plan to have custom lists you can leave the below fields blank.</p>
+			<input type="checkbox" style="width:25px;float:left;margin-left:20px;" class="form-control" name="enableBL" value="yes"<?php if($enableBL == "yes") { echo " checked"; } ?> /><br style="clear:left;"/>
+			<p><a target="_blank" href="https://adfree.odiousapps.com">Adfree</a> is a crowdsourced list of advertising hostnames which can be used for free, with or without an account, although donations are welcome.</p>
 			<div style="width:140px;float:left">Adfree email:</div>
 			<input autocomplete="off" type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="email" value="<?=urldecode($email)?>" placeholder="Adfree email" /><br style="clear:left;"/>
 			<div style="width:140px;float:left">Adfree Passphrase:</div>
