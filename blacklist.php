@@ -100,7 +100,7 @@
                             </li>
                             <li class=""><a href="#logging" data-toggle="tab">Logging</a>
                             </li>
-                            <li class=""><a href="#clients" data-toggle="tab">Clients</a>
+                            <li class=""><a href="#hostnames" data-toggle="tab">Hostnames</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -134,9 +134,16 @@
 				    <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea"></textarea>
 				</div>
 			    </div>
-			    <div class="tab-pane fade" id="clients">
-				<h4>Clients</h4>
+			    <div class="tab-pane fade" id="hostnames">
+				<h4>Hostnames</h4>
 				<div class="row" style="padding-right:15px;padding-left:15px;">
+				    <div class="panel panel-primary" style="width:325px;float:left;margin-right:20px;">
+			    		<div class="panel-heading">Hostnames</div>
+					    <div class="panel-body" id="panel-body">
+						Test
+					    </div>
+					</div>
+				    </div>
 				</div>
 			    </div>
 			</div>
@@ -146,7 +153,8 @@
         </div>
 <script type="text/javascript" charset="utf-8">
 <!--//
-	var http = getHTTPObject();
+	var http1 = getHTTPObject();
+	var http2 = getHTTPObject();
 
 	function getHTTPObject()
 	{
@@ -187,6 +195,15 @@
 			document.getElementById('textarea').scrollTop = 9999999;
 	}
 
+	function updateCliTable(val)
+	{
+		var element = document.getElementById('panel-body');
+		if(!element)
+			return;
+
+		element.innerHTML = val;
+	}
+
 	function updateLog()
 	{
 		setTimeout("updateLog();", 30000);
@@ -195,20 +212,41 @@
 		{
 			try
 			{
-				http.open('GET', '/jsapi.php?dnsmasqLog=1&date='+new Date().getTime(), true);
-				http.onreadystatechange = function()
+				http1.open('GET', '/jsapi.php?dnsmasqLog=1&date='+new Date().getTime(), true);
+				http1.onreadystatechange = function()
 				{
-					if(http.readyState == 4 && http.status == 200)
-						updateDisplay('textarea', http.responseText);
+					if(http1.readyState == 4 && http1.status == 200)
+						updateDisplay('textarea', http1.responseText);
 				}
 
-				http.send();
+				http1.send();
+			} catch (e) {}
+		}
+	}
+
+	function updateHosts()
+	{
+		setTimeout("updateHosts();", 30000);
+
+		if(document.getElementById("autoRefresh").checked)
+		{
+			try
+			{
+				http2.open('GET', '/jsapi.php?dnsmasqHosts=1&date='+new Date().getTime(), true);
+				http2.onreadystatechange = function()
+				{
+					if(http2.readyState == 4 && http2.status == 200)
+						updateCliTable(http2.responseText);
+				}
+
+				http2.send();
 			} catch (e) {}
 		}
 	}
 
 	setTimeout("switchType();", 5000);
 	updateLog();
+	updateHosts();
 //-->
 </script>
 <?php include_once("footer.php"); ?>
