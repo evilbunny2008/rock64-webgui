@@ -67,9 +67,13 @@
 
 	if(isset($wificard))
 	{
+		$APs = "";
 		$wifi = array();
 		$do = `ifconfig $wificard up`;
-		$APs = trim(`iwlist $wificard scanning`);
+		if(isset($_POST['rescan']))
+			$APs = trim(`sudo iwlist $wificard scanning`);
+		else
+			$APs = trim(`iwlist $wificard scanning`);
 		$APs = explode("Cell", $APs);
 		unset($APs['0']);
 
@@ -124,18 +128,19 @@
 					<option value="<?=$wifiArr[$i]['int']?>"<?php if(isset($_POST['int']) && $wifiArr[$i]['int'] == $wificard2) { ?> selected<?php } ?>><?=$wifiArr[$i]['int']?></option>
 <?php } ?>
 				</select>
-				<input class="btn btn-primary" style="width:75px;float:left;margin-left:20px;" type="submit" value="Rescan"/>
+				<input class="btn btn-primary" style="width:90px;float:left;margin-left:20px;" type="submit" name="rescan" value="Long Scan"/>
 			</form>
 		</div>
 
 		<br style="clear:left;"/>
 		<br style="clear:left;"/>
+
+		<div class="row">
 <?php for($i = 1; $i <= count($wifi); $i++) { ?>
-		<form method="post"  action="<?=$_SERVER['PHP_SELF']?>">
-		<input type="hidden" name="ssid" value="<?=$wifi[$i]['SSID']?>" />
-		<input type="hidden" name="int" value="<?=$wificard2?>" />
-		<div class="row" style="padding-left:10px;float:left;">
-                    <div class="col-md-6" style="width:350px;">
+                    <div class="col-md-6" style="width:350px;float:left;">
+			<form method="post"  action="<?=$_SERVER['PHP_SELF']?>">
+			<input type="hidden" name="ssid" value="<?=$wifi[$i]['SSID']?>" />
+			<input type="hidden" name="int" value="<?=$wificard2?>" />
                         <div class="panel panel-primary">
                             <div class="panel-heading">SSID: <?=$wifi[$i]['SSID']?></div>
                             <div class="panel-body">
@@ -176,13 +181,11 @@
 				<br/>
                             </div>
                         </div>
-                    </div>
-		</div>
-		</form>
+			</form>
+		    </div>
 <?php } ?>
-		<div class="row" style="padding-left:10px;float:left;">
-                    <div class="col-md-6" style="width:350px;">
-                        <div class="panel panel-primary">
+                    <div class="col-md-6" style="width:350px;float:left;">
+                        <div class="panel panel-primary" style="float:left;">
                             <div class="panel-heading">Connect to Hidden AP</div>
                             <div class="panel-body">
 				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
