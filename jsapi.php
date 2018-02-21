@@ -1,4 +1,12 @@
 <?php
+	session_start();
+
+	if(!isset($_SESSION['login']) || $_SESSION['login'] != true)
+	{
+		header("location: login.php");
+		exit;
+	}
+
 	if(isset($_REQUEST['dnsmasqLog']))
 		dnsmasqLog();
 
@@ -23,12 +31,12 @@
 	{
 		$hostnames = array();
 
-		$lines = explode("\n", trim(`sudo grep ": query" /var/log/dnsmasq.log`));
+		$lines = explode("\n", trim(`sudo grep "]: config " /var/log/dnsmasq.log`));
 		foreach($lines as $row => $line)
 		{
 			$line = trim($line);
-			list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
-			list($crud, $rest) = explode("] ", $rest, 2);
+			list($datetime, $rest) = explode("]: config", $line, 2);
+			list($crud, $rest) = explode(" ", $rest, 2);
 			list($query, $crud, $reqIP) = explode(" ", $rest, 3);
 			$hostnames[$query]++;
 		}
@@ -38,7 +46,7 @@
 			$hosts[] = array('hostname' => $query, 'count' => $count);
 
 		$hosts = array_sort($hosts, 'count', SORT_DESC);
-		$lines = "<table>";
+		$lines = "<table style='width:100%'>";
 		foreach($hosts as $host)
 			$lines .= "<tr><td>".$host['hostname']."</td><td>".$host['count']."</td></tr>\n";
 
@@ -57,7 +65,7 @@
 			{
 				if(is_array($v))
 				{
-                			foreach($v as $k2 => $v2)
+					foreach($v as $k2 => $v2)
 					{
 						if($k2 == $on)
 							$sortable_array[$k] = $v2;
