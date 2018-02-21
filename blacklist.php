@@ -130,19 +130,8 @@
 			    <div class="tab-pane fade" id="logging">
 				<h4>Logging</h4>
 				<div class="row" style="padding-right:15px;padding-left:15px;">
-				     <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea">
-<?php
-	$lines = explode("\n", trim(`sudo grep ": query" /var/log/dnsmasq.log`));
-	foreach($lines as $row => $line)
-	{
-		$line = trim($line);
-		list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
-		list($crud, $rest) = explode("]: ", $rest, 2);
-		$lines[$row] = $datetime.": ".$rest;
-	}
-	echo trim(implode("\n", $lines));
-?>
-				     </textarea>
+				    <input type="checkbox" checked id="autoRefresh"> Auto refresh every 30s<br/>
+				    <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea"></textarea>
 				</div>
 			    </div>
 			    <div class="tab-pane fade" id="clients">
@@ -157,10 +146,69 @@
         </div>
 <script type="text/javascript" charset="utf-8">
 <!--//
+	var http = getHTTPObject();
+
+	function getHTTPObject()
+	{
+		var request = null;
+		if(typeof XMLHttpRequest != 'undefined')
+		{
+			request = new XMLHttpRequest();
+		} else {
+			try
+			{
+				request = new ActiveXObject('Msxml2.XMLHTTP')
+			} catch(e) {
+				try
+				{
+					request = new ActiveXObject('Microsoft.XMLHTTP')
+				} catch(e) {
+					request = null
+				}
+			}
+		}
+
+		return request;
+	}
+
 	function switchType()
 	{
 		document.getElementById('passphrase').type = "password";
 	}
+
+	function updateDisplay(name, val)
+	{
+		var element = document.getElementById(name);
+		if(!element)
+			return;
+
+		element.innerHTML = val;
+		if(name == "textarea")
+			document.getElementById('textarea').scrollTop = 9999999;
+	}
+
+	function updateLog()
+	{
+		setTimeout("updateLog();", 30000);
+
+		if(document.getElementById("autoRefresh").checked)
+		{
+			try
+			{
+				http.open('GET', '/jsapi.php?dnsmasqLog=1&date='+new Date().getTime(), true);
+				http.onreadystatechange = function()
+				{
+					if(http.readyState == 4 && http.status == 200)
+						updateDisplay('textarea', http.responseText);
+				}
+
+				http.send();
+			} catch (e) {}
+		}
+	}
+
+	setTimeout("switchType();", 5000);
+	updateLog();
 //-->
 </script>
 <?php include_once("footer.php"); ?>
