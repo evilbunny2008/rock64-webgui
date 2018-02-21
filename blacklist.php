@@ -130,9 +130,17 @@
 			    <div class="tab-pane fade" id="logging">
 				<h4>Logging</h4>
 				<div class="row" style="padding-right:15px;padding-left:15px;">
-				     <textarea style="width:800px;height:500px;" id="textarea">
+				     <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea">
 <?php
-	echo trim(`sudo grep ": query" /var/log/dnsmasq.log`);
+	$lines = explode("\n", trim(`sudo grep ": query" /var/log/dnsmasq.log`));
+	foreach($lines as $row => $line)
+	{
+		$line = trim($line);
+		list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
+		list($crud, $rest) = explode("]: ", $rest, 2);
+		$lines[$row] = $datetime.": ".$rest;
+	}
+	echo trim(implode("\n", $lines));
 ?>
 				     </textarea>
 				</div>
@@ -153,8 +161,6 @@
 	{
 		document.getElementById('passphrase').type = "password";
 	}
-
-	setTimeout('switchType()', 1000);
 //-->
 </script>
 <?php include_once("footer.php"); ?>

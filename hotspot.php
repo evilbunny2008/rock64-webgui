@@ -294,7 +294,7 @@
 <?php
 	$log = trim(file_get_contents('/var/log/hostapd.log'));
 ?>
-				    <textarea style="width:800px;height:500px;" id="textarea"><?=$log?></textarea>
+				    <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea"><?=$log?></textarea>
 				    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 					<input type="submit" class="btn btn-primary" name="clearlog" value="Clear log" />
 				    </form>
