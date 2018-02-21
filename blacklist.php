@@ -93,12 +93,25 @@
                     </div>
                 </div>
                 <hr />
-		<div class="row" style="padding-right:15px;padding-left:15px;">
+		<div class="row" style="padding-right:15px;">
+                    <div class="col-lg-4 col-md-4">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#home" data-toggle="tab">Home</a>
+                            </li>
+                            <li class=""><a href="#logging" data-toggle="tab">Logging</a>
+                            </li>
+                            <li class=""><a href="#clients" data-toggle="tab">Clients</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="home">
+				<h4>Home</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;">
 <?php if($errmsg != "") { ?>
-                    <p><div class="alert alert-warning alert-dismissable"><?=$errmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
+                		    <p><div class="alert alert-warning alert-dismissable"><?=$errmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
 <?php } ?>
 <?php if($okmsg != "") { ?>
-                    <p><div class="alert alert-success alert-dismissable"><?=$okmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
+		                    <p><div class="alert alert-success alert-dismissable"><?=$okmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
 <?php } ?>
 
 		    <form method="post" autocomplete="off" action="<?=$_SERVER['PHP_SELF']?>">
@@ -112,6 +125,25 @@
 			<input type="submit" class="btn btn-primary" name="button" value="Save Settings" />
 			<input type="submit" class="btn btn-primary" name="dlBlacklist" value="Download Blacklist Now" />
 		    </form>
+				</div>
+			    </div>
+			    <div class="tab-pane fade" id="logging">
+				<h4>Logging</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;">
+				     <textarea style="width:800px;height:500px;" id="textarea">
+<?php
+	echo trim(`sudo grep ": query" /var/log/dnsmasq.log`);
+?>
+				     </textarea>
+				</div>
+			    </div>
+			    <div class="tab-pane fade" id="clients">
+				<h4>Clients</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;">
+				</div>
+			    </div>
+			</div>
+		    </div>
 		</div>
 	    </div>
         </div>

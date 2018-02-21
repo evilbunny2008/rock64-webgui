@@ -292,18 +292,9 @@
                                 <h4>Logging</h4>
                                 <p>
 <?php
-	$log = explode("\n", trim(file_get_contents('/var/log/hostapd.log')));
-	$loglines = array();
-	$i = count($log) - 30;
-	if($i < 0)
-		$i = 0;
-
-	for(; $i < count($log); $i++)
-		$loglines[] = $log[$i];
-
-	$log = trim(implode("\n", $loglines));
+	$log = trim(file_get_contents('/var/log/hostapd.log'));
 ?>
-				    <textarea style="width:500px;height:500px;" id="textarea"><?=$log?></textarea>
+				    <textarea style="width:800px;height:500px;" id="textarea"><?=$log?></textarea>
 				    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 					<input type="submit" class="btn btn-primary" name="clearlog" value="Clear log" />
 				    </form>
