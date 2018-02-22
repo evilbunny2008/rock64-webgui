@@ -115,6 +115,8 @@
 
 		$cmd = "echo 'interface=$wificard2\nno-dhcp-interface=lo\ndhcp-range=$dhcpstart,$dhcpstop,$dhcpnm,$dhcptime' | sudo tee '/etc/dnsmasq.conf'";
 		$do = `$cmd`;
+		$cmd = "echo 'log-queries=extra\nlog-facility=/var/log/dnsmasq.log\ndomain-needed\nbogus-priv' | sudo tee '/etc/dnsmasq.d/logging.conf'";
+		$do = `$cmd`;
 		$do = `sudo /etc/init.d/dnsmasq restart`;
 
 		$cmd = "sudo sed -i -e 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf";
@@ -291,10 +293,8 @@
                             <div class="tab-pane fade" id="logging">
                                 <h4>Logging</h4>
                                 <p>
-<?php
-	$log = trim(file_get_contents('/var/log/hostapd.log'));
-?>
-				    <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea"><?=$log?></textarea>
+				    <div style="width:150px;float:left">Auto refresh every 5s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
+				    <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea"></textarea>
 				    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 					<input type="submit" class="btn btn-primary" name="clearlog" value="Clear log" />
 				    </form>
@@ -331,11 +331,64 @@
 	    </div>
         </div>
 <script type="text/javascript" language="JavaScript">
-	function scroll()
-	{
-		document.getElementById('textarea').scrollTop = 9999999;
-	}
+<!--//
+        var http1 = getHTTPObject();
 
-	scroll();
+        function getHTTPObject()
+        {
+                var request = null;
+                if(typeof XMLHttpRequest != 'undefined')
+                {
+                        request = new XMLHttpRequest();
+                } else {
+                        try
+                        {
+                                request = new ActiveXObject('Msxml2.XMLHTTP')
+                        } catch(e) {
+                                try
+                                {
+                                        request = new ActiveXObject('Microsoft.XMLHTTP')
+                                } catch(e) {
+                                        request = null
+                                }
+                        }
+                }
+
+                return request;
+        }
+
+        function updateDisplay(name, val)
+        {
+                var element = document.getElementById(name);
+                if(!element)
+                        return;
+
+                element.innerHTML = val;
+                if(name == "textarea")
+                        document.getElementById('textarea').scrollTop = 9999999;
+        }
+
+        function updateLog()
+        {
+                setTimeout("updateLog();", 5000);
+
+                if(document.getElementById("autoRefresh1").checked)
+                {
+                        try
+                        {
+                                http1.open('GET', '/jsapi.php?HostAPd=1&date='+new Date().getTime(), true);
+                                http1.onreadystatechange = function()
+                                {
+                                        if(http1.readyState == 4 && http1.status == 200)
+                                                updateDisplay('textarea', http1.responseText);
+                                }
+
+                                http1.send();
+                        } catch (e) {}
+                }
+        }
+
+        updateLog();
+//-->
 </script>
 <?php include_once("footer.php"); ?>

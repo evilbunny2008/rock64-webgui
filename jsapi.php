@@ -10,34 +10,45 @@
 	if(isset($_REQUEST['dnsmasqLog']))
 		dnsmasqLog();
 
-	if(isset($_REQUEST['dnsmasqHosts']))
-		dnsmasqHosts();
+	if(isset($_REQUEST['dnsmasqBlockedHosts']))
+		dnsmasqBlockedHosts();
+
+	if(isset($_REQUEST['HostAPd']))
+		HostAPd();
+
+	exit;
 
 	function dnsmasqLog()
 	{
-		$lines = explode("\n", trim(`sudo grep ": query" /var/log/dnsmasq.log`));
+		$lines = explode("\n", trim(`sudo grep " query\[" /var/log/dnsmasq.log`));
 		foreach($lines as $row => $line)
 		{
 			$line = trim($line);
 			list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
-			list($crud, $rest) = explode("] ", $rest, 2);
-			$lines[$row] = $datetime.": ".$rest;
+			list($crud, $rest) = explode("]: ", $rest, 2);
+			list($qid, $crud, $qtype, $query, $from, $IP) = explode(" ", $rest, 6);
+
+			if($datetime != "" && $qtype != "" && $query != "" && $IP != "")
+				$lines[$row] = $datetime.": $qtype (".$query.") from ".$IP;
+			else
+				$lines[$row] = "";
 		}
 
 		echo trim(implode("\n", $lines));
 	}
 
-	function dnsmasqHosts()
+	function dnsmasqBlockedHosts()
 	{
 		$hostnames = array();
 
-		$lines = explode("\n", trim(`sudo grep "]: config " /var/log/dnsmasq.log`));
+		$lines = explode("\n", trim(`sudo grep " config " /var/log/dnsmasq.log`));
 		foreach($lines as $row => $line)
 		{
 			$line = trim($line);
-			list($datetime, $rest) = explode("]: config", $line, 2);
-			list($crud, $rest) = explode(" ", $rest, 2);
-			list($query, $crud, $reqIP) = explode(" ", $rest, 3);
+
+			list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
+			list($crud, $rest) = explode("]: ", $rest, 2);
+			list($qid, $crud, $qtype, $query, $is, $IP) = explode(" ", $rest, 6);
 			$hostnames[$query]++;
 		}
 
@@ -46,10 +57,10 @@
 			$hosts[] = array('hostname' => $query, 'count' => $count);
 
 		$hosts = array_sort($hosts, 'count', SORT_DESC);
-		$lines = "<table style='width:100%'>";
+		$lines = "<table style='width:100%'>\n";
+		$lines .= "<tr><th>Hostname</th><th>DNS Hits</th></tr>\n";
 		foreach($hosts as $host)
 			$lines .= "<tr><td>".$host['hostname']."</td><td>".$host['count']."</td></tr>\n";
-
 		$lines .= "</table>";
 		echo trim($lines);
 	}
@@ -92,3 +103,7 @@
 		return $new_array;
 	}
 
+	function HostAPd()
+	{
+		echo trim(file_get_contents("/var/log/hostapd.log"));
+	}
