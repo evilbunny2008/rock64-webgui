@@ -69,6 +69,32 @@ cd /var/www/html
 gcc -g -lpam -o chkpasswd pam.c
 lighty-enable-mod fastcgi-php
 
+cp /var/www/html/mysql.default.php /var/www/html/mysql.php
+
+apt-get -y install php-mysql mysql-server
+
+mysql
+CREATE DATABASE webgui;
+CREATE USER 'webgui'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON webgui.* TO 'webgui'@'localhost';
+FLUSH PRIVILEGES;
+USE webgui;
+
+CREATE TABLE `dnslog` (
+  `qid` int(10) UNSIGNED NOT NULL,
+  `when` datetime NOT NULL,
+  `qtype` enum('A','AAAA') NOT NULL,
+  `hostname` varchar(255) NOT NULL,
+  `client` varchar(255) NOT NULL,
+  `status` enum('cached','blocked','forwarded') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `dnslog`
+  ADD PRIMARY KEY (`qid`,`when`);
+exit;
+
+cp /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
+
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
 
