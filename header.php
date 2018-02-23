@@ -29,7 +29,7 @@
                         <img src="assets/img/logo.png" />
                     </a>
                 </div>
-                <span class="logout-spn" style="float:left;padding-left:190px;">
+                <span class="logout-spn" style="float:right;">
 <?php
 	if(isset($_SESSION['login']) && $_SESSION['login'] == true)
 	{

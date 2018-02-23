@@ -105,6 +105,8 @@
 			$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
 			$do = `sudo killall openvpn`;
 
+			sleep(4);
+
 			$okmsg = "openvpn was successfully stopped";
 		}
 	}
@@ -114,11 +116,16 @@
 		if(intval(trim(`ps auxww|grep -v grep|grep openvpn|wc -l`)) > 0)
 			$do = `sudo killall openvpn`;
 		$do = `sudo /usr/sbin/openvpn --config "/etc/openvpn/client/client1.ovpn" --daemon`;
+		sleep(4);
 	}
 
 	$enableCli = "no";
 	if(file_exists("/etc/openvpn/client/client1.active"))
 		$enableCli = "yes";
+
+	$tunnel = "Down";
+	if(trim(`sudo ifconfig tun0|grep UP 2>&1`) != "")
+		$tunnel = "Up";
 
 	$page = 9;
 	$pageTitle = "OpenVPN Settings";
@@ -152,8 +159,9 @@
 		    </form>
 		    <hr/>
 		    <form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
+		    <div style="width:120px;float:left">Tunnel is:</div><?=$tunnel?><br style="clear:left;"/>
 		    <div style="width:120px;float:left">Enable:</div>
-                    <input type="checkbox" style="width:25px;float:left;margin-left:20px;" class="form-control" name="enableCli" value="yes"<?php if($enableCli == "yes") { echo " checked"; } ?>/><br style="clear:left;"/>
+                    <input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableCli" value="yes"<?php if($enableCli == "yes") { echo " checked"; } ?>/><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="update" value="Update" />
 		    </form>
 		</div>
