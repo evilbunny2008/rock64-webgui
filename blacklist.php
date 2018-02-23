@@ -191,17 +191,6 @@
 			return;
 
 		element.innerHTML = val;
-		if(name == "textarea")
-			document.getElementById('textarea').scrollTop = 9999999;
-	}
-
-	function updateCliTable(val)
-	{
-		var element = document.getElementById('panel-body');
-		if(!element)
-			return;
-
-		element.innerHTML = val;
 	}
 
 	function updateLog()
@@ -236,7 +225,8 @@
 				http2.onreadystatechange = function()
 				{
 					if(http2.readyState == 4 && http2.status == 200)
-						updateCliTable(http2.responseText);
+						updateDisplay('panel-body', http2.responseText);
+
 				}
 
 				http2.send();

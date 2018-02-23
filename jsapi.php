@@ -7,6 +7,8 @@
 		exit;
 	}
 
+	require_once("/var/www/html/mysql.php");
+
 	if(isset($_REQUEST['dnsmasqLog']))
 		dnsmasqLog();
 
@@ -20,90 +22,26 @@
 
 	function dnsmasqLog()
 	{
-		$lines = explode("\n", trim(`sudo grep " query\[" /var/log/dnsmasq.log`));
-		foreach($lines as $row => $line)
-		{
-			$line = trim($line);
-			list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
-			list($crud, $rest) = explode("]: ", $rest, 2);
-			list($qid, $crud, $qtype, $query, $from, $IP) = explode(" ", $rest, 6);
-
-			if($datetime != "" && $qtype != "" && $query != "" && $IP != "")
-				$lines[$row] = $datetime.": $qtype (".$query.") from ".$IP;
-			else
-				$lines[$row] = "";
-		}
-
-		echo trim(implode("\n", $lines));
+		global $link;
+		$query = "select * from `dnslog` where `when` >= now() - INTERVAL 1 DAY order by `when` desc";
+		$res = mysqli_query($link, $query);
+		while($row = mysqli_fetch_assoc($res))
+			echo "${row['when']}: ${row['qtype']} (${row['hostname']}) from ${row['client']}\n";
 	}
 
 	function dnsmasqBlockedHosts()
 	{
-		$hostnames = array();
+		global $link;
 
-		$lines = explode("\n", trim(`sudo grep " config " /var/log/dnsmasq.log`));
-		foreach($lines as $row => $line)
-		{
-			$line = trim($line);
+		echo "<table style='width:100%'>\n";
+		echo "<tr><th>Hostname</th><th>DNS Hits</th></tr>\n";
 
-			list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
-			list($crud, $rest) = explode("]: ", $rest, 2);
-			list($qid, $crud, $qtype, $query, $is, $IP) = explode(" ", $rest, 6);
-			$hostnames[$query]++;
-		}
+		$query = "select `hostname`, count(`hostname`) as `hits`, `status` from `dnslog` where `status`='config' and `when` >= now() - INTERVAL 1 DAY group by `hostname` order by count(`hostname`) desc";
+		$res = mysqli_query($link, $query);
+		while($row = mysqli_fetch_assoc($res))
+			echo "<tr><td>".$row['hostname']."</td><td>".$row['hits']."</td></tr>\n";
 
-		if(count($hosts) <= 0)
-			return;
-
-		$hosts = array();
-		foreach($hostnames as $query => $count)
-			$hosts[] = array('hostname' => $query, 'count' => $count);
-
-		$hosts = array_sort($hosts, 'count', SORT_DESC);
-		$lines = "<table style='width:100%'>\n";
-		$lines .= "<tr><th>Hostname</th><th>DNS Hits</th></tr>\n";
-		foreach($hosts as $host)
-			$lines .= "<tr><td>".$host['hostname']."</td><td>".$host['count']."</td></tr>\n";
-		$lines .= "</table>";
-		echo trim($lines);
-	}
-
-	function array_sort($array, $on, $order=SORT_ASC)
-	{
-		$new_array = array();
-		$sortable_array = array();
-
-		if(count($array) > 0)
-		{
-			foreach($array as $k => $v)
-			{
-				if(is_array($v))
-				{
-					foreach($v as $k2 => $v2)
-					{
-						if($k2 == $on)
-							$sortable_array[$k] = $v2;
-					}
-				} else {
-					$sortable_array[$k] = $v;
-				}
-			}
-
-			switch($order)
-			{
-				case SORT_ASC:
-					asort($sortable_array);
-					break;
-				case SORT_DESC:
-					arsort($sortable_array);
-					break;
-			}
-
-			foreach($sortable_array as $k => $v)
-				array_push($new_array, $array[$k]);
-		}
-
-		return $new_array;
+		echo "</table>";
 	}
 
 	function HostAPd()
