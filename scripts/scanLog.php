@@ -1,7 +1,6 @@
 #!/usr/bin/php
 <?php
-	$link = mysqli_connect("localhost", "webgui", "password", "webgui");
-	
+	require_once("/var/www/html/mysql.php");
 
 	$last = array();
 	$lines = explode("\n", trim(`cat "/var/log/dnsmasq.log"`));
@@ -27,7 +26,6 @@
 			continue;
 		if(strpos($line, " reading /run/dnsmasq/resolv.conf") !== false)
 			continue;
-
 
 		list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
 		list($crud, $rest) = explode("]: ", $rest, 2);

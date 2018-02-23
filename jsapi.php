@@ -52,6 +52,9 @@
 			$hostnames[$query]++;
 		}
 
+		if(count($hosts) <= 0)
+			return;
+
 		$hosts = array();
 		foreach($hostnames as $query => $count)
 			$hosts[] = array('hostname' => $query, 'count' => $count);
