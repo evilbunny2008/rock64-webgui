@@ -113,35 +113,37 @@
 <?php if($okmsg != "") { ?>
 		                    <p><div class="alert alert-success alert-dismissable"><?=$okmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
 <?php } ?>
-
-		    <form method="post" autocomplete="off" action="<?=$_SERVER['PHP_SELF']?>">
-			<div style="width:140px;float:left">Enable blacklisting?</div>
-			<input type="checkbox" style="width:25px;float:left;margin-left:20px;" class="form-control" name="enableBL" value="yes"<?php if($enableBL == "yes") { echo " checked"; } ?> /><br style="clear:left;"/>
-			<p><a target="_blank" href="https://adfree.odiousapps.com">Adfree</a> is a crowdsourced list of advertising hostnames which can be used for free, with or without an account, although donations are welcome.</p>
-			<div style="width:140px;float:left">Adfree email:</div>
-			<input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" name="email" value="<?=urldecode($email)?>" placeholder="Adfree email" /><br style="clear:left;"/>
-			<div style="width:140px;float:left">Adfree Passphrase:</div>
-			<input type="text" style="width:200px;float:left;margin-left:20px;" class="form-control" id="passphrase" name="passphrase" placeholder="Adfree passphrase" /><br style="clear:left;"/>
-			<input type="submit" class="btn btn-primary" name="button" value="Save Settings" />
-			<input type="submit" class="btn btn-primary" name="dlBlacklist" value="Download Blacklist Now" />
-		    </form>
+				    <form method="post" autocomplete="off" action="<?=$_SERVER['PHP_SELF']?>">
+					<div style="width:140px;float:left">Enable blacklisting?</div>
+					<input type="checkbox" style="width:25px;float:left;margin-left:20px;" class="form-control" name="enableBL" value="yes"<?php if($enableBL == "yes") { echo " checked"; } ?> /><br style="clear:left;"/>
+					<p><a target="_blank" href="https://adfree.odiousapps.com">Adfree</a> is a crowdsourced list of advertising hostnames which can be used for free, with or without an account, although donations are welcome.</p>
+					<div style="width:140px;float:left">Adfree email:</div>
+					<input type="text" style="width:200px;float:left;" class="form-control" name="email" value="<?=urldecode($email)?>" placeholder="Adfree email" /><br style="clear:left;"/>
+					<div style="width:140px;float:left">Adfree Passphrase:</div>
+					<input type="text" style="width:200px;float:left;" class="form-control" id="passphrase" name="passphrase" placeholder="Adfree passphrase" /><br style="clear:left;"/>
+					<input type="submit" class="btn btn-primary" name="button" value="Save Settings" />
+					<input type="submit" class="btn btn-primary" name="dlBlacklist" value="Download Blacklist Now" />
+				    </form>
 				</div>
 			    </div>
 			    <div class="tab-pane fade" id="logging">
 				<h4>Logging</h4>
-				<div class="row" style="padding-right:15px;padding-left:15px;">
-				    <div style="width:150px;float:left">Auto refresh every 5s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
-				    <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea"></textarea>
+				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
+				    <div style="width:150px;float:left">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
+				    <div class="panel panel-primary">
+					<div class="panel-heading">DNS Logs</div>
+					<div class="panel-body" id="panel-body1">
+					</div>
+				    </div>
 				</div>
 			    </div>
 			    <div class="tab-pane fade" id="hostnames">
 				<h4>Blocked Hostnames</h4>
 				<div class="row" style="padding-right:15px;padding-left:15px;">
-				    <div style="width:150px;float:left">Auto refresh every 5s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh2"><br style="clear:left;"/>
-				    <div class="panel panel-primary" style="width:325px;float:left;margin-right:20px;">
+				    <div style="width:150px;float:left;">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh2"><br style="clear:left;"/>
+				    <div class="panel panel-primary">
 			    		<div class="panel-heading">Blocked Hostnames</div>
-					    <div class="panel-body" id="panel-body">
-					    </div>
+					<div class="panel-body" id="panel-body2">
 					</div>
 				    </div>
 				</div>
@@ -195,7 +197,7 @@
 
 	function updateLog()
 	{
-		setTimeout("updateLog();", 5000);
+		setTimeout("updateLog();", 60000);
 
 		if(document.getElementById("autoRefresh1").checked)
 		{
@@ -205,7 +207,7 @@
 				http1.onreadystatechange = function()
 				{
 					if(http1.readyState == 4 && http1.status == 200)
-						updateDisplay('textarea', http1.responseText);
+						updateDisplay('panel-body1', http1.responseText);
 				}
 
 				http1.send();
@@ -215,7 +217,7 @@
 
 	function updateHosts()
 	{
-		setTimeout("updateHosts();", 5000);
+		setTimeout("updateHosts();", 60000);
 
 		if(document.getElementById("autoRefresh2").checked)
 		{
@@ -225,7 +227,7 @@
 				http2.onreadystatechange = function()
 				{
 					if(http2.readyState == 4 && http2.status == 200)
-						updateDisplay('panel-body', http2.responseText);
+						updateDisplay('panel-body2', http2.responseText);
 
 				}
 
@@ -234,7 +236,7 @@
 		}
 	}
 
-	setTimeout("switchType();", 5000);
+	setTimeout("switchType();", 1000);
 	updateLog();
 	updateHosts();
 //-->

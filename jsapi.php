@@ -23,10 +23,34 @@
 	function dnsmasqLog()
 	{
 		global $link;
-		$query = "select * from `dnslog` where `when` >= now() - INTERVAL 1 DAY order by `when` desc";
+		$lines = "";
+
+		echo "<table style='width:100%'>";
+		echo "<tr><th>When</th><th>Type</th><th>Hostname</th><th>Client</th><th>Status</th><th>Action</th></tr>";
+
+		$query = "select *,UNIX_TIMESTAMP(`when`) as `when` from `dnslog` where `when` >= now() - INTERVAL 1 DAY order by `when` desc limit 50";
 		$res = mysqli_query($link, $query);
 		while($row = mysqli_fetch_assoc($res))
-			echo "${row['when']}: ${row['qtype']} (${row['hostname']}) from ${row['client']}\n";
+		{
+			$status = "OK (forwarded)";
+			if($row['status'] == "config")
+				$status = "blocked";
+			if($row['status'] == "cached")
+				$status = "OK (cached)";
+
+			echo "<tr><td>".date("H:i:s", $row['when'])."</td><td>${row['qtype']}</td><td>${row['hostname']}</td><td>${row['client']}</td><td>$status</td><td>";
+
+			if($status == "blocked")
+			{
+				echo "<a class='btn btn-success' target='_blank' href='https://adfree.odiousapps.com/exceptions.php?hostname=${row['hostname']}&whiteblack=white'>Whitelist</a>";
+			} else {
+				echo "<a class='btn btn-danger' target='_blank' href='https://adfree.odiousapps.com/exceptions.php?hostname=${row['hostname']}&whiteblack=black'>Blacklist</a>";
+			}
+
+			echo "</td></tr>";
+		}
+
+		echo "</table>";
 	}
 
 	function dnsmasqBlockedHosts()
@@ -34,12 +58,16 @@
 		global $link;
 
 		echo "<table style='width:100%'>\n";
-		echo "<tr><th>Hostname</th><th>DNS Hits</th></tr>\n";
+		echo "<tr><th>Hostname</th><th>DNS Hits</th><th>Action</th></tr>";
 
-		$query = "select `hostname`, count(`hostname`) as `hits`, `status` from `dnslog` where `status`='config' and `when` >= now() - INTERVAL 1 DAY group by `hostname` order by count(`hostname`) desc";
+		$query = "select `hostname`, count(`hostname`) as `hits`, `status` from `dnslog` where `status`='config' and `when` >= now() - INTERVAL 30 DAY group by `hostname` order by count(`hostname`) desc";
 		$res = mysqli_query($link, $query);
 		while($row = mysqli_fetch_assoc($res))
-			echo "<tr><td>".$row['hostname']."</td><td>".$row['hits']."</td></tr>\n";
+		{
+			echo "<tr><td>".$row['hostname']."</td><td>".$row['hits']."</td><td>";
+			echo "<a class='btn btn-success' target='_blank' href='https://adfree.odiousapps.com/exceptions.php?hostname=${row['hostname']}&whiteblack=white'>Whitelist</a>";
+			echo "</td></tr>";
+		}
 
 		echo "</table>";
 	}
