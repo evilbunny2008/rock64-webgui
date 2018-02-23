@@ -112,6 +112,9 @@ losetup -d /dev/loop0
 ![](https://i.imgur.com/Z4US3TX.jpg)
 ![](https://i.imgur.com/JbSQOxY.jpg)
 ![](https://i.imgur.com/MGfCNOk.jpg)
+![](https://i.imgur.com/F6q5C7s.jpg)
+![](https://i.imgur.com/nC0HeUU.jpg)
+![](https://i.imgur.com/K5dMJZz.jpg)
 
 ## License
 
