@@ -86,8 +86,8 @@ CREATE TABLE `dnslog` (
   `qtype` enum('A','AAAA') NOT NULL,
   `hostname` varchar(255) NOT NULL,
   `client` varchar(255) NOT NULL,
-  `status` enum('cached','blocked','forwarded') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `status` enum('cached','config','forwarded') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `dnslog`
   ADD PRIMARY KEY (`qid`,`when`);
