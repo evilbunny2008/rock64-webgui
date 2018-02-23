@@ -4,7 +4,7 @@
 	
 
 	$last = array();
-	$lines = explode("\n", trim(`tail -10000 "/var/log/dnsmasq.log"`));
+	$lines = explode("\n", trim(`cat "/var/log/dnsmasq.log"`));
 	for($i = 0; $i < count($lines); $i++)
 	{
 		$line = trim($lines[$i]);
@@ -31,7 +31,11 @@
 
 		list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
 		list($crud, $rest) = explode("]: ", $rest, 2);
-		list($qid, $crud, $qtype, $host, $dir, $IP) = explode(" ", $rest, 6);
+		$bits = explode(" ", $rest, 6);
+		if(count($bits) != 6)
+			continue;
+
+		list($qid, $crud, $qtype, $host, $dir, $IP) = $bits;
 
 		$datetime = date("Y-m-d H:i:s", strtotime($datetime));
 		if($qtype == "query[A]" || $qtype == "query[AAAA]")

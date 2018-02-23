@@ -1,0 +1,11 @@
+/var/log/dnsmasq.log {
+monthly
+missingok
+notifempty
+delaycompress
+sharedscripts
+postrotate
+  /etc/init.d/dnsmasq restart
+endscript
+create 0640 dnsmasq dnsmasq
+}
