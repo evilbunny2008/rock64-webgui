@@ -93,7 +93,7 @@ ALTER TABLE `dnslog`
   ADD PRIMARY KEY (`qid`,`when`);
 exit;
 
-cp /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
+ln -sf /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
 echo "*  *	* * *	root	/var/www/html/scripts/scanLog.php" >> /etc/crontab
 
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
