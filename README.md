@@ -94,6 +94,7 @@ ALTER TABLE `dnslog`
 exit;
 
 cp /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
+echo "*  *	* * *	root	/var/www/html/scripts/scanLog.php" >> /etc/crontab
 
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
