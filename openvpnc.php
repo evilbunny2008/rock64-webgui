@@ -20,6 +20,36 @@
 		$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
 	}
 
+	if(isset($_POST['tbUpload']))
+	{
+		$ovpn = trim(file_get_contents($_FILES['ovpnfile']['tmp_name']));
+		$ca = trim(file_get_contents($_FILES['CAfile']['tmp_name']));
+		$cert = trim(file_get_contents($_FILES['Certfile']['tmp_name']));
+		$key = trim(file_get_contents($_FILES['Key']['tmp_name']));
+
+		list($crud, $cert) = explode("-----BEGIN CERTIFICATE-----", $cert, 2);
+		$cert = "-----BEGIN CERTIFICATE-----".$cert;
+
+		list($start, $end) = explode("auth-user-pass", $ovpn, 2);
+		$ovpn = $start."auth-user-pass /etc/openvpn/client/client1.key".$end;
+
+		$ovpn .= "\n<ca>\n$ca\n</ca>\n<cert>\n$cert\n</cert>\n<key>\n$key\n</key>";
+		$ovpn = escapeshellarg(trim($ovpn));
+
+		$auth = escapeshellarg(trim($_REQUEST['username'])."\n".trim($_REQUEST['passphrase']));
+
+		$do = `echo -n $auth | sudo tee '/etc/openvpn/client/client1.key'`;
+		$do = `echo -n $ovpn | sudo tee '/etc/openvpn/client/client1.ovpn'`;
+
+		restartOVPN();
+	}
+
+	if(isset($_POST['tbRemove']))
+	{
+		$do = `sudo rm -f "/etc/openvpn/client/client1.ovpn"`;
+		$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
+	}
+
 	if(isset($_POST['button']))
 	{
 		$do = `sudo killall -TERM openvpn`;
@@ -90,6 +120,7 @@
 				$okmsg = ".ovpn file was successfully imported";
 			}
 		} else {
+			$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
 			$do = `sudo rm -f "/etc/openvpn/client/client1.ovpn"`;
 		}
 	}
@@ -155,6 +186,26 @@
 		    <input type="submit" class="btn btn-primary" name="button" value="Upload File" />
 <?php if(file_exists("/etc/openvpn/client/client1.ovpn")) { ?>
 		    <input type="submit" class="btn btn-primary" name="remove" value="Remove File" />
+<?php } ?>
+		    </form>
+		    <hr />
+		    <form enctype="multipart/form-data" action="<?=$_SERVER['PHP_SELF']?>" method="POST">
+		    <input type="hidden" name="MAX_FILE_SIZE" value="50000" />
+		    <div style="width:120px;float:left">Select .ovpn File:</div>
+		    <input type="file" style="width:220px;float:left;margin-left:20px;" class="form-control" name="ovpnfile" /><br style="clear:left;"/>
+		    <div style="width:120px;float:left">Select CA File:</div>
+		    <input type="file" style="width:220px;float:left;margin-left:20px;" class="form-control" name="CAfile" /><br style="clear:left;"/>
+		    <div style="width:120px;float:left">Select Cert File:</div>
+		    <input type="file" style="width:220px;float:left;margin-left:20px;" class="form-control" name="Certfile" /><br style="clear:left;"/>
+		    <div style="width:120px;float:left">Select Private File:</div>
+		    <input type="file" style="width:220px;float:left;margin-left:20px;" class="form-control" name="Key" /><br style="clear:left;"/>
+		    <div style="width:120px;float:left">VPN Username:</div>
+                    <input type="text" style="width:220px;float:left;margin-left:20px;" class="form-control" name="username" placeholder="Enter the Username" /><br style="clear:left;"/>
+		    <div style="width:120px;float:left">VPN Passphrase:</div>
+                    <input type="text" style="width:220px;float:left;margin-left:20px;" class="form-control" name="passphrase" placeholder="Enter the Passphrase" /><br style="clear:left;"/>
+		    <input type="submit" class="btn btn-primary" name="tbUpload" value="Upload Files" />
+<?php if(file_exists("/etc/openvpn/client/client1.ovpn")) { ?>
+		    <input type="submit" class="btn btn-primary" name="tbRemove" value="Remove Files" />
 <?php } ?>
 		    </form>
 		    <hr/>
