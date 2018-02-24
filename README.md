@@ -137,6 +137,7 @@ losetup -d /dev/loop0
 ![](https://i.imgur.com/unbB4eo.jpg)
 ![](https://i.imgur.com/cxHO9bv.jpg)
 ![](https://i.imgur.com/Z4US3TX.jpg)
+![](https://i.imgur.com/JbSQOxY.jpg)
 ![](https://i.imgur.com/MGfCNOk.jpg)
 ![](https://i.imgur.com/F6q5C7s.jpg)
 ![](https://i.imgur.com/nC0HeUU.jpg)
