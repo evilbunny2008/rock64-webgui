@@ -306,7 +306,7 @@
 	if(file_exists("/var/lib/misc/dnsmasq.leases"))
 	{
 // 1519117391 ac:cf:85:63:a1:19 192.168.99.157 android-1101aeccbf975a1c 01:ac:cf:85:63:a1:19
-                $clients = explode("\n", trim(file_get_contents("/var/lib/misc/dnsmasq.leases")));
+                $clients = explode("\n", trim(`sudo cat "/var/lib/misc/dnsmasq.leases"`));
                 foreach($clients as $client)
                 {
                         list($expire, $mac, $ip, $hostname, $cliid) = explode(" ", $client);
