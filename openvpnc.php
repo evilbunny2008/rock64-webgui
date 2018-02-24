@@ -16,6 +16,7 @@
 
 	if(isset($_POST['remove']))
 	{
+		$do = `sudo rm -f "/etc/openvpn/client/client1.key"`;
 		$do = `sudo rm -f "/etc/openvpn/client/client1.ovpn"`;
 		$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
 	}
@@ -42,12 +43,6 @@
 		$do = `echo -n $ovpn | sudo tee '/etc/openvpn/client/client1.ovpn'`;
 
 		restartOVPN();
-	}
-
-	if(isset($_POST['tbRemove']))
-	{
-		$do = `sudo rm -f "/etc/openvpn/client/client1.ovpn"`;
-		$do = `sudo rm -f "/etc/openvpn/client/client1.active"`;
 	}
 
 	if(isset($_POST['button']))
@@ -185,7 +180,7 @@
                     <input type="password" style="width:220px;float:left;margin-left:20px;" class="form-control" name="passphrase" placeholder="Enter the Passphrase" /><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="button" value="Upload File" />
 <?php if(file_exists("/etc/openvpn/client/client1.ovpn")) { ?>
-		    <input type="submit" class="btn btn-primary" name="remove" value="Remove File" />
+		    <input type="submit" class="btn btn-primary" name="remove" value="Remove Files" />
 <?php } ?>
 		    </form>
 		    <hr />
@@ -205,7 +200,7 @@
                     <input type="text" style="width:220px;float:left;margin-left:20px;" class="form-control" name="passphrase" placeholder="Enter the Passphrase" /><br style="clear:left;"/>
 		    <input type="submit" class="btn btn-primary" name="tbUpload" value="Upload Files" />
 <?php if(file_exists("/etc/openvpn/client/client1.ovpn")) { ?>
-		    <input type="submit" class="btn btn-primary" name="tbRemove" value="Remove Files" />
+		    <input type="submit" class="btn btn-primary" name="remove" value="Remove Files" />
 <?php } ?>
 		    </form>
 		    <hr/>
