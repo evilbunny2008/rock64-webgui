@@ -1,11 +1,12 @@
 /var/log/dnsmasq.log {
-monthly
-missingok
-notifempty
-delaycompress
-sharedscripts
-postrotate
-  /etc/init.d/dnsmasq restart
-endscript
-create 0640 dnsmasq dnsmasq
+    daily
+    missingok
+    notifempty
+    rotate 7
+    delaycompress
+    sharedscripts
+    postrotate
+        [ ! -f /var/run/dnsmasq/dnsmasq.pid ] || kill -USR2 `cat /var/run/dnsmasq/dnsmasq.pid`
+    endscript
+    create 0640 dnsmasq nogroup
 }
