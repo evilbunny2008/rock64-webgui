@@ -38,7 +38,7 @@
 			if($row['status'] == "cached")
 				$status = "OK (cached)";
 
-			echo "<tr><td>".date("H:i:s", $row['when'])."</td><td>${row['qtype']}</td><td>${row['hostname']}</td><td>${row['client']}</td><td>$status</td><td>";
+			echo "<tr><td>".date("H:i:s", $row['when'])."</td><td>${row['qtype']}</td><td><a target='_blank' href='http:/"."/${row['hostname']}'>${row['hostname']}</a></td><td>${row['client']}</td><td>$status</td><td>";
 
 			if($status == "blocked")
 			{
@@ -64,7 +64,7 @@
 		$res = mysqli_query($link, $query);
 		while($row = mysqli_fetch_assoc($res))
 		{
-			echo "<tr><td>".$row['hostname']."</td><td>".$row['hits']."</td><td>";
+			echo "<tr><td><a target='_blank' href='http:/"."/${row['hostname']}'>${row['hostname']}</a></td><td>".$row['hits']."</td><td>";
 			echo "<a class='btn btn-success' target='_blank' href='https://adfree.odiousapps.com/exceptions.php?hostname=${row['hostname']}&whiteblack=white'>Whitelist</a>";
 			echo "</td></tr>";
 		}
