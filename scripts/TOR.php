@@ -37,6 +37,11 @@
 		exit(5);
 	}
 
+	if(!file_exists("/etc/tor/tor.active"))
+	{
+		exit;
+	}
+
 	$subnet = substr($IP, 0, -2);
 
 	if($action == "up")
