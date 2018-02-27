@@ -37,7 +37,7 @@
 		exit(5);
 	}
 
-	$subnet = substr($IP, -2);
+	$subnet = substr($IP, 0, -2);
 
 	if($action == "up")
 	{

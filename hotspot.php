@@ -56,7 +56,6 @@
 		$channel = intval($_POST['channel']);
 		$wificard = escapeshellarg(trim($_POST['int']));
 		$wificard2 = substr($wificard, 1, -1);
-		$oldint = trim(substr(escapeshellarg(trim($_POST['oldint'])), 1, -1));
 		$passphrase = str_replace('"', "'", escapeshellarg(trim($_POST['passphrase'])));
                 $dhcpIP = substr(escapeshellarg(trim($_POST['dhcpIP'])), 1, -1);
                 $dhcpstart = substr(escapeshellarg(trim($_POST['dhcpstart'])), 1, -1);
@@ -64,11 +63,8 @@
                 $dhcpnm = substr(escapeshellarg(trim($_POST['dhcpnm'])), 1, -1);
                 $dhcptime = substr(escapeshellarg(trim($_POST['dhcptime'])), 1, -1);
 
-		if(file_exists("/etc/network/interfaces.d/$wificard2") ||
-			file_exists("/etc/network/interfaces.d/$oldint"))
+		if(file_exists("/etc/network/interfaces.d/$wificard2"))
 		{
-			$do = `sudo ifdown --force "$oldint"`;
-			$do = `sudo ifconfig "$oldint" 0.0.0.0 down`;
 			$do = `sudo ifdown --force "$wificard2"`;
 			$do = `sudo ifconfig "$wificard2" 0.0.0.0 down`;
 			$do = `sudo killall -KILL wpa_supplicant`;
@@ -105,7 +101,10 @@
 		{
 			$cmd = "echo 'post-up /var/www/html/scripts/TOR.php up $wificard2 $dhcpIP' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 			$do = `$cmd`;
-		}
+
+			$do = `sudo touch '/etc/tor/tor.active'`;
+		} else
+			$do = `sudo rm -f '/etc/tor/tor.active'`;
 
 		$cmd = "echo 'post-up /usr/sbin/hostapd -e /dev/urandom -B -P '/var/run/${wificard2}.pid' -f /var/log/hostapd.log /etc/hostapd/hostapd.conf' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 		$do = `$cmd`;
@@ -136,6 +135,20 @@
 		$cmd = "sudo sysctl -w net.ipv4.ip_forward=1";
 		$do = `$cmd`;
 
+		if(isset($_POST['enableTOR']))
+		{
+			$do = `echo 'Log notice file /var/log/tor/notices.log' | sudo tee '/etc/tor/torrc'`;
+			$do = `echo 'VirtualAddrNetworkIPv4 10.192.0.0/10' | sudo tee -a '/etc/tor/torrc'`;
+			$do = `echo 'AutomapHostsOnResolve 1' | sudo tee -a '/etc/tor/torrc'`;
+			$do = `echo 'TransPort ${dhcpIP}:9040' | sudo tee -a '/etc/tor/torrc'`;
+			$do = `echo 'TransPort 127.0.0.1:9040' | sudo tee -a '/etc/tor/torrc'`;
+			$do = `echo 'DNSPort ${dhcpIP}:9053' | sudo tee -a '/etc/tor/torrc'`;
+			$do = `echo 'DNSPort 127.0.0.1:9053' | sudo tee -a '/etc/tor/torrc'`;
+			$do = `echo 'AutomapHostsSuffixes .onion,.exit' | sudo tee -a '/etc/tor/torrc'`;
+
+			$do = `sudo /etc/init.d/tor restart`;
+		}
+
 		$do = `sudo killall -KILL wpa_supplicant`;
 		$do = `sudo ifconfig $wificard up`;
 		$do = `sudo ifup $wificard`;
@@ -146,9 +159,6 @@
 		$do = `sudo killall -KILL wpa_supplicant`;
 		$do = `sudo ifdown --force $wificard`;
 		$do = `sudo ifconfig $wificard 0.0.0.0 down`;
-		$do = `sudo ifdown --force "$oldint"`;
-		$do = `sudo ifconfig "$oldint" 0.0.0.0 down`;
-		$do = `sudo rm -f "/etc/network/interfaces.d/$oldint"`;
 		$do = `sudo rm -f "/etc/network/interfaces.d/$wificard2"`;
 		$do = `sudo rm -f "/etc/hostapd/hostapd.conf"`;
 		$do = `sudo rm -f "/etc/dnsmasq.conf"`;
@@ -257,7 +267,6 @@
                             <div class="tab-pane fade active in" id="home">
 				<h4>Home</h4>
 				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
-				<input type="hidden" name="oldint" value="<?=$wificard2?>" />
 	                        <div style="width:140px;float:left">Interface:</div>
                                 <select name="int" class="form-control" style="width:200px;float:left">
 <?php for($i = 1; $i <= count($wifiArr); $i++) { ?>
