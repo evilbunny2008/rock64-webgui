@@ -78,6 +78,11 @@
 				{
 					$cmd = "echo 'dns-nameservers $dns' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
 					$do = `$cmd`;
+					$cmd = "echo 'no-resolv\nserver=$dns' | sudo tee '/etc/dnsmasq.d/dns.conf'";
+					$do = `$cmd`;
+				} else {
+					$cmd = "sudo rm -f '/etc/dnsmasq.d/dns.conf'";
+					$do = `$cmd`;
 				}
 
 				$cmd = "echo 'post-up /var/www/html/scripts/WAN.sh up\npre-down /var/www/html/scripts/WAN.sh down' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
@@ -107,6 +112,11 @@
 				{
 					$cmd = "echo 'dns-nameservers $dns' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
 					$do = `$cmd`;
+					$cmd = "echo 'no-resolv\nserver=$dns' | sudo tee '/etc/dnsmasq.d/dns.conf'";
+					$do = `$cmd`;
+				} else {
+					$cmd = "sudo rm -f '/etc/dnsmasq.d/dns.conf'";
+					$do = `$cmd`;
 				}
 
 				$cmd = "echo 'post-up /var/www/html/scripts/WAN.sh up\npre-down /var/www/html/scripts/WAN.sh down' | sudo tee -a '/etc/network/interfaces.d/$ethernet2'";
@@ -119,6 +129,9 @@
 
 		$do = `sudo ifconfig $ethernet up`;
 		$do = `sudo ifup $ethernet`;
+
+		$cmd = "sudo /etc/init.d/dnsmasq restart";
+		$do = `$cmd`;
 	}
 
 	if(isset($_POST['disable']))

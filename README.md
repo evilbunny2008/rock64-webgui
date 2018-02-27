@@ -46,7 +46,7 @@ sed -i -e "s/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/" /etc/sysctl.conf
 rm -f /etc/apt/sources.list.save
 
 apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync \
-	gamin lighttpd openvpn php-cgi libpam0g-dev php-cli mtr-tiny telnet
+	gamin lighttpd openvpn php-cgi libpam0g-dev php-cli mtr-tiny telnet tor
 
 dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-glib-2.0 iso-codes \
 	gir1.2-packagekitglib-1.0 jq libasound2 libasound2-data libdbus-glib-1-2 libfftw3-single3 \

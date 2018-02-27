@@ -6,14 +6,18 @@ then
 	exit 1
 fi
 
-if [[ -e "/etc/openvpn/client/client1.active" ]] && [[ -e "/etc/openvpn/client/client1.ovpn" ]]
+if [ -e "/etc/tor/tor.active" ] && [ -e "/etc/tor/torrc" ]
+then
+	/var/www/html/scripts/TOR.php "$1"
+fi
+
+if [ -e "/etc/openvpn/client/client1.active" ] && [ -e "/etc/openvpn/client/client1.ovpn" ]
 then
 	if [[ "x$1" == "xup" ]]
 	then
 		RESULT=`pgrep openvpn`
 		if [[ "x$RESULT" == "x" ]]
 		then
-echo "Here"
 			/usr/sbin/openvpn --config "/etc/openvpn/client/client1.ovpn" --daemon
 		fi
 	else
