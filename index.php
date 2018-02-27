@@ -7,7 +7,7 @@
                 exit;
         }
 
-	$ints = trim(`nmcli dev stat|egrep "wifi|ethernet"|grep -v p2p0|sort -n|awk -F \  '{print $1}'`);
+	$ints = trim(`nmcli dev stat|egrep "wifi|ethernet|tun"|grep -v p2p0|sort -n|awk -F \  '{print $1}'`);
 	$ints = explode("\n", $ints);
 
 	$page = 1;

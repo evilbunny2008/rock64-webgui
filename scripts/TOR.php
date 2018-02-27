@@ -39,6 +39,7 @@
 
 	if(!file_exists("/etc/tor/tor.active"))
 	{
+		echo "TOR isn't active\n";
 		exit;
 	}
 
