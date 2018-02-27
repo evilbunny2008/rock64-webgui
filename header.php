@@ -48,9 +48,9 @@
                     <?php if($page == 1) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="index.php"><i class="fa fa-desktop"></i>Network Dashboard</a>
                     </li>
-		    <?php if($page == 2) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
+		    <!-- <?php if($page == 2) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="dashboard.php" ><i class="fa fa-desktop"></i>WiFi Dashboard</a>
-                    </li>
+                    </li> -->
                     <?php if($page == 3) { ?><li class="active-link"><?php } else { ?><li><?php } ?>
                         <a href="ethernet.php"><i class="fa fa-signal"></i>Ethernet Settings</a>
                     </li>

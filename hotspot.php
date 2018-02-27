@@ -101,12 +101,24 @@
 			$do = `$cmd`;
 		}
 
+		if(isset($_POST['enableTOR']))
+		{
+			$cmd = "echo 'post-up /var/www/html/scripts/TOR.php up $wificard2 $dhcpIP' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
+			$do = `$cmd`;
+		}
+
 		$cmd = "echo 'post-up /usr/sbin/hostapd -e /dev/urandom -B -P '/var/run/${wificard2}.pid' -f /var/log/hostapd.log /etc/hostapd/hostapd.conf' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 		$do = `$cmd`;
 
 		if(isset($_POST['enableNAT']))
 		{
 			$cmd = "echo 'pre-down iptables -t nat -D POSTROUTING -s ".substr($dhcpIP, 0, -1)."0/24 ! -d ".substr($dhcpIP, 0, -1)."0/24 -j MASQUERADE' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
+			$do = `$cmd`;
+		}
+
+		if(isset($_POST['enableTOR']))
+		{
+			$cmd = "echo 'pre-down /var/www/html/scripts/TOR.php down $wificard2 $dhcpIP' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 			$do = `$cmd`;
 		}
 
@@ -193,6 +205,10 @@
                 fclose($fp);
         }
 
+	$enableTOR = "0";
+        if(file_exists("/etc/tor/tor.active"))
+		$enableTOR = "1";
+
 	if($dhcpIP == "")
 	{
 		$dhcpIP = "192.168.99.1";
@@ -264,6 +280,8 @@
 				<input type="text" style="width:200px;float:left;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Enter Passphrase" /><br style="clear:left;"/>
 				<div style="width:140px;float:left">Enable NAT:</div>
 				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableNAT"<?php if($enableNAT == 2) { echo " checked"; } ?>/><br style="clear:left;"/>
+				<div style="width:140px;float:left">Enable TOR:</div>
+				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableTOR"<?php if($enableTOR == 1) { echo " checked"; } ?>/><br style="clear:left;"/>
 				<div style="width:140px;float:left">Server IP:</div>
                                 <input type="text" style="width:200px;float:left;" class="form-control" name="dhcpIP" value="<?=$dhcpIP?>" placeholder="Enter DHCP Server IP" /><br style="clear:left;"/>
 				<div style="width:140px;float:left">DHCP Start IP:</div>
