@@ -102,9 +102,20 @@
 			$cmd = "echo 'post-up /var/www/html/scripts/TOR.php up $wificard2 $dhcpIP' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 			$do = `$cmd`;
 
+			$cmd = "echo 'no-resolv\nserver=127.0.0.1#9053' | sudo tee '/etc/dnsmasq.d/dns.conf'";
+			$do = `$cmd`;
+
 			$do = `sudo touch '/etc/tor/tor.active'`;
-		} else
+
+			$do = `sudo /etc/init.d/dnsmasq restart`;
+		} else {
 			$do = `sudo rm -f '/etc/tor/tor.active'`;
+
+			$cmd = "sudo rm -f '/etc/dnsmasq.d/dns.conf'";
+			$do = `$cmd`;
+
+			$do = `sudo /etc/init.d/dnsmasq restart`;
+		}
 
 		$cmd = "echo 'post-up /usr/sbin/hostapd -e /dev/urandom -B -P '/var/run/${wificard2}.pid' -f /var/log/hostapd.log /etc/hostapd/hostapd.conf' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 		$do = `$cmd`;
