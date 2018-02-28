@@ -109,8 +109,15 @@
 		} else {
 			$do = `sudo rm -f '/etc/tor/tor.active'`;
 
-			$cmd = "sudo rm -f '/etc/dnsmasq.d/dns.conf'";
-			$do = `$cmd`;
+			$wan = trim(`grep 'dns-nameservers' '/etc/network/interfaces.d/eth0'|awk -F \  '{print $2}'`);
+			if($wan == "")
+			{
+				$cmd = "sudo rm -f '/etc/dnsmasq.d/dns.conf'";
+				$do = `$cmd`;
+			} else {
+				$cmd = "echo 'no-resolv\nserver=$wan' | sudo tee '/etc/dnsmasq.d/dns.conf'";
+				$do = `$cmd`;
+			}
 		}
 
 		$cmd = "echo 'post-up /usr/sbin/hostapd -e /dev/urandom -B -P '/var/run/${wificard2}.pid' -f /var/log/hostapd.log /etc/hostapd/hostapd.conf' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
