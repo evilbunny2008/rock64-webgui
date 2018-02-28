@@ -53,7 +53,7 @@ dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-gli
 	libgirepository-1.0-1 libjq1 libmpdec2 libonig4 libpackagekit-glib2-18 libpython3-stdlib \
 	libpython3.5-minimal libpython3.5-stdlib libsamplerate0 lsb-release python-apt-common \
 	python3 python3-apt python3-dbus python3-gi python3-minimal python3-pycurl python3.5 \
-	python3.5-minimal software-properties-common python3-software-properties
+	python3.5-minimal software-properties-common python3-software-properties linux-rock64
 
 apt-get -y dist-upgrade; apt-get autoremove; apt-get clean
 
@@ -123,7 +123,7 @@ rm -f zero.txt /boot/efi/zero.txt
 umount /proc
 exit
 
-rm -f /mnt/root/.bash_history /mnt/root/.nano/*
+rm -f /mnt/root/.bash_history /mnt/root/.nano/* /mnt/root/.mysql_history
 rmdir /mnt/root/.nano
 
 umount /dev/loop0p6
