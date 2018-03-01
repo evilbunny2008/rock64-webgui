@@ -6,7 +6,7 @@
 		exit;
 
 	$do = trim(file_get_contents("/etc/adfree.conf"));
-	if($do == "")
+	if($do != "")
 	{
 		list($email, $passphrase) = @explode("\n", trim($do), 2);
 		list($crud, $email) = @explode("=", $email, 2);
