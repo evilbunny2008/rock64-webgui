@@ -110,6 +110,7 @@
 			<option value="<?=$tz?>"<?php if($timezone == $tz) { ?> selected<?php } ?>><?=$tz?></option>
 <?php } ?>
 		    </select><br style="clear:left;"/>
+		    <p>To update the hostname or domain a reboot is required to make these changes active.</p>
 		    <input type="submit" class="btn btn-primary" name="button" value="Update Settings" />
 		    </form>
 		    <br/>
