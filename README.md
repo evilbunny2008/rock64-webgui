@@ -147,6 +147,7 @@ echo -e "interface=wlan0\nno-dhcp-interface=lo\ndhcp-range=192.168.99.100,192.16
 mkdir -p /etc/dnsmasq.d
 echo -e "log-queries=extra\nlog-facility=/var/log/dnsmasq.log\ndomain-needed\nbogus-priv" > /etc/dnsmasq.d/logging.conf
 
+touch /etc/adfree.conf
 /var/www/html/scripts/update-blacklist.php
 
 TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
