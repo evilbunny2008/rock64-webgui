@@ -60,9 +60,9 @@ echo -e "#disable eth1 from working in network manager\niface eth1 inet manual" 
 chroot /mnt
 mount -t proc proc /proc
 
-sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-sed -i -e 's/# en_AU.UTF-8 UTF-8/en_AU.UTF-8 UTF-8/' /etc/locale.gen
-echo 'LANG="en_US.UTF-8"'>/etc/default/locale
+sed -i -e "s/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/" /etc/locale.gen
+sed -i -e "s/# en_AU.UTF-8 UTF-8/en_AU.UTF-8 UTF-8/" /etc/locale.gen
+echo "LANG="en_US.UTF-8"">/etc/default/locale
 dpkg-reconfigure --frontend=noninteractive locales
 update-locale LANG=en_US.UTF-8
 
@@ -126,7 +126,6 @@ ln -sf /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
 echo -e "*  *\t* * *\troot\t/var/www/html/scripts/scanLog.php" >> /etc/crontab
 
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
 
 mkdir -p /etc/hostapd
 echo -e "# Pine64.org hostapd config for rtl8812au usb device\n\nssid=Pine64.org\n" > /etc/hostapd/hostapd.conf
@@ -138,17 +137,20 @@ echo -e "ieee80211d=1\nieee80211ac=1\n\nctrl_interface=/var/run/hostapd" >> /etc
 echo -e "ctrl_interface_group=0\n\nctrl_interface=/var/run/hostapd\nctrl_interface_group=0" >> /etc/hostapd/hostapd.conf
 
 mkdir -p /etc/tor
-echo -e 'Log notice file /var/log/tor/notices.log' > '/etc/tor/torrc'
-echo -e 'VirtualAddrNetworkIPv4 10.192.0.0/10' >> '/etc/tor/torrc'
-echo -e 'AutomapHostsOnResolve 1' >> '/etc/tor/torrc'
-echo -e 'TransPort 192.168.99.1:9040' >> '/etc/tor/torrc'
-echo -e 'TransPort 127.0.0.1:9040' >> '/etc/tor/torrc'
-echo -e 'DNSPort 192.168.99.1:9053' >> '/etc/tor/torrc'
-echo -e 'DNSPort 127.0.0.1:9053' >> '/etc/tor/torrc'
-echo -e 'AutomapHostsSuffixes .onion,.exit' >> '/etc/tor/torrc'
+echo "Log notice file /var/log/tor/notices.log" > "/etc/tor/torrc"
+echo "VirtualAddrNetworkIPv4 10.192.0.0/10" >> "/etc/tor/torrc"
+echo "AutomapHostsOnResolve 1" >> "/etc/tor/torrc"
+echo "TransPort 192.168.99.1:9040" >> "/etc/tor/torrc"
+echo "TransPort 127.0.0.1:9040" >> "/etc/tor/torrc"
+echo "DNSPort 192.168.99.1:9053" >> "/etc/tor/torrc"
+echo "DNSPort 127.0.0.1:9053" >> "/etc/tor/torrc"
+echo "AutomapHostsSuffixes .onion,.exit" >> "/etc/tor/torrc"
 
+echo -e "interface=wlan0\nno-dhcp-interface=lo\ndhcp-range=192.168.99.100,192.168.99.199,255.255.255.0,1d" >/etc/dnsmasq.conf 
 
 /var/www/html/scripts/update-blacklist.php
+
+TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
 
 rm -f /var/lib/apt/lists/*
 
