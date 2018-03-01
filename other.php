@@ -24,7 +24,7 @@
 		$timezone = escapeshellarg(trim($_POST['timezone']));
 		$timezone2 = substr($timezone, 1, -1);
 
-		$do = `echo -n $timezone | sudo tee "/etc/timezone"`;
+		$do = `echo $timezone | sudo tee "/etc/timezone"`;
 		$do = `sudo dpkg-reconfigure -f noninteractive tzdata`;
 		$do = `sudo ln -sf "/usr/share/zoneinfo/$timezone2" /etc/localtime`;
 
