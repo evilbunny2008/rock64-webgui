@@ -139,7 +139,7 @@
 			    </div>
 			    <div class="tab-pane fade" id="hostnames">
 				<h4>Blocked Hostnames</h4>
-				<div class="row" style="padding-right:15px;padding-left:15px;">
+				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
 				    <div style="width:150px;float:left;">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh2"><br style="clear:left;"/>
 				    <div class="panel panel-primary">
 			    		<div class="panel-heading">Blocked Hostnames</div>
