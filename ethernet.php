@@ -181,6 +181,16 @@
 		$dhcp = "yes";
 	}
 
+	if($IP == "")
+	{
+		$IP = trim(`ifconfig eth0 | awk '/inet /{ print $2}'`);
+		$nm = trim(`ifconfig eth0 | awk '/netmask /{ print $4}'`);
+		$gw = trim(`ip route list dev eth0 | awk ' /^default/ {print $3}'`);
+		$dns = trim(`grep 'dns-nameservers' '/etc/network/interfaces.d/eth0'|awk -F \  '{print $2}'`);
+		if($dns == "")
+			$dns = $gw;
+	}
+
 	$page = 3;
 	$pageTitle = "Ethernet Settings";
 	include_once("header.php");

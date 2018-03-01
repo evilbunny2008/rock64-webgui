@@ -62,6 +62,7 @@
                 $dhcpstop = substr(escapeshellarg(trim($_POST['dhcpstop'])), 1, -1);
                 $dhcpnm = substr(escapeshellarg(trim($_POST['dhcpnm'])), 1, -1);
                 $dhcptime = substr(escapeshellarg(trim($_POST['dhcptime'])), 1, -1);
+                $enableAC = isset($_POST['enableAC']);
 
 		if(file_exists("/etc/network/interfaces.d/$wificard2"))
 		{
@@ -80,7 +81,7 @@
 				"wpa_passphrase=$passphrase\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=CCMP\nrsn_pairwise=CCMP\nauth_algs=1\nmacaddr_acl=0\n\n".
 				"ieee80211n=1\nieee80211d=1\n\n";
 
-		if($channel > 14)
+		if($channel > 14 && $enableAC == 1)
 			$hostapd .= "ieee80211ac=1\n\n";
 
 		$hostapd .= "ctrl_interface=/var/run/hostapd\nctrl_interface_group=0\n";
@@ -242,14 +243,15 @@
 		$dhcptime = "1d";
 	}
 
-
-	if(isset($_POST['clearlog']) && file_exists('/var/log/hostapd.log'))
-		$do = `echo -n | sudo tee '/var/log/hostapd.log'`;
+	if(!isset($enableAC))
+		$enableAC = trim(`grep "ieee80211ac=1" "/etc/hostapd/hostapd.conf" | wc -l`);
+	if(isset($_POST["clearlog"]) && file_exists("/var/log/hostapd.log"))
+		$do = `echo -n | sudo tee "/var/log/hostapd.log"`;
 
 	$enableNAT = 0;
-	if(file_exists('/etc/network/interfaces.d/$wificard2'))
+	if(file_exists("/etc/network/interfaces.d/$wificard2"))
 	{
-		$cmd = "grep iptables '/etc/network/interfaces.d/$wificard2'|wc -l";
+		$cmd = "grep MASQUERADE '/etc/network/interfaces.d/$wificard2' | wc -l";
 		$enableNAT = intval(trim(`$cmd`));
 	} else {
 		$enableNAT = 2;
@@ -280,7 +282,7 @@
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="home">
 				<h4>Home</h4>
-				<form method="post" action="<?=$_SERVER['PHP_SELF']?>">
+				<form method="post" action="<?=$_SERVER["PHP_SELF"]?>">
 	                        <div style="width:140px;float:left">Interface:</div>
                                 <select name="int" class="form-control" style="width:200px;float:left">
 <?php for($i = 1; $i <= count($wifiArr); $i++) { ?>
@@ -301,6 +303,8 @@
 
 				<div style="width:140px;float:left">Pass Phrase:</div>
 				<input type="text" style="width:200px;float:left;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Enter Passphrase" /><br style="clear:left;"/>
+				<div style="width:140px;float:left">Enable AC:</div>
+				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableAC"<?php if($enableAC == 1) { echo " checked"; } ?>/><br style="clear:left;"/>
 				<div style="width:140px;float:left">Enable NAT:</div>
 				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableNAT"<?php if($enableNAT == 2) { echo " checked"; } ?>/><br style="clear:left;"/>
 				<div style="width:140px;float:left">Enable TOR:</div>
