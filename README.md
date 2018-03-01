@@ -95,10 +95,32 @@ ALTER TABLE `dnslog`
 exit;
 
 ln -sf /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
-echo "*  *	* * *	root	/var/www/html/scripts/scanLog.php" >> /etc/crontab
+echo -e "*  *\t* * *\troot\t/var/www/html/scripts/scanLog.php" >> /etc/crontab
 
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
+
+mkdir -p /etc/hostapd
+echo -e "# Pine64.org hostapd config for rtl8812au usb device\n\nssid=Pine64.org\n" > /etc/hostapd/hostapd.conf
+echo -e "interface=wlan0\nhw_mode=a\ncountry_code=GB\nchannel=40\ndriver=nl80211\n" >> /etc/hostapd/hostapd.conf
+echo -e "logger_syslog=0\nlogger_syslog_level=0\nwmm_enabled=1\nwpa=2\npreamble=1\n" >> /etc/hostapd/hostapd.conf
+echo -e "wpa_passphrase=password\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=CCMP" >> /etc/hostapd/hostapd.conf
+echo -e "rsn_pairwise=CCMP\nauth_algs=1\nmacaddr_acl=0\n\nieee80211n=1" >> /etc/hostapd/hostapd.conf
+echo -e "ieee80211d=1\nieee80211ac=1\n\nctrl_interface=/var/run/hostapd" >> /etc/hostapd/hostapd.conf
+echo -e "ctrl_interface_group=0\n\nctrl_interface=/var/run/hostapd\nctrl_interface_group=0" >> /etc/hostapd/hostapd.conf
+
+mkdir -p /etc/tor
+echo -e 'Log notice file /var/log/tor/notices.log' > '/etc/tor/torrc'
+echo -e 'VirtualAddrNetworkIPv4 10.192.0.0/10' >> '/etc/tor/torrc'
+echo -e 'AutomapHostsOnResolve 1' >> '/etc/tor/torrc'
+echo -e 'TransPort 192.168.99.1:9040' >> '/etc/tor/torrc'
+echo -e 'TransPort 127.0.0.1:9040' >> '/etc/tor/torrc'
+echo -e 'DNSPort 192.168.99.1:9053' >> '/etc/tor/torrc'
+echo -e 'DNSPort 127.0.0.1:9053' >> '/etc/tor/torrc'
+echo -e 'AutomapHostsSuffixes .onion,.exit' >> '/etc/tor/torrc'
+
+
+/var/www/html/scripts/update-blacklist.php
 
 rm -f /var/lib/apt/lists/*
 
