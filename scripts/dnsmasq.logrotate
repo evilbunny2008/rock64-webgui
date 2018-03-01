@@ -6,7 +6,7 @@
     delaycompress
     sharedscripts
     postrotate
-        [ ! -f /var/run/dnsmasq/dnsmasq.pid ] || kill -USR2 `cat /var/run/dnsmasq/dnsmasq.pid`
+        /etc/init.d/dnsmasq restart
     endscript
     create 0640 dnsmasq nogroup
 }

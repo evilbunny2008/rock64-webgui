@@ -2,6 +2,8 @@
 <?php
 	require_once("/var/www/html/mysql.php");
 
+	$debug = false;
+
 	$last = array();
 	$lines = explode("\n", trim(`cat "/var/log/dnsmasq.log"`));
 	for($i = 0; $i < count($lines); $i++)
@@ -60,7 +62,7 @@
 			$qtype = "AAAA";
 
 		$query = "insert into `dnslog` set `qid`='${query['qid']}', `when`='$datetime', `qtype`='$qtype', `hostname`='$host', `client`='${query['IP']}', `status`='${query1['qtype']}'";
-		if(mysqli_query($link, $query) !== false)
+		if(mysqli_query($link, $query) !== false && $debug)
 			echo $query."\n";
 	}
 

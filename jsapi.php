@@ -8,6 +8,7 @@
 	}
 
 	require_once("/var/www/html/mysql.php");
+	$maxlen = 30;
 
 	if(isset($_REQUEST['dnsmasqLog']))
 		dnsmasqLog();
@@ -23,6 +24,7 @@
 	function dnsmasqLog()
 	{
 		global $link;
+		global $maxlen;
 		$lines = "";
 
 		echo "<table style='width:100%'>";
@@ -38,7 +40,12 @@
 			if($row['status'] == "cached")
 				$status = "OK (cached)";
 
-			echo "<tr><td>".date("H:i:s", $row['when'])."</td><td>${row['qtype']}</td><td><a target='_blank' href='http:/"."/${row['hostname']}'>${row['hostname']}</a></td><td>${row['client']}</td><td>$status</td><td>";
+			$len = strlen($row['hostname']);
+			echo "<tr><td>".date("H:i:s", $row['when'])."</td><td>${row['qtype']}</td><td><a target='_blank' href='http:/"."/${row['hostname']}' title='http:/"."/".$row['hostname']."'>";
+			echo @substr($row['hostname'], 0, $maxlen);
+			if($len > $maxlen)
+				echo "...";
+			echo "</a></td><td>${row['client']}</td><td>$status</td><td>";
 
 			if($status == "blocked")
 			{
@@ -56,15 +63,21 @@
 	function dnsmasqBlockedHosts()
 	{
 		global $link;
+		global $maxlen;
 
-		echo "<table style='width:100%'>\n";
+		echo "<table style='width:100%;table-layout:fixed;white-space: nowrap;'>\n";
 		echo "<tr><th>Hostname</th><th>DNS Hits</th><th>Action</th></tr>";
 
 		$query = "select `hostname`, count(`hostname`) as `hits`, `status` from `dnslog` where `status`='config' and `when` >= now() - INTERVAL 30 DAY group by `hostname` order by count(`hostname`) desc";
 		$res = mysqli_query($link, $query);
 		while($row = mysqli_fetch_assoc($res))
 		{
-			echo "<tr><td><a target='_blank' href='http:/"."/${row['hostname']}'>${row['hostname']}</a></td><td>".$row['hits']."</td><td>";
+			$len = strlen($row['hostname']);
+			echo "<tr><td><a target='_blank' href='http:/"."/${row['hostname']}' title='http:/"."/".$row['hostname']."'>";
+			echo @substr($row['hostname'], 0, $maxlen);
+			if($len > $maxlen)
+				echo "...";
+			echo "</a></td><td>".$row['hits']."</td><td>";
 			echo "<a class='btn btn-success' target='_blank' href='https://adfree.odiousapps.com/exceptions.php?hostname=${row['hostname']}&whiteblack=white'>Whitelist</a>";
 			echo "</td></tr>";
 		}
