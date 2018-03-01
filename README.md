@@ -69,6 +69,10 @@ sed -i -e "s/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/" /etc/sysctl.conf
 
 rm -f /etc/apt/sources.list.save
 
+cp /etc/skel/.profile /root/.profile
+cp /etc/skel/.bashrc /root/.bashrc
+cp /etc/skel/.bash_logout /root/.bash_logout
+
 apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync \
 	gamin lighttpd openvpn php-cgi libpam0g-dev php-cli mtr-tiny telnet tor
 
@@ -77,7 +81,8 @@ dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-gli
 	libgirepository-1.0-1 libjq1 libmpdec2 libonig4 libpackagekit-glib2-18 libpython3-stdlib \
 	libpython3.5-minimal libpython3.5-stdlib libsamplerate0 lsb-release python-apt-common \
 	python3 python3-apt python3-dbus python3-gi python3-minimal python3-pycurl python3.5 \
-	python3.5-minimal software-properties-common python3-software-properties linux-rock64
+	python3.5-minimal software-properties-common python3-software-properties linux-rock64 \
+	avahi-daemon libavahi-common-data libavahi-common3 libavahi-core7 libdaemon0
 
 apt-get -y dist-upgrade; apt-get autoremove; apt-get clean
 
