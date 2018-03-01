@@ -4,11 +4,39 @@ This is community maintained project in my free time. Don't expect everything to
 
 ## Contents
 
- - [Manual installation](#manual-install)
+ - [Full Image](#full-image)
  - [Screen Shots](#screen-shots)
  - [License](#license)
- - [Full Image](#full-image)
  - [Credits](#credits)
+ - [Manual installation](#manual-install)
+
+## Full Image
+
+For those not able or willing to set this up themselves I have an [image on my website](https://files.evilbunny.org/stretch-router-rock64-0.6.15-175-arm64.img.xz) based on [ayufan's stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/download/0.6.15/stretch-minimal-rock64-0.6.15-175-arm64.img.xz).
+
+## Screen Shots
+
+![](https://i.imgur.com/q9vq6ZB.jpg)
+![](https://i.imgur.com/cNCQCwB.jpg)
+![](https://i.imgur.com/unbB4eo.jpg)
+![](https://i.imgur.com/cxHO9bv.jpg)
+![](https://i.imgur.com/Z4US3TX.jpg)
+![](https://i.imgur.com/JbSQOxY.jpg)
+![](https://i.imgur.com/F6q5C7s.jpg)
+![](https://i.imgur.com/nC0HeUU.jpg)
+![](https://i.imgur.com/KVUfGK6.jpg)
+
+## License
+
+These scripts are made available under the GPLv3 license in the hope they might be useful to others. See LICENSE for details.
+
+## Full Image
+
+For those not able or willing to set this up themselves I have an [image on my website](https://files.evilbunny.org/stretch-router-rock64-0.6.15-175-arm64.img.xz) based on [ayufan's stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/download/0.6.15/stretch-minimal-rock64-0.6.15-175-arm64.img.xz).
+
+## Credits
+
+Inspired by the [raspap webgui](https://github.com/billz/raspap-webgui)
 
 ## Manual install
 
@@ -152,27 +180,3 @@ umount /dev/loop0p6
 umount /dev/loop0p7
 losetup -d /dev/loop0
 ```
-
-## Screen Shots
-
-![](https://i.imgur.com/q9vq6ZB.jpg)
-![](https://i.imgur.com/cNCQCwB.jpg)
-![](https://i.imgur.com/unbB4eo.jpg)
-![](https://i.imgur.com/cxHO9bv.jpg)
-![](https://i.imgur.com/Z4US3TX.jpg)
-![](https://i.imgur.com/JbSQOxY.jpg)
-![](https://i.imgur.com/F6q5C7s.jpg)
-![](https://i.imgur.com/nC0HeUU.jpg)
-![](https://i.imgur.com/KVUfGK6.jpg)
-
-## License
-
-These scripts are made available under the GPLv3 license in the hope they might be useful to others. See LICENSE for details.
-
-## Full Image
-
-For those not able or willing to set this up themselves I have an [image on my website](https://files.evilbunny.org/stretch-router-rock64-0.6.15-175-arm64.img.xz) based on [ayufan's stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/download/0.6.15/stretch-minimal-rock64-0.6.15-175-arm64.img.xz).
-
-## Credits
-
-Inspired by the [raspap webgui](https://github.com/billz/raspap-webgui)
