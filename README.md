@@ -149,13 +149,12 @@ echo "AutomapHostsSuffixes .onion,.exit" >> "/etc/tor/torrc"
 
 echo -e "interface=wlan0\nno-dhcp-interface=lo\ndhcp-range=192.168.99.100,192.168.99.199,255.255.255.0,1d" >/etc/dnsmasq.conf 
 
-echo -e "auto wlan0\nallow-hotplug wlan0\niface wlan0 inet static\naddress 192.168.99.1" > /etc/network/interfaces.d/wlan0
-echo -e "netmask 255.255.255.0" >> /etc/network/interfaces.d/wlan0
+echo -e "auto wlan0\nallow-hotplug wlan0\niface wlan0 inet static" > /etc/network/interfaces.d/wlan0
+echo -e "address 192.168.99.1\nnetmask 255.255.255.0" >> /etc/network/interfaces.d/wlan0
 echo -e "post-up iptables -t nat -A POSTROUTING -s 192.168.99.0/24 ! -d 192.168.99.0/24 -j MASQUERADE" >> /etc/network/interfaces.d/wlan0
 echo -e "post-up /usr/sbin/hostapd -e /dev/urandom -B -P /var/run/wlan0.pid -f /var/log/hostapd.log /etc/hostapd/hostapd.conf" >> /etc/network/interfaces.d/wlan0
 echo -e "pre-down iptables -t nat -D POSTROUTING -s 192.168.99.0/24 ! -d 192.168.99.0/24 -j MASQUERADE" >> /etc/network/interfaces.d/wlan0
 echo -e "pre-down killall hostapd" >> /etc/network/interfaces.d/wlan0
-
 
 mkdir -p /etc/dnsmasq.d
 echo -e "log-queries=extra\nlog-facility=/var/log/dnsmasq.log\ndomain-needed\nbogus-priv" > /etc/dnsmasq.d/logging.conf
