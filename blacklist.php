@@ -73,9 +73,9 @@
 	{
 		$enableBL = "yes";
 		$do = `sudo cat "/etc/adfree.conf"`;
-		list($email, $passphrase) = @explode("\n", trim($do), 2);
-		list($crud, $email) = @explode("=", $email, 2);
-		list($crud, $passphrase) = @explode("=", $passphrase, 2);
+		@list($email, $passphrase) = explode("\n", trim($do), 2);
+		@list($crud, $email) = explode("=", $email, 2);
+		@list($crud, $passphrase) = explode("=", $passphrase, 2);
 	}
 
 	$email = urlencode($email);

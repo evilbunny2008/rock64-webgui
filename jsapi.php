@@ -32,9 +32,9 @@
 		echo "<table style='width:100%'>";
 		echo "<tr><th>When</th><th>Type</th><th style='width:250px;'>Hostname</th><th>Client</th><th>Status</th><th>Action</th></tr>";
 
-		$query = "select *,UNIX_TIMESTAMP(`when`) as `when` from `dnslog` where `when` >= now() - INTERVAL 1 DAY order by `when` desc limit 50";
+		$query = "select *,UNIX_TIMESTAMP(`when`) as `when` from `dnslog` where `when` >= now() - INTERVAL 30 DAY order by `when` desc limit 50";
 		if($hostname != "")
-			$query = "select *,UNIX_TIMESTAMP(`when`) as `when` from `dnslog` where `hostname`='$hostname' and `when` >= now() - INTERVAL 1 DAY order by `when` desc limit 50";
+			$query = "select *,UNIX_TIMESTAMP(`when`) as `when` from `dnslog` where `hostname`='$hostname' and `when` >= now() - INTERVAL 30 DAY order by `when` desc limit 50";
 
 		$res = mysqli_query($link, $query);
 		while($row = mysqli_fetch_assoc($res))
