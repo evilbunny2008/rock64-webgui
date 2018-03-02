@@ -18,7 +18,6 @@ For those not able or willing to set this up themselves I have an [image on my w
 
 ![](https://i.imgur.com/q9vq6ZB.jpg)
 ![](https://i.imgur.com/unbB4eo.jpg)
-![](https://i.imgur.com/cxHO9bv.jpg)
 ![](https://i.imgur.com/Z4US3TX.jpg)
 ![](https://i.imgur.com/JbSQOxY.jpg)
 ![](https://i.imgur.com/F6q5C7s.jpg)
