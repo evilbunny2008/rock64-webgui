@@ -81,9 +81,17 @@
 	$email = urlencode($email);
 	$passphrase = urlencode($passphrase);
 
+	$hostname = "";
+	if(isset($_REQUEST['hostname']))
+		$hostname = trim($_REQUEST['hostname']);
+
 	$page = 8;
 	$pageTitle = "Blacklist Settings";
 	include_once("header.php");
+
+	$tab = 1;
+	if($hostname != "")
+		$tab = 2;
 ?>
         <div id="page-wrapper">
             <div id="page-inner">
@@ -96,15 +104,15 @@
 		<div class="row" style="padding-right:15px;">
                     <div class="col-lg-4 col-md-4">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#home" data-toggle="tab">Home</a>
+                            <li class="<?php if($tab == 1) echo "active";?>"><a href="#home" data-toggle="tab">Home</a>
                             </li>
-                            <li class=""><a href="#logging" data-toggle="tab">Logging</a>
+                            <li class="<?php if($tab == 2) echo "active";?>"><a href="#logging" data-toggle="tab">Logging</a>
                             </li>
                             <li class=""><a href="#hostnames" data-toggle="tab">Blocked Hostnames</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade active in" id="home">
+                            <div class="tab-pane fade<?php if($tab == 1) echo " active in";?>" id="home">
 				<h4>Home</h4>
 				<div class="row" style="padding-right:15px;padding-left:15px;">
 <?php if($errmsg != "") { ?>
@@ -126,7 +134,7 @@
 				    </form>
 				</div>
 			    </div>
-			    <div class="tab-pane fade" id="logging">
+			    <div class="tab-pane fade<?php if($tab == 2) echo " active in";?>" id="logging">
 				<h4>Logging</h4>
 				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
 				    <div style="width:150px;float:left">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
@@ -203,7 +211,7 @@
 		{
 			try
 			{
-				http1.open('GET', '/jsapi.php?dnsmasqLog=1&date='+new Date().getTime(), true);
+				http1.open('GET', '/jsapi.php?dnsmasqLog=1<?php if($hostname != "") echo "&hostname=$hostname"; ?>&date='+new Date().getTime(), true);
 				http1.onreadystatechange = function()
 				{
 					if(http1.readyState == 4 && http1.status == 200)
