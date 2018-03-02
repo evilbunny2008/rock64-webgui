@@ -90,7 +90,7 @@
 	include_once("header.php");
 
 	$tab = 1;
-	if($hostname != "")
+	if($hostname != "" || isset($_REQUEST['viewAll']))
 		$tab = 2;
 ?>
         <div id="page-wrapper">
@@ -138,6 +138,7 @@
 				<h4>Logging</h4>
 				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
 				    <div style="width:150px;float:left">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
+					<?php if($hostname != "") { ?><a href='blacklist.php?viewAll=1'>View All</a><br style="clear:left;"/><?php } ?>
 				    <div class="panel panel-primary">
 					<div class="panel-heading">DNS Logs</div>
 					<div class="panel-body" id="panel-body1">
