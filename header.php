@@ -33,7 +33,10 @@
 <?php
 	if(isset($_SESSION['login']) && $_SESSION['login'] == true)
 	{
-?>
+		if(is_file("/etc/webgui/update.txt"))
+		{ ?>
+		    <a href="other.php?upgrade=1" class="btn btn-default" onClick="return confirm('Are you sure you want to do this?');">Upgrade GUI</a>
+<?php } ?>
 		    <a href="reboot.php" class="btn btn-default" onClick="return confirm('Are you sure you want to do this?');">Reboot</a>
 		    <a href="logout.php" class="btn btn-default">Logout</a>
 <?php } else { ?>

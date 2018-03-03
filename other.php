@@ -65,8 +65,9 @@
 		$pkgStatus = 1;
 	}
 
-	if(isset($_POST['upgrade']))
+	if(isset($_REQUEST['upgrade']))
 	{
+		$do = `sudo rm -f /etc/webgui/update.txt`;
 		$do = `sudo /var/www/html/scripts/upgrade.sh`;
 		$okmsg = "The WebGUI has been updated to the most recent version.";
 	}
