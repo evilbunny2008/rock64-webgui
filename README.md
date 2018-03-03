@@ -114,7 +114,8 @@ CREATE TABLE `dnslog` (
   `qtype` enum('A','AAAA') NOT NULL,
   `hostname` varchar(255) NOT NULL,
   `client` varchar(255) NOT NULL,
-  `status` enum('cached','config','forwarded') NOT NULL
+  `status` enum('cached','config','forwarded') NOT NULL,
+  `DNSIP` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `dnslog`
