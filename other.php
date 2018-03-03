@@ -72,6 +72,11 @@
 		$okmsg = "The WebGUI has been updated to the most recent version.";
 	}
 
+	if(isset($_REQUEST['check']))
+	{
+		$do = `sudo /var/www/html/scripts/check.php`;
+	}
+
 	$hostname = trim(file_get_contents("/etc/hostname"));
 	$domain = trim(file_get_contents("/etc/mailname"));
 	list($crud, $domain) = explode(".", $domain, 2);
@@ -139,7 +144,11 @@
 		    <p>This keeps your system up to date with all the latest features and bug fixes.</p>
 		    <p>If you find a bug, or would like additional features, please file a report <a target="_blank" href="https://github.com/evilbunny2008/rock64-webgui/issues">issue/push request on github</a>.</p>
 		    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
-		    <input type="submit" class="btn btn-primary" name="upgrade" value="Upgrade WebGUI" onClick="return confirm('Are you sure you want to do this?');" />
+<?php if(is_file("/etc/webgui/update.txt")) { ?>
+		    <input type="submit" class="btn btn-primary" name="upgrade" value="Upgrade WebGUI" onClick="return confirm('Are you sure you want to do this?');">
+<?php } else { ?>
+		    <input type="submit" class="btn btn-primary" name="check" value="Check for Updates">
+<?php } ?>
 		    </form>
 		</div>
 	    </div>
