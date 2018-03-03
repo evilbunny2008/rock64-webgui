@@ -161,6 +161,7 @@ echo -e "log-queries=extra\nlog-facility=/var/log/dnsmasq.log\ndomain-needed\nbo
 touch /etc/adfree.conf
 /var/www/html/scripts/update-blacklist.php
 
+#update the fakehw clock so ntp doesn't have to catch up as much
 TZ='UTC' date +"%F %T" > /etc/fake-hwclock.data
 
 rm -f /var/lib/apt/lists/*
