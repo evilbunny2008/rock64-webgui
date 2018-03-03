@@ -1,11 +1,21 @@
 #!/usr/bin/php
 <?php
+	if(getmyuid() != 0)
+	{
+		echo "You must run this script as root.\n";
+		exit(1);
+	}
+
 	require_once("/var/www/html/mysql.php");
 
 	$debug = false;
 
+	$filename = "/var/log/dnsmasq.log";
+	if(isset($argv['1']) && is_file($argv['1']))
+		$filename = escapeshellarg(trim($argv['1']));
+
 	$last = array();
-	$lines = explode("\n", trim(`cat "/var/log/dnsmasq.log"`));
+	$lines = explode("\n", trim(`cat $filename`));
 	for($i = 0; $i < count($lines); $i++)
 	{
 		$line = trim($lines[$i]);

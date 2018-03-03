@@ -1,5 +1,11 @@
 #!/usr/bin/php
 <?php
+	if(getmyuid() != 0)
+	{
+		echo "You must run this script as root.\n";
+		exit(1);
+	}
+
 	$email = $passphrase = "";
 
         if(!file_exists("/etc/adfree.conf"))
