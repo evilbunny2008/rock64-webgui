@@ -124,6 +124,7 @@ exit;
 
 ln -sf /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
 echo -e "*  *\t* * *\troot\t/var/www/html/scripts/scanLog.php" >> /etc/crontab
+echo -e "0  0\t* * *\troot\t/var/www/html/scripts/check.php" >> /etc/crontab
 
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
