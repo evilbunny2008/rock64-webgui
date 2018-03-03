@@ -39,7 +39,7 @@
 		$res = mysqli_query($link, $query);
 		while($row = mysqli_fetch_assoc($res))
 		{
-			$status = "OK (forwarded)";
+			$status = "OK (<a href='#' title='Forwarded to ${row['DNSIP']}'>forwarded</a>)";
 			if($row['status'] == "config")
 				$status = "blocked";
 			if($row['status'] == "cached")

@@ -61,7 +61,7 @@
 		if($query['qtype'] == "query[AAAA]")
 			$qtype = "AAAA";
 
-		$query = "insert into `dnslog` set `qid`='${query['qid']}', `when`='$datetime', `qtype`='$qtype', `hostname`='$host', `client`='${query['IP']}', `status`='${query1['qtype']}'";
+		$query = "insert into `dnslog` set `qid`='${query['qid']}', `when`='$datetime', `qtype`='$qtype', `hostname`='$host', `client`='${query['IP']}', `status`='${query1['qtype']}', `DNSIP`='${query1['IP']}'";
 		if(mysqli_query($link, $query) !== false && $debug)
 			echo $query."\n";
 	}

@@ -76,7 +76,7 @@
 	{
 		$do = `sudo /var/www/html/scripts/check.php`;
 		if(file_exists("/etc/webgui/update.txt"))
-			$okmsg = "There is an update available, click on 'Upgrade WebGUI' to upgrade now.";
+			$okmsg = "There is updates available, click on 'Upgrade WebGUI' to upgrade now.";
 		else
 			$okmsg = "You are all up-to-date, no need to do anything.";
 	}
