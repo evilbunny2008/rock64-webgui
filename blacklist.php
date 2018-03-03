@@ -100,12 +100,10 @@
 		<div class="row" style="padding-right:15px;">
                     <div class="col-lg-4 col-md-4">
                         <ul class="nav nav-tabs">
-                            <li class="<?php if($tab == 1) echo "active";?>"><a href="#home" data-toggle="tab">Home</a>
-                            </li>
-                            <li class="<?php if($tab == 2) echo "active";?>"><a href="#logging" data-toggle="tab">Logging</a>
-                            </li>
-                            <li class=""><a href="#hostnames" data-toggle="tab">Blocked Hostnames</a>
-                            </li>
+                            <li class="<?php if($tab == 1) echo "active";?>"><a href="#home" data-toggle="tab">Home</a></li>
+                            <li class="<?php if($tab == 2) echo "active";?>"><a href="#logging" data-toggle="tab">Logging</a></li>
+                            <li class=""><a href="#hostnames" data-toggle="tab">Blocked Hostnames</a></li>
+                            <li class=""><a href="#stats" data-toggle="tab">Statistics</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade<?php if($tab == 1) echo " active in";?>" id="home">
@@ -153,6 +151,17 @@
 				    </div>
 				</div>
 			    </div>
+			    <div class="tab-pane fade" id="stats">
+				<h4>Statistics</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
+				    <div style="width:150px;float:left">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh3"><br style="clear:left;"/>
+				    <div class="panel panel-primary">
+			    		<div class="panel-heading">DNS Stats</div>
+					<div class="panel-body" id="panel-body3">
+					</div>
+				    </div>
+				</div>
+			    </div>
 			</div>
 		    </div>
 		</div>
@@ -162,6 +171,7 @@
 <!--//
 	var http1 = getHTTPObject();
 	var http2 = getHTTPObject();
+	var http3 = getHTTPObject();
 
 	function getHTTPObject()
 	{
@@ -241,9 +251,30 @@
 		}
 	}
 
+	function doStats()
+	{
+		setTimeout("doStats();", 60000);
+
+		if(document.getElementById("autoRefresh3").checked)
+		{
+			try
+			{
+				http3.open('GET', '/jsapi.php?doStats=1&date='+new Date().getTime(), true);
+				http3.onreadystatechange = function()
+				{
+					if(http3.readyState == 4 && http3.status == 200)
+						updateDisplay('panel-body3', http3.responseText);
+				}
+
+				http3.send();
+			} catch (e) {}
+		}
+	}
+
 	setTimeout("switchType();", 1000);
 	updateLog();
 	updateHosts();
+	doStats();
 //-->
 </script>
 <?php include_once("footer.php"); ?>
