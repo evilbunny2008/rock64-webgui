@@ -11,9 +11,6 @@
 
 	$do = `rm -f /etc/webgui/update.txt`;
 
-	$do = trim(`/var/www/html/scripts/check.sh`);
+	$do = trim(`/var/www/html/scripts/check.sh 2>&1`);
 	if($do != "")
-	{
-		echo "touch me\n";
 		$do = `touch /etc/webgui/update.txt`;
-	}
