@@ -121,25 +121,25 @@
 		<div style="width:23%;height:100px;float:left;border:1px solid;padding:5px;margin:5px;">
 			<div class="card-block">
 				<h3 style="text-align:center;"><?=$total?></h3>
-				<p>Total Queries (<?=$clis?> Clients)</p>
+				<p style="text-align:center;">Total Queries (<?=$clis?> Clients)</p>
 			</div>
 		</div>
 		<div style="width:23%;height:100px;float:left;border:1px solid;padding:5px;margin:5px;">
 			<div class="card-block">
 				<h3 style="text-align:center;"><?=$blocked?></h3>
-				<p>Queries Blocked</p>
+				<p style="text-align:center;">Queries Blocked</p>
 			</div>
 		</div>
 		<div style="width:23%;height:100px;float:left;border:1px solid;padding:5px;margin:5px;">
 			<div class="card-block">
 				<h3 style="text-align:center;"><?=$percent?>%</h3>
-				<p>Percent Blocked</p>
+				<p style="text-align:center;">Percent Blocked</p>
 			</div>
 		</div>
 		<div style="width:23%;height:100px;float:left;border:1px solid;padding:5px;margin:5px;">
 			<div class="card-block">
 				<h3 style="text-align:center;"><?=$blcount?></h3>
-				<p>Hosts in the Blacklist</p>
+				<p style="text-align:center;">Hosts in the Blacklist</p>
 			</div>
 		</div>
 		<br style="clear:left">
@@ -156,7 +156,7 @@
 		}
 ?>
 		</table>
-		<table class="stats" style="width:48%;float:left;">
+		<table class="stats" style="width:48%;float:left;margin-left:10px;">
 		<tr><th>Client IP</th><th>Hits</th></tr>
 <?php
 		$query = "select `client`, count(`client`) as `count` from `dnslog` where `when` >= now() - INTERVAL 30 DAY group by `client` order by count(`client`) desc limit 10";
