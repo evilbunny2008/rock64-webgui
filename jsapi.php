@@ -97,11 +97,9 @@
 		echo trim(file_get_contents("/var/log/hostapd.log"));
 	}
 
-	function doStats()
+	function doStats($maxlen = 30)
 	{
 		global $link;
-
-//		header("Content-Type: text/plain");
 
 		$blcount = trim(`cat "/etc/dnsmasq.d/adfree.conf"|wc -l`);
 
@@ -152,7 +150,11 @@
 		$res = mysqli_query($link, $query);
 		while($row = mysqli_fetch_assoc($res))
 		{
-			echo "<tr><td>${row['hostname']}</td><td>${row['count']}</td></tr>\n";
+			echo "<tr><td><a href='blacklist.php?hostname=${row['hostname']}' title='${row['hostname']}'>";
+			echo @substr($row['hostname'], 0, $maxlen);
+			if($len > $maxlen)
+				echo "...";
+			echo "</a></td><td>${row['count']}</td></tr>\n";
 		}
 ?>
 		</table>
