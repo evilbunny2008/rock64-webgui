@@ -13,4 +13,7 @@
 
 	$do = trim(`/var/www/html/scripts/check.sh`);
 	if($do != "")
+	{
+		echo "touch me\n";
 		$do = `touch /etc/webgui/update.txt`;
+	}

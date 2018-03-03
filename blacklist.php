@@ -9,11 +9,7 @@
 
 	$okmsg = $errmsg = "";
 	if(isset($_POST['button']) && !isset($_POST['enableBL']))
-	{
-		$do = `sudo rm -f "/etc/adfree.conf"`;
-		$do = `sudo rm -f "/etc/cron.daily/blacklist.sh"`;
-		$do = `sudo rm -f "/etc/dnsmasq.d/adfree.conf"`;
-	}
+		$do = `sudo rm -f "/etc/adfree.conf" "/etc/cron.daily/blacklist.sh" "/etc/dnsmasq.d/adfree.conf"`;
 
 	if((isset($_POST['button']) || isset($_POST['dlBlacklist'])) && isset($_POST['enableBL']) && $_POST['enableBL'] == "yes")
 	{
