@@ -7,7 +7,7 @@
                 exit;
         }
 
-	$ssid = $passphrase = "";
+	$okmsg = $errmsg = $ssid = $passphrase = "";
 	$lines = explode("\n", trim(`nmcli dev stat|grep wifi|sort -n`));
 	$wifiArr = array();
 	$i = 0;
@@ -167,6 +167,8 @@
 		$do = `sudo killall -KILL wpa_supplicant`;
 		$do = `sudo ifconfig $wificard up`;
 		$do = `sudo ifup $wificard`;
+
+		$okmsg = "Configuration changes have been saved and all interfaces have been successfully restarted.";
 	}
 
 	if(isset($_POST['disable']))
@@ -177,6 +179,8 @@
 		$do = `sudo rm -f "/etc/network/interfaces.d/$wificard2"`;
 		$do = `sudo rm -f "/etc/hostapd/hostapd.conf"`;
 		$do = `sudo rm -f "/etc/dnsmasq.conf"`;
+
+		$okmsg = "$wificard2 configuration was removed and the interface was brought down.";
 	}
 
 	if(file_exists("/etc/hostapd/hostapd.conf"))
@@ -270,6 +274,12 @@
                 </div>
                 <hr />
 		<div class="row" style="padding-right:15px;">
+<?php if($errmsg != "") { ?>
+                    <p><div class="alert alert-warning alert-dismissable"><?=$errmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
+<?php } ?>
+<?php if($okmsg != "") { ?>
+                    <p><div class="alert alert-success alert-dismissable"><?=$okmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
+<?php } ?>
                     <div class="col-lg-4 col-md-4">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#home" data-toggle="tab">Home</a>
@@ -303,8 +313,8 @@
 
 				<div style="width:140px;float:left">Pass Phrase:</div>
 				<input type="text" style="width:200px;float:left;" class="form-control" name="passphrase" value="<?=$passphrase?>" placeholder="Enter Passphrase" /><br style="clear:left;"/>
-				<div style="width:140px;float:left">Enable AC:</div>
-				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableAC"<?php if($enableAC == 1) { echo " checked"; } ?>/><br style="clear:left;"/>
+				<div style="width:140px;float:left">Enable 802.11AC:</div>
+				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableAC"<?php if($enableAC == 1) { echo " checked"; } ?>/>&nbsp;&nbsp;Only for channels 40 and up.<br style="clear:left;"/>
 				<div style="width:140px;float:left">Enable NAT:</div>
 				<input type="checkbox" style="width:25px;float:left;" class="form-control" name="enableNAT"<?php if($enableNAT == 2) { echo " checked"; } ?>/><br style="clear:left;"/>
 				<div style="width:140px;float:left">Enable TOR:</div>

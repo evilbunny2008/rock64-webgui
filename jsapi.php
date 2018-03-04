@@ -150,6 +150,7 @@
 		$res = mysqli_query($link, $query);
 		while($row = mysqli_fetch_assoc($res))
 		{
+			$len = strlen($row['hostname']);
 			echo "<tr><td><a href='blacklist.php?hostname=${row['hostname']}' title='${row['hostname']}'>";
 			echo @substr($row['hostname'], 0, $maxlen);
 			if($len > $maxlen)
@@ -159,7 +160,7 @@
 ?>
 		</table>
 		<table class="stats" style="width:48%;float:left;margin-left:10px;">
-		<tr><th>Client IP</th><th>Hits</th></tr>
+		<tr><th>Client IP</th><th>Requests</th></tr>
 <?php
 		$query = "select `client`, count(`client`) as `count` from `dnslog` where `when` >= now() - INTERVAL 30 DAY group by `client` order by count(`client`) desc limit 10";
 		$res = mysqli_query($link, $query);
