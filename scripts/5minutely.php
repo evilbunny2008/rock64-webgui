@@ -30,7 +30,7 @@
 
 	$start = $start - ($start % 300);
 
-	$now = time();
+	$now = time() - 300;
 
 	for($i = $start; $i <= $now; $i += 300)
 	{
@@ -40,7 +40,7 @@
 		if(mysqli_num_rows($res) > 0)
 			continue;
 
-		$query = "select `when` from `dnslog` where unix_timestamp(`when`) >= '$i' and unix_timestamp(`when`) <= '".($i + 299)."' and `status`='config'";
+		$query = "select `when` from `dnslog` where `when` >= '".date("Y-m-d H:i:s", $i)."' and unix_timestamp(`when`) <= '".date("Y-m-d H:i:s", $i + 299)."' and `status`='config'";
 		$res = mysqli_query($link, $query);
 		$config = mysqli_num_rows($res);
 
@@ -56,4 +56,5 @@
 
 		$query = "insert into `dnsStats` set `when`='$dt', `cached`='$cached', `forwarded`='$forwarded', `config`='$config'";
 		mysqli_query($link, $query);
+//echo $query."\n";
 	}

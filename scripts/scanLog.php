@@ -8,7 +8,7 @@
 
 	require_once("/var/www/html/mysql.php");
 
-	$debug = false;
+	$debug = true;
 
 	$filename = "/var/log/dnsmasq.log";
 	if(isset($argv['1']) && is_file($argv['1']))
@@ -57,7 +57,7 @@
 		$line = trim($lines[$i]);
 		list($datetime, $rest) = explode(" dnsmasq[", $line, 2);
 		list($crud, $rest) = explode("]: ", $rest, 2);
-		list($qid, $crud, $qtype, $host, $dir, $IP) = explode(" ", $rest, 6);
+		@list($qid, $crud, $qtype, $host, $dir, $IP) = explode(" ", $rest, 6);
 
 		$datetime = date("Y-m-d H:i:s", strtotime($datetime));
 
