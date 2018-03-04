@@ -261,6 +261,56 @@
 		$enableNAT = 2;
 	}
 
+	//$wificard2
+
+                exec("ifconfig $wificard", $return);
+                exec("iwconfig $wificard", $return);
+                $strWlan0 = implode(" ", $return);
+                $strWlan0 = preg_replace('/\s\s+/', ' ', $strWlan0);
+
+                preg_match('/ether ([0-9a-f:]+)/i', $strWlan0, $result) || $result[1] = 'No MAC Address Found';
+                $wifistats['strHWAddress'] = $result[1];
+
+                preg_match_all('/inet ([0-9.]+) netmask ([0-9a-f.]+)/i', $strWlan0, $result);
+                $wifistats['strIPAddress'] = "";
+                if(is_array($result[1]))
+                foreach($result[1] as $ip)
+                        $wifistats['strIPAddress'] .= $ip." ";
+
+                $wifistats['strNetMask'] = "";
+                if(is_array($result[2]))
+                foreach($result[2] as $nm)
+                        $wifistats['strNetMask'] .= $nm." ";
+
+                $result = array();
+                preg_match('/RX packets (\d+) bytes (\d+)/i', $strWlan0, $result);
+                $wifistats['strRxPackets'] = $result[1];
+                $wifistats['strRxBytes'] = $result[2];
+
+                $result = array();
+                preg_match('/TX packets (\d+) bytes (\d+)/', $strWlan0, $result);
+                $wifistats['strTxPackets'] = $result[1];
+                $wifistats['strTxBytes'] = $result[2];
+
+                preg_match('/ESSID:\"([a-zA-Z0-9\s].+)\" Nickname/i', $strWlan0, $result) || $result[1] = 'Not connected';
+                $wifistats['strSSID'] = str_replace( '"','',$result[1] );
+
+                preg_match('/Access Point: ([0-9a-f:]+)/i', $strWlan0, $result) || $result[1] = '';
+                $wifistats['strBSSID'] = $result[1];
+
+                preg_match('/Bit Rate:([0-9\.]+ Mb\/s)/i', $strWlan0, $result) || $result[1] = '';
+                $wifistats['strBitrate'] = $result[1];
+
+                preg_match('/Link Quality=([0-9]+)/i', $strWlan0, $result) || $result[1] = '';
+                $wifistats['strLinkQuality'] = $result[1];
+
+                preg_match('/Signal level=(-?[0-9]+ dBm)/i', $strWlan0, $result) || $result[1] = '';
+                $wifistats['strSignalLevel'] = $result[1];
+
+                preg_match('/Frequency:(\d+.\d+ GHz)/i', $strWlan0, $result) || $result[1] = '';
+                $wifistats['strFrequency'] = $result[1];
+
+
 	$page = 5;
 	$pageTitle = "WiFi Hotspot Settings";
 	include_once("header.php");
@@ -389,15 +439,15 @@
 				    <div class="panel panel-primary" style="width:325px;float:left;margin-right:20px;">
                             		<div class="panel-heading">Wireless Information</div>
                             		<div class="panel-body">
-                                	    <div style="width:160px;float:left;">Connected To:</div> <?=$wifi['strSSID']?><br/>
-	                                    <div style="width:160px;float:left;">AP MAC Address:</div> <?=$wifi['strBSSID']?><br/>
-            		                    <div style="width:160px;float:left;">Bitrate:</div> <?=$wifi['strBitrate']?><br/>
-                        		    <div style="width:160px;float:left;">Signal Level:</div> <?=$wifi['strSignalLevel']?><br/>
-	                                    <div style="width:160px;float:left;">Frequency:</div> <?=$wifi['strFrequency']?><br/>
+                                	    <div style="width:160px;float:left;">Connected To:</div> <?=$wifistats['strSSID']?><br/>
+	                                    <div style="width:160px;float:left;">AP MAC Address:</div> <?=$wifistats['strBSSID']?><br/>
+            		                    <div style="width:160px;float:left;">Bitrate:</div> <?=$wifistats['strBitrate']?><br/>
+                        		    <div style="width:160px;float:left;">Signal Level:</div> <?=$wifistats['strSignalLevel']?><br/>
+	                                    <div style="width:160px;float:left;">Frequency:</div> <?=$wifistats['strFrequency']?><br/>
             		                    <div style="width:160px;float:left;">Link Quality:</div>
-                        	            <div class="progress progress-striped" title="Signal: <?=$wifi['strLinkQuality']?>%">
-                                	        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?=$wifi['strLinkQuality']?>" aria-valuemin="0" aria-valuemax="100" style="width: <?=$wifi['strLinkQuality']?>%">
-                                        	<span class="sr-only"><?=$wifi['strLinkQuality']?>% Complete (success)</span>
+                        	            <div class="progress progress-striped" title="Signal: <?=$wifistats['strLinkQuality']?>%">
+                                	        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?=$wifistats['strLinkQuality']?>" aria-valuemin="0" aria-valuemax="100" style="width: <?=$wifistats['strLinkQuality']?>%">
+                                        	<span class="sr-only"><?=$wifistats['strLinkQuality']?>% Complete (success)</span>
 		                            </div>
                                         </div>
                                     </div>
