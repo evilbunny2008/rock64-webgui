@@ -181,6 +181,16 @@
         </div>
 <script type="text/javascript" charset="utf-8">
 <!--//
+	window.chartColors = {
+		red: 'rgb(255, 99, 132)',
+		orange: 'rgb(255, 159, 64)',
+		yellow: 'rgb(255, 205, 86)',
+		green: 'rgb(75, 192, 192)',
+		blue: 'rgb(54, 162, 235)',
+		purple: 'rgb(153, 102, 255)',
+		grey: 'rgb(231,233,237)'
+	};
+
 	var http1 = getHTTPObject();
 	var http2 = getHTTPObject();
 	var http3 = getHTTPObject();
@@ -208,21 +218,72 @@
 		return request;
 	}
 <?php
-	$data = $data2 = "";
+	$date = date("Ymd");
 
-	for($i = 0; $i < 24 * 12; $i++)
+	$data = $data2 = $data3 = "";
+
+	require_once("/var/www/html/mysql.php");
+
+	$year = substr($date, 0, 4);
+        $mon = substr($date, 4, 2);
+        $day = substr($date, 6, 2);
+
+	$firstTS = 0;
+	$lastTS = $start = date("U", mktime(0, 0, 0, $mon, $day, $year));
+        $stop = $start + 86399;
+
+	$query = "select *,UNIX_TIMESTAMP(`when`) as `dt` from `dnsStats` where `when` >= from_unixtime('$start') and `when` <= from_unixtime('$stop')";
+	$res = mysqli_query($link, $query);
+	while($row = mysqli_fetch_assoc($res))
 	{
-		if($i % 12 == 0)
+		if(date("i", $row['dt']) == 0)
 		{
-			$hour = $i / 12;
-			$data .= "'$hour', ";
+			$data .= "'".date("H", $row['dt']).":00', ";
 		} else
 			$data .= "'', ";
 
-		$j = rand(0, 3);
-                $data2 .= "$j,";
+                if($data2 != "")
+                        $data2 .= ',';
+                $data2 .= $row['forwarded'] + $row['cached'] + $row['config'];
 
+                if($data3 != "")
+                        $data3 .= ',';
+                $data3 .= $row['config'];
+
+		$lastTS = $row['dt'];
+		if($firstTS == 0)
+                        $firstTS = $lastTS;
 	}
+
+	if($lastTS == 0)
+                $lastTS = $start;
+
+	if($lastTS < $stop - 299)
+        {
+                for($i = $lastTS; $i <= $stop - 299; $i += 300)
+		{
+			if($data != "")
+                                $data .= ',';
+                        $data .= '';
+
+                        if($data2 != "")
+                                $data2 .= ',';
+                        $data2 .= 'null';
+
+                        if($data3 != "")
+                                $data3 .= ',';
+                        $data3 .= 'null';
+		}
+	}
+
+	if($firstTS == 0)
+        {
+                $firstTS = $start;
+                $lastTS = $stop;
+        }
+
+	$from = date("Y-m-d g:i A", $firstTS);
+        $to = date("Y-m-d g:i A", $lastTS);
 ?>
 	var ctx = document.getElementById("myChart");
 	var myChart = new Chart(ctx,
@@ -232,11 +293,21 @@
         	labels: [<?=$data?>],
 	        datasets: [{
         	    label: 'DNS Requests',
+		    backgroundColor: window.chartColors.blue,
 	            data: [<?=$data2?>],
 	            borderWidth: 1
-        	}]
+        	},
+		{
+        	    label: 'DNS Blocked',
+		    backgroundColor: window.chartColors.red,
+	            data: [<?=$data3?>],
+	            borderWidth: 1
+		}]
 	    },
 	    options: {
+		title: { display: true, text: '<?=$from.' - '.$to?>' },
+		tooltips: { mode: 'index', intersect: false },
+		hover: { mode: 'nearest', intersect: true },
         	scales: {
 	            yAxes: [{
         	        ticks: {
