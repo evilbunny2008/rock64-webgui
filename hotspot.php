@@ -288,6 +288,8 @@
                             </li>
                             <li class=""><a href="#clients" data-toggle="tab">Clients</a>
                             </li>
+                            <li class=""><a href="#wifi" data-toggle="tab">Wifi Info</a>
+                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="home">
@@ -367,22 +369,42 @@
                 {
                         list($expire, $mac, $ip, $hostname, $cliid) = explode(" ", $client);
 ?>
-		<div class="row" style="padding-left:10px;">
-                    <div class="col-md-6" style="width:350px;">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">MAC Address: <?=$mac?></div>
-                            <div class="panel-body">
-				<div style="width:100px;float:left;">IP:</div><?=$ip?><br/>
-				<div style="width:100px;float:left;">Expiry:</div><?=date('Y-m-d H:i:s', $expire)?><br/>
-				<div style="width:100px;float:left;">Hostname:</div><?=$hostname?><br/>
-				<div style="width:100px;float:left;">Cli:</div><?=$cliid?><br/>
+			    	<div class="row" style="padding-left:10px;">
+	                    	    <div class="col-md-6" style="width:350px;">
+				    	<div class="panel panel-primary">
+                            		    <div class="panel-heading">MAC Address: <?=$mac?></div>
+                            		    <div class="panel-body">
+					        <div style="width:100px;float:left;">IP:</div><?=$ip?><br/>
+					        <div style="width:100px;float:left;">Expiry:</div><?=date('Y-m-d H:i:s', $expire)?><br/>
+					        <div style="width:100px;float:left;">Hostname:</div><?=$hostname?><br/>
+					        <div style="width:100px;float:left;">Cli:</div><?=$cliid?><br/>
+                            		    </div>
+                        	        </div>
+				    </div>
+			        </div>
+<?php } } ?>
+			    </div>
+	                    <div class="tab-pane fade" id="wifi">
+				<h4>WiFi Information</h4>
+				    <div class="panel panel-primary" style="width:325px;float:left;margin-right:20px;">
+                            		<div class="panel-heading">Wireless Information</div>
+                            		<div class="panel-body">
+                                	    <div style="width:160px;float:left;">Connected To:</div> <?=$wifi['strSSID']?><br/>
+	                                    <div style="width:160px;float:left;">AP MAC Address:</div> <?=$wifi['strBSSID']?><br/>
+            		                    <div style="width:160px;float:left;">Bitrate:</div> <?=$wifi['strBitrate']?><br/>
+                        		    <div style="width:160px;float:left;">Signal Level:</div> <?=$wifi['strSignalLevel']?><br/>
+	                                    <div style="width:160px;float:left;">Frequency:</div> <?=$wifi['strFrequency']?><br/>
+            		                    <div style="width:160px;float:left;">Link Quality:</div>
+                        	            <div class="progress progress-striped" title="Signal: <?=$wifi['strLinkQuality']?>%">
+                                	        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?=$wifi['strLinkQuality']?>" aria-valuemin="0" aria-valuemax="100" style="width: <?=$wifi['strLinkQuality']?>%">
+                                        	<span class="sr-only"><?=$wifi['strLinkQuality']?>% Complete (success)</span>
+		                            </div>
+                                        </div>
+                                    </div>
+                                <br/>
                             </div>
                         </div>
-                    </div>
-		</div>
-<?php } } ?>
-		</div>
-		</div>
+		    </div>
 		</div>
 	    </div>
         </div>
