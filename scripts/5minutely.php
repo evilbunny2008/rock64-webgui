@@ -12,15 +12,15 @@
 
 	if(isset($argv['1']))
 	{
-		$row['datetime'] = strtotime("2018-03-04 00:00:00");
+		$row['when'] = strtotime("2018-03-04 00:00:00");
 	} else {
 		$query = "select unix_timestamp(`when`) as `when` from `dnsStats` order by `when` DESC limit 1";
 		$res = mysqli_query($link, $query);
 		$row = mysqli_fetch_assoc($res);
 	}
 
-	if(isset($row['datetime']))
-		$start = $row['datetime'];
+	if(isset($row['when']))
+		$start = $row['when'];
 
         if($start == 0)
         {
@@ -55,5 +55,5 @@
 		$dt = date("Y-m-d H:i:s", $i);
 
 		$query = "insert into `dnsStats` set `when`='$dt', `cached`='$cached', `forwarded`='$forwarded', `config`='$config'";
-echo $query."\n";
+		mysqli_query($link, $query);
 	}
