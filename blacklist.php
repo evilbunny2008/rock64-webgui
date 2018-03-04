@@ -104,6 +104,7 @@
                             <li class="<?php if($tab == 2) echo "active";?>"><a href="#logging" data-toggle="tab">Logging</a></li>
                             <li class=""><a href="#hostnames" data-toggle="tab">Blocked Hostnames</a></li>
                             <li class=""><a href="#stats" data-toggle="tab">Statistics</a></li>
+                            <li class=""><a href="#graphs" data-toggle="tab">Graphs</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade<?php if($tab == 1) echo " active in";?>" id="home">
@@ -162,6 +163,17 @@
 				    </div>
 				</div>
 			    </div>
+			    <div class="tab-pane fade" id="graphs">
+				<h4>Graphs</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
+				    <div class="panel panel-primary">
+			    		<div class="panel-heading">DNS Graphs</div>
+					<div class="panel-body">
+					    <canvas id="myChart" height="40vh" width="80vw"></canvas>
+					</div>
+				    </div>
+				</div>
+			    </div>
 			</div>
 		    </div>
 		</div>
@@ -195,6 +207,45 @@
 
 		return request;
 	}
+<?php
+	$data = $data2 = "";
+
+	for($i = 0; $i < 24 * 12; $i++)
+	{
+		if($i % 12 == 0)
+		{
+			$hour = $i / 12;
+			$data .= "'$hour', ";
+		} else
+			$data .= "'', ";
+
+		$j = rand(0, 3);
+                $data2 .= "$j,";
+
+	}
+?>
+	var ctx = document.getElementById("myChart");
+	var myChart = new Chart(ctx,
+	{
+	    type: 'line',
+	    data: {
+        	labels: [<?=$data?>],
+	        datasets: [{
+        	    label: 'DNS Requests',
+	            data: [<?=$data2?>],
+	            borderWidth: 1
+        	}]
+	    },
+	    options: {
+        	scales: {
+	            yAxes: [{
+        	        ticks: {
+                	    beginAtZero:true
+	                }
+        	    }]
+        	}
+    	    }
+	});
 
 	function switchType()
 	{

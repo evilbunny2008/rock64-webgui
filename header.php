@@ -12,6 +12,7 @@
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href="webgui.css" rel="stylesheet" />
+    <script src="assets/js/Chart.bundle.min.js"></script>
 <?php if(isset($refresh) && $refresh >= 60) { ?>
     <meta http-equiv="refresh" content="<?=$refresh?>">
 <?php } ?>
