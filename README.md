@@ -118,8 +118,17 @@ CREATE TABLE `dnslog` (
   `DNSIP` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `dnslog`
-  ADD PRIMARY KEY (`qid`,`when`);
+ALTER TABLE `dnslog` ADD PRIMARY KEY (`qid`,`when`);
+
+CREATE TABLE `dnsStats` (
+  `when` datetime NOT NULL,
+  `cached` int(11) NOT NULL,
+  `config` int(11) NOT NULL,
+  `forwarded` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `dnsStats` ADD PRIMARY KEY (`when`);
+
 exit;
 
 ln -sf /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
