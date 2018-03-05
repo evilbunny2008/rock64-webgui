@@ -42,7 +42,7 @@
 
 	for($i = $start; $i <= $now; $i += 300)
 	{
-		$j = date("Y-m-d H:i:s", $i);
+		$j = date("Y-m-d H:i:s", $i + 300);
 		$query = "select `when` from `dnsStats` where `when`='$j'";
 		$res = mysqli_query($link, $query);
 		if(mysqli_num_rows($res) > 0)
@@ -60,7 +60,7 @@
 		$res = mysqli_query($link, $query);
 		$cached = mysqli_num_rows($res);
 
-		$dt = date("Y-m-d H:i:s", $i);
+		$dt = date("Y-m-d H:i:s", $i + 300);
 
 		$query = "insert into `dnsStats` set `when`='$dt', `cached`='$cached', `forwarded`='$forwarded', `config`='$config'";
 		mysqli_query($link, $query);
