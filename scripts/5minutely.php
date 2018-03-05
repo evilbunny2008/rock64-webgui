@@ -16,17 +16,25 @@
 	} else {
 		$query = "select unix_timestamp(`when`) as `when` from `dnsStats` order by `when` DESC limit 1";
 		$res = mysqli_query($link, $query);
+		$rows = mysqli_num_rows($res);
 		$row = mysqli_fetch_assoc($res);
+	}
+
+	if($rows == 0)
+	{
+		$query = "select unix_timestamp(`when`) as `when` from `dnslog` order by `when` ASC limit 1";
+		$res = mysqli_query($link, $query);
+		$row = mysqli_fetch_assoc($res);
+	}
+
+	if(!isset($row['when']) || $row['when'] == 0)
+	{
+		echo "No data found in dnslog.\n";
+		exit(1);
 	}
 
 	if(isset($row['when']))
 		$start = $row['when'];
-
-        if($start == 0)
-        {
-                echo "Unable to find start time in the database\n";
-                exit;
-        }
 
 	$start = $start - ($start % 300);
 
