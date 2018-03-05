@@ -27,8 +27,9 @@
     <meta http-equiv="refresh" content="300">
 </head>
 <body>
-    <canvas id="myChart1" height="25vh" width="78vw"></canvas><br/>
+    <canvas id="myChart1" height="25vh" width="78vw"></canvas>
     <canvas id="myChart2" height="25vh" width="78vw"></canvas>
+    <span id="seconds">300</span>s before reload.
     <script type="text/javascript" charset="utf-8">
 	window.chartColors = {
 		red: 'rgb(255, 99, 132)',
@@ -83,9 +84,14 @@
         {
                 for($i = $lastTS; $i <= $stop - 299; $i += 300)
                 {
+			$hr = date("H", $i);
+			$min = date("i", $i);
+
                         if($data != "")
                                 $data .= ',';
-                        $data .= '';
+
+			if($min == 0 && $hr % 2 == 0)
+				$data .= "'$hr:00'";
 
                         if($data2 != "")
 				$data2 .= ",";
@@ -119,6 +125,7 @@
                     pointRadius: 1,
                     pointHoverRadius: 5,
                     pointHitRadius: 5,
+		    fill: true,
                 }]
             },
             options: {
@@ -148,6 +155,7 @@
                     pointRadius: 1,
                     pointHoverRadius: 5,
                     pointHitRadius: 5,
+		    fill: true,
                 }]
             },
             options: {
@@ -162,6 +170,18 @@
                 }
             }
         });
+
+        var seconds = 300;
+        setTimeout('location.reload(true)', seconds * 1000);
+
+        function updateClock()
+        {
+            setTimeout('updateClock()', 1000);
+            document.getElementById("seconds").innerHTML = --seconds;
+        }
+
+        setTimeout('updateClock()', 1000);
+
     </script>
     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>

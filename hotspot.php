@@ -249,8 +249,13 @@
 
 	if(!isset($enableAC))
 		$enableAC = trim(`grep "ieee80211ac=1" "/etc/hostapd/hostapd.conf" | wc -l`);
+
+	$tab = 1;
 	if(isset($_POST["clearlog"]) && file_exists("/var/log/hostapd.log"))
+	{
 		$do = `echo -n | sudo tee "/var/log/hostapd.log"`;
+		$tab = 2;
+	}
 
 	$enableNAT = 0;
 	if(file_exists("/etc/network/interfaces.d/$wificard2"))
@@ -332,9 +337,9 @@
 <?php } ?>
                     <div class="col-lg-4 col-md-4">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#home" data-toggle="tab">Home</a>
+                            <li class="<?php if($tab == 1) { echo "active"; } ?>"><a href="#home" data-toggle="tab">Home</a>
                             </li>
-                            <li class=""><a href="#logging" data-toggle="tab">Logging</a>
+                            <li class="<?php if($tab == 2) { echo "active"; } ?>"><a href="#logging" data-toggle="tab">Logging</a>
                             </li>
                             <li class=""><a href="#clients" data-toggle="tab">Clients</a>
                             </li>
@@ -342,7 +347,7 @@
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade active in" id="home">
+                            <div class="tab-pane fade<?php if($tab == 1) { echo " active in"; } ?>" id="home">
 				<h4>Home</h4>
 				<form method="post" action="<?=$_SERVER["PHP_SELF"]?>">
 	                        <div style="width:140px;float:left">Interface:</div>
@@ -397,7 +402,7 @@
 				<input type="submit" class="btn btn-primary" name="disable" value="Disable" />
 				</form>
                             </div>
-                            <div class="tab-pane fade" id="logging">
+                            <div class="tab-pane fade<?php if($tab == 2) { echo " active in"; } ?>" id="logging">
                                 <h4>Logging</h4>
                                 <p>
 				    <div style="width:150px;float:left">Auto refresh every 5s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
