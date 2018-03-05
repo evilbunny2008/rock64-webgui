@@ -27,7 +27,8 @@
     <meta http-equiv="refresh" content="300">
 </head>
 <body>
-    <canvas id="myChart" height="40vh" width="80vw"></canvas>
+    <canvas id="myChart1" height="25vh" width="78vw"></canvas><br/>
+    <canvas id="myChart2" height="25vh" width="78vw"></canvas>
     <script type="text/javascript" charset="utf-8">
 	window.chartColors = {
 		red: 'rgb(255, 99, 132)',
@@ -105,8 +106,8 @@
         $from = date("Y-m-d g:i A", $firstTS);
         $to = date("Y-m-d g:i A", $lastTS);
 ?>
-        var ctx = document.getElementById("myChart");
-        var myChart = new Chart(ctx,
+        var ctx1 = document.getElementById("myChart1");
+        var myChart1 = new Chart(ctx1,
         {
             type: 'line',
             data: {
@@ -115,17 +116,41 @@
                     label: 'DNS Requests',
                     backgroundColor: window.chartColors.blue,
                     data: [<?=$data2?>],
-                    borderWidth: 1
-                },
-                {
-                    label: 'DNS Blocked',
-                    backgroundColor: window.chartColors.red,
-                    data: [<?=$data3?>],
-                    borderWidth: 1
+                    pointRadius: 1,
+                    pointHoverRadius: 5,
+                    pointHitRadius: 5,
                 }]
             },
             options: {
                 title: { display: true, text: '<?=$from.' - '.$to?>' },
+                tooltips: { mode: 'index', intersect: false },
+                hover: { mode: 'nearest', intersect: true },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById("myChart2");
+        var myChart2 = new Chart(ctx2,
+        {
+            type: 'line',
+            data: {
+                labels: [<?=$data?>],
+                datasets: [{
+                    label: 'DNS Blocked',
+                    backgroundColor: window.chartColors.red,
+                    data: [<?=$data3?>],
+                    pointRadius: 1,
+                    pointHoverRadius: 5,
+                    pointHitRadius: 5,
+                }]
+            },
+            options: {
                 tooltips: { mode: 'index', intersect: false },
                 hover: { mode: 'nearest', intersect: true },
                 scales: {

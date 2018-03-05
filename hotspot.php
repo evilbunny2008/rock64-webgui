@@ -401,7 +401,7 @@
                                 <h4>Logging</h4>
                                 <p>
 				    <div style="width:150px;float:left">Auto refresh every 5s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
-				    <textarea cols="60" rows="15" wrap="off" readonly="readonly" id="textarea"></textarea>
+				    <textarea cols="90" rows="15" wrap="off" readonly="readonly" id="textarea"></textarea>
 				    <form method="post" action="<?=$_SERVER['PHP_SELF']?>">
 					<input type="submit" class="btn btn-primary" name="clearlog" value="Clear log" />
 				    </form>
