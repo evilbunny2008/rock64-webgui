@@ -169,7 +169,7 @@
 				    <div class="panel panel-primary">
 			    		<div class="panel-heading">DNS Graphs</div>
 					<div class="panel-body" id="panel-body4">
-					    <iframe style="border:0px;width:750px;height:510px;" src="graph.php"></iframe>
+					    <iframe style="border:0px;width:750px;height:550px;" src="graph.php"></iframe>
 					</div>
 				    </div>
 				</div>

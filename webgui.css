@@ -20,3 +20,20 @@
     background-color: #428bca;
     color: white;
 }
+
+.button {
+	padding:0px;
+	color:#FFFFFF;
+	background-color:#6694FF;
+	border:0px;
+	width:125px;
+	font-weight:bold;
+	height:25px;
+	font-family:arial,Helvetica,sans-serif;
+	font-size:14px;
+}
+
+.button:active {
+	position:relative;
+	top:1px;
+}

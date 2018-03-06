@@ -27,6 +27,14 @@
     <meta http-equiv="refresh" content="300">
 </head>
 <body>
+        <form style="text-align:center;max-width:950px;padding-top:10px;min-height:25px;" method="GET" action="<?=$_SERVER['PHP_SELF']?>">
+                <input class="button" type="submit" name="timeofday" value="<<" />
+                <input class="button" type="submit" name="timeofday" value="Yearly Graph" />
+                <input class="button" type="submit" name="timeofday" value="Monthly Graph" />
+                <input class="button" type="submit" name="timeofday" value="Daily Graph" />
+                <input class="button" type="submit" name="timeofday" value=">>" />
+                <input type="hidden" name="date" value="<?=$date?>" />
+        </form>
     <canvas id="myChart1" height="25vh" width="78vw"></canvas>
     <canvas id="myChart2" height="25vh" width="78vw"></canvas>
     <span id="seconds">300</span>s before reload.
@@ -60,7 +68,7 @@
         {
                 if(date("i", $row['dt']) == 0)
                 {
-                        $data .= "'".date("H", $row['dt']).":00', ";
+                        $data .= "'".date("H:i", $row['dt'])."', ";
                 } else
                         $data .= "'', ";
 
@@ -90,7 +98,7 @@
                         if($data != "")
                                 $data .= ',';
 
-			if($min == 0 && $hr % 2 == 0)
+			if($min == 0)
 				$data .= "'$hr:00'";
 
                         if($data2 != "")
