@@ -3,7 +3,7 @@
 
 	if(!isset($_SESSION['login']) || $_SESSION['login'] != true)
         {
-                header("location: login.php");
+                header("location: /login.php");
                 exit;
         }
 
@@ -11,46 +11,49 @@
 
 	$okmsg = $errmsg = "";
 
-	$pageTitle = "Blacklist Settings";
-?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?=$pageTitle?></title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/css/custom.css" rel="stylesheet" />
-    <link href="webgui.css" rel="stylesheet" />
-    <script src="assets/js/Chart.bundle.min.js"></script>
-    <meta http-equiv="refresh" content="300">
-</head>
-<body>
-        <form style="text-align:center;max-width:950px;padding-top:10px;min-height:25px;" method="GET" action="<?=$_SERVER['PHP_SELF']?>">
-                <input class="button" type="submit" name="timeofday" value="<<" />
-                <input class="button" type="submit" name="timeofday" value="Yearly Graph" />
-                <input class="button" type="submit" name="timeofday" value="Monthly Graph" />
-                <input class="button" type="submit" name="timeofday" value="Daily Graph" />
-                <input class="button" type="submit" name="timeofday" value=">>" />
-                <input type="hidden" name="date" value="<?=$date?>" />
-        </form>
-    <canvas id="myChart1" height="25vh" width="78vw"></canvas>
-    <canvas id="myChart2" height="25vh" width="78vw"></canvas>
-    <span id="seconds">300</span>s before reload.
-    <script type="text/javascript" charset="utf-8">
-	window.chartColors = {
-		red: 'rgb(255, 99, 132)',
-		orange: 'rgb(255, 159, 64)',
-		yellow: 'rgb(255, 205, 86)',
-		green: 'rgb(75, 192, 192)',
-		blue: 'rgb(54, 162, 235)',
-		purple: 'rgb(153, 102, 255)',
-		grey: 'rgb(231,233,237)'
-	};
-
-<?php
         $date = date("Ymd");
+
+        if(isset($_REQUEST['fulldate']))
+                $date = str_replace("-", "", $_REQUEST['fulldate']);
+
+        if(isset($_REQUEST['date']))
+                $date = $_REQUEST['date'];
+
+        if(isset($_REQUEST['timeofday']) && $_REQUEST['timeofday'] == 'Yearly Graph')
+        {
+                header("location: yearly-DNS.php");
+                exit;
+        }
+
+        if(isset($_REQUEST['timeofday']) && $_REQUEST['timeofday'] == 'Monthly Graph')
+        {
+                header("location: monthly-DNS.php");
+                exit;
+        }
+
+        if(isset($_REQUEST['timeofday']) && $_REQUEST['timeofday'] == 'Daily Graph')
+        {
+                header("location: daily-DNS.php");
+                exit;
+        }
+
+        if(isset($_REQUEST['timeofday']) && $_REQUEST['timeofday'] == '<<')
+        {
+                $year = substr($date, 0, 4);
+                $mon = substr($date, 4, 2);
+                $day = substr($date, 6, 2);
+
+                $date = date("Ymd", mktime(0,0,0,$mon,$day-1,$year));
+        }
+
+        if(isset($_REQUEST['timeofday']) && $_REQUEST['timeofday'] == '>>')
+        {
+                $year = substr($date, 0, 4);
+                $mon = substr($date, 4, 2);
+                $day = substr($date, 6, 2);
+
+                $date = date("Ymd", mktime(0,0,0,$mon,$day+1,$year));
+        }
 
         $data = $data2 = $data3 = "";
 
@@ -119,7 +122,45 @@
 
         $from = date("Y-m-d g:i A", $firstTS);
         $to = date("Y-m-d g:i A", $lastTS);
+
+	$pageTitle = "Blacklist Settings";
 ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?=$pageTitle?></title>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/custom.css" rel="stylesheet" />
+    <link href="/webgui.css" rel="stylesheet" />
+    <script src="/assets/js/Chart.bundle.min.js"></script>
+    <meta http-equiv="refresh" content="300">
+</head>
+<body>
+        <form style="text-align:center;max-width:950px;padding-top:10px;min-height:25px;" method="GET" action="<?=$_SERVER['PHP_SELF']?>">
+                <input class="button" type="submit" name="timeofday" value="<<" />
+                <input class="button" type="submit" name="timeofday" value="Yearly Graph" />
+                <input class="button" type="submit" name="timeofday" value="Monthly Graph" />
+                <input class="button" type="submit" name="timeofday" value="Daily Graph" />
+                <input class="button" type="submit" name="timeofday" value=">>" />
+                <input type="hidden" name="date" value="<?=$date?>" />
+        </form>
+    <canvas id="myChart1" height="25vh" width="78vw"></canvas>
+    <canvas id="myChart2" height="25vh" width="78vw"></canvas>
+    <span id="seconds">300</span>s before reload.
+    <script type="text/javascript" charset="utf-8">
+	window.chartColors = {
+		red: 'rgb(255, 99, 132)',
+		orange: 'rgb(255, 159, 64)',
+		yellow: 'rgb(255, 205, 86)',
+		green: 'rgb(75, 192, 192)',
+		blue: 'rgb(54, 162, 235)',
+		purple: 'rgb(153, 102, 255)',
+		grey: 'rgb(231,233,237)'
+	};
+
         var ctx1 = document.getElementById("myChart1");
         var myChart1 = new Chart(ctx1,
         {
