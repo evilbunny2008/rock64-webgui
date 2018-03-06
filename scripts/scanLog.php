@@ -63,7 +63,11 @@
 
 		if($qtype == "forwarded" || $qtype == "cached" || $qtype == "config")
 			$query1 = array('datetime' => $datetime, 'qid' => $qid, 'qtype' => $qtype, 'host' => $host, 'dir' => $dir, 'IP' => $IP);
-
+		else {
+			print_r($query);
+			echo $line."\n";
+			continue;
+		}
 		if($query['qid'] != $query1['qid'])
 			continue;
 
