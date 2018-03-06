@@ -102,7 +102,7 @@
                         <ul class="nav nav-tabs">
                             <li class="<?php if($tab == 1) echo "active";?>"><a href="#home" data-toggle="tab">Home</a></li>
                             <li class="<?php if($tab == 2) echo "active";?>"><a href="#logging" data-toggle="tab">Logging</a></li>
-                            <li class=""><a href="#hostnames" data-toggle="tab">Blocked Hostnames</a></li>
+                            <li class=""><a href="#hostnames" data-toggle="tab">Blocked</a></li>
                             <li class=""><a href="#stats" data-toggle="tab">Statistics</a></li>
                             <li class=""><a href="#graphs" data-toggle="tab">Graphs</a></li>
                         </ul>

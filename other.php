@@ -25,12 +25,12 @@
 		$timezone2 = substr($timezone, 1, -1);
 
 		$do = `echo $timezone | sudo tee "/etc/timezone"`;
-		$do = `sudo dpkg-reconfigure -f noninteractive tzdata`;
 		$do = `sudo ln -sf "/usr/share/zoneinfo/$timezone2" /etc/localtime`;
+		$do = `sudo dpkg-reconfigure -f noninteractive tzdata`;
 
 		$do = `echo $timezone | sudo tee "/etc/timezone"`;
-		$do = `sudo dpkg-reconfigure -f noninteractive tzdata`;
 		$do = `sudo ln -sf "/usr/share/zoneinfo/$timezone2" /etc/localtime`;
+		$do = `sudo dpkg-reconfigure -f noninteractive tzdata`;
 
 		$hostname = substr(escapeshellarg(trim($_POST['hostname'])), 1, -1);
 		$domain = substr(escapeshellarg(trim($_POST['domain'])), 1, -1);
