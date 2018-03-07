@@ -18,13 +18,11 @@
 		$row['when'] = strtotime("2018-03-04 00:00:00");
 	} else {
 		$query = "select unix_timestamp(`when`) as `when` from `dnsStats` order by `when` DESC limit 1";
-echo $query."\n";
 		$res = mysqli_query($link, $query);
 		$rows = mysqli_num_rows($res);
 		if($rows > 0)
 		{
 			$row = mysqli_fetch_assoc($res);
-echo date("Y-m-d H:i:s", $row['when'])."\n";
 		}
 	}
 
@@ -50,7 +48,6 @@ echo date("Y-m-d H:i:s", $row['when'])."\n";
 	{
 		$j = date("Y-m-d H:i:s", $i + 300);
 		$query = "select `when` from `dnsStats` where `when`='$j'";
-echo $query."\n";
 
 		$res = mysqli_query($link, $query);
 		if(mysqli_num_rows($res) > 0)
@@ -71,6 +68,5 @@ echo $query."\n";
 		$dt = date("Y-m-d H:i:s", $i + 300);
 
 		$query = "insert into `dnsStats` set `when`='$dt', `cached`='$cached', `forwarded`='$forwarded', `config`='$config'";
-		if(mysqli_query($link, $query))
-			echo $query."\n";
+		mysqli_query($link, $query);
 	}
