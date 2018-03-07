@@ -21,9 +21,7 @@
 		$res = mysqli_query($link, $query);
 		$rows = mysqli_num_rows($res);
 		if($rows > 0)
-		{
 			$row = mysqli_fetch_assoc($res);
-		}
 	}
 
 	if($rows == 0)
