@@ -138,7 +138,7 @@
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href="webgui.css" rel="stylesheet" />
     <script src="assets/js/Chart.bundle.js"></script>
-    <meta http-equiv="refresh" content="<?=$seconds?>;URL='<?=$_SERVER['SCRIPT_NAME']?>'">
+    <meta http-equiv="refresh" content="<?=$seconds?>">
 </head>
 <body>
         <form style="text-align:center;max-width:950px;padding-top:10px;min-height:25px;" method="GET" action="<?=$_SERVER['PHP_SELF']?>">
