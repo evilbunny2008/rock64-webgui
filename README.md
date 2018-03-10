@@ -129,6 +129,15 @@ CREATE TABLE `dnsStats` (
 
 ALTER TABLE `dnsStats` ADD PRIMARY KEY (`when`);
 
+CREATE TABLE `daily` (
+  `when` datetime NOT NULL,
+  `cached` int(11) NOT NULL,
+  `config` int(11) NOT NULL,
+  `forwarded` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `daily` ADD PRIMARY KEY (`when`);
+
 exit;
 
 ln -sf /var/www/html/scripts/dnsmasq.logrotate /etc/logrotate.d/dnsmasq
