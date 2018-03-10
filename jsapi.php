@@ -118,26 +118,26 @@
 ?>
 		<div style="width:23%;height:100px;float:left;border:1px solid;padding:5px;margin:5px;">
 			<div class="card-block">
-				<h3 style="text-align:center;"><?=$total?></h3>
-				<p style="text-align:center;">Total Queries (<?=$clis?> Clients)</p>
+				<h3 style="text-align:center;"><?=number_format($total)?></h3>
+				<p style="text-align:center;font-size:0.9em;">Total Queries (<?=$clis?> Cli)</p>
 			</div>
 		</div>
 		<div style="width:23%;height:100px;float:left;border:1px solid;padding:5px;margin:5px;">
 			<div class="card-block">
-				<h3 style="text-align:center;"><?=$blocked?></h3>
-				<p style="text-align:center;">Queries Blocked</p>
+				<h3 style="text-align:center;"><?=number_format($blocked)?></h3>
+				<p style="text-align:center;font-size:0.9em;">Queries Blocked</p>
 			</div>
 		</div>
 		<div style="width:23%;height:100px;float:left;border:1px solid;padding:5px;margin:5px;">
 			<div class="card-block">
 				<h3 style="text-align:center;"><?=$percent?>%</h3>
-				<p style="text-align:center;">Percent Blocked</p>
+				<p style="text-align:center;font-size:0.9em;">Percent Blocked</p>
 			</div>
 		</div>
 		<div style="width:23%;height:100px;float:left;border:1px solid;padding:5px;margin:5px;">
 			<div class="card-block">
-				<h3 style="text-align:center;"><?=$blcount?></h3>
-				<p style="text-align:center;">Hosts in the Blacklist</p>
+				<h3 style="text-align:center;"><?=number_format($blcount)?></h3>
+				<p style="text-align:center;font-size:0.9em,">Hosts in the Blacklist</p>
 			</div>
 		</div>
 		<br style="clear:left">
