@@ -120,6 +120,8 @@
                 $lastTS = $stop;
         }
 
+	$seconds = 300;
+
         $from = date("Y-m-d g:i A", $firstTS);
         $to = date("Y-m-d g:i A", $lastTS);
 
@@ -131,12 +133,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?=$pageTitle?></title>
-    <link href="/assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="/assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="/assets/css/custom.css" rel="stylesheet" />
-    <link href="/webgui.css" rel="stylesheet" />
-    <script src="/assets/js/Chart.bundle.min.js"></script>
-    <meta http-equiv="refresh" content="300">
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <link href="webgui.css" rel="stylesheet" />
+    <script src="assets/js/Chart.bundle.js"></script>
+    <meta http-equiv="refresh" content="<?=$seconds?>;URL='<?=$_SERVER['SCRIPT_NAME']?>'">
 </head>
 <body>
         <form style="text-align:center;max-width:950px;padding-top:10px;min-height:25px;" method="GET" action="<?=$_SERVER['PHP_SELF']?>">
@@ -149,7 +151,7 @@
         </form>
     <canvas id="myChart1" height="25vh" width="78vw"></canvas>
     <canvas id="myChart2" height="25vh" width="78vw"></canvas>
-    <span id="seconds">300</span>s before reload.
+    <span id="seconds"><?=$seconds?></span>s before reload.
     <script type="text/javascript" charset="utf-8">
 	window.chartColors = {
 		red: 'rgb(255, 99, 132)',
@@ -179,7 +181,7 @@
             },
             options: {
                 title: { display: true, text: '<?=$from.' - '.$to?>' },
-                tooltips: { mode: 'index', intersect: false },
+		tooltips: { mode: 'index', intersect: false },
                 hover: { mode: 'nearest', intersect: true },
                 scales: {
                     yAxes: [{
@@ -208,7 +210,7 @@
                 }]
             },
             options: {
-                tooltips: { mode: 'index', intersect: false },
+		tooltips: { mode: 'index', intersect: false },
                 hover: { mode: 'nearest', intersect: true },
                 scales: {
                     yAxes: [{
@@ -220,7 +222,7 @@
             }
         });
 
-        var seconds = 300;
+        var seconds = "<?=$seconds?>";
         setTimeout('location.reload(true)', seconds * 1000);
 
         function updateClock()

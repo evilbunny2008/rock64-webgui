@@ -100,15 +100,60 @@
 		<div class="row" style="padding-right:15px;">
                     <div class="col-lg-4 col-md-4">
                         <ul class="nav nav-tabs">
-                            <li class="<?php if($tab == 1) echo "active";?>"><a href="#home" data-toggle="tab">Home</a></li>
+                            <li class="<?php if($tab == 1) echo "active";?>"><a href="#graphs" data-toggle="tab">Graphs</a></li>
                             <li class="<?php if($tab == 2) echo "active";?>"><a href="#logging" data-toggle="tab">Logging</a></li>
                             <li class=""><a href="#hostnames" data-toggle="tab">Blocked</a></li>
                             <li class=""><a href="#stats" data-toggle="tab">Statistics</a></li>
-                            <li class=""><a href="#graphs" data-toggle="tab">Graphs</a></li>
+                            <li class=""><a href="#settings" data-toggle="tab">Settings</a></li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade<?php if($tab == 1) echo " active in";?>" id="home">
-				<h4>Home</h4>
+			    <div class="tab-pane fade<?php if($tab == 1) echo " active in";?>" id="graphs">
+				<h4>Graphs</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
+				    <div class="panel panel-primary">
+			    		<div class="panel-heading">DNS Graphs</div>
+					<div class="panel-body" id="panel-body4">
+					    <iframe style="border:0px;width:750px;height:550px;" src="daily-DNS.php"></iframe>
+					</div>
+				    </div>
+				</div>
+			    </div>
+			    <div class="tab-pane fade<?php if($tab == 2) echo " active in";?>" id="logging">
+				<h4>Logging</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
+				    <div style="width:180px;float:left">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
+					<?php if($hostname != "") { ?><a href='blacklist.php?viewAll=1'>View All</a><br style="clear:left;"/><?php } ?>
+				    <div class="panel panel-primary">
+					<div class="panel-heading">DNS Logs</div>
+					<div class="panel-body" id="panel-body1">
+					</div>
+				    </div>
+				</div>
+			    </div>
+			    <div class="tab-pane fade" id="hostnames">
+				<h4>Blocked Hostnames</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
+				    <div style="width:180px;float:left;">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh2"><br style="clear:left;"/>
+				    <div class="panel panel-primary">
+			    		<div class="panel-heading">Blocked Hostnames</div>
+					<div class="panel-body" id="panel-body2">
+					</div>
+				    </div>
+				</div>
+			    </div>
+			    <div class="tab-pane fade" id="stats">
+				<h4>Statistics</h4>
+				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
+				    <div style="width:180px;float:left">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh3"><br style="clear:left;"/>
+				    <div class="panel panel-primary">
+			    		<div class="panel-heading">DNS Stats</div>
+					<div class="panel-body" id="panel-body3">
+					</div>
+				    </div>
+				</div>
+			    </div>
+                            <div class="tab-pane fade" id="settings">
+				<h4>Settings</h4>
 				<div class="row" style="padding-right:15px;padding-left:15px;">
 <?php if($errmsg != "") { ?>
                 		    <p><div class="alert alert-warning alert-dismissable"><?=$errmsg?><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button></div></p>
@@ -127,51 +172,6 @@
 					<input type="submit" class="btn btn-primary" name="button" value="Save Settings" />
 					<input type="submit" class="btn btn-primary" name="dlBlacklist" value="Download Blacklist Now" />
 				    </form>
-				</div>
-			    </div>
-			    <div class="tab-pane fade<?php if($tab == 2) echo " active in";?>" id="logging">
-				<h4>Logging</h4>
-				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
-				    <div style="width:150px;float:left">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh1"><br style="clear:left;"/>
-					<?php if($hostname != "") { ?><a href='blacklist.php?viewAll=1'>View All</a><br style="clear:left;"/><?php } ?>
-				    <div class="panel panel-primary">
-					<div class="panel-heading">DNS Logs</div>
-					<div class="panel-body" id="panel-body1">
-					</div>
-				    </div>
-				</div>
-			    </div>
-			    <div class="tab-pane fade" id="hostnames">
-				<h4>Blocked Hostnames</h4>
-				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
-				    <div style="width:150px;float:left;">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh2"><br style="clear:left;"/>
-				    <div class="panel panel-primary">
-			    		<div class="panel-heading">Blocked Hostnames</div>
-					<div class="panel-body" id="panel-body2">
-					</div>
-				    </div>
-				</div>
-			    </div>
-			    <div class="tab-pane fade" id="stats">
-				<h4>Statistics</h4>
-				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
-				    <div style="width:150px;float:left">Auto refresh every 60s</div><input type="checkbox" style="width:25px;float:left;margin-left:10px;" class="form-control" checked id="autoRefresh3"><br style="clear:left;"/>
-				    <div class="panel panel-primary">
-			    		<div class="panel-heading">DNS Stats</div>
-					<div class="panel-body" id="panel-body3">
-					</div>
-				    </div>
-				</div>
-			    </div>
-			    <div class="tab-pane fade" id="graphs">
-				<h4>Graphs</h4>
-				<div class="row" style="padding-right:15px;padding-left:15px;width:800px;">
-				    <div class="panel panel-primary">
-			    		<div class="panel-heading">DNS Graphs</div>
-					<div class="panel-body" id="panel-body4">
-					    <iframe style="border:0px;width:750px;height:550px;" src="/graphs/daily-DNS.php"></iframe>
-					</div>
-				    </div>
 				</div>
 			    </div>
 			</div>
