@@ -145,6 +145,7 @@ echo -e "*  *\t* * *\troot\t/var/www/html/scripts/scanLog.php" >> /etc/crontab
 
 # check for webgui updates once a day
 echo -e "0  0\t* * *\troot\t/var/www/html/scripts/check.php" >> /etc/crontab
+echo -e "0  0\t* * *\troot\t/var/www/html/scripts/daily.php" >> /etc/crontab
 
 echo -e "*/5 *\t* * *\troot\t/var/www/html/scripts/5minutely.php" >> /etc/crontab
 
