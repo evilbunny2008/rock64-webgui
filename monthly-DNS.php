@@ -59,71 +59,86 @@
 
         $year = substr($date, 0, 4);
         $mon = substr($date, 4, 2);
-        $day = substr($date, 6, 2);
 
         $firstTS = 0;
-        $lastTS = $start = mktime(0, 0, 0, $mon, $day, $year);
-        $stop = $start + 86399;
+        $lastTS = $start = mktime(0, 0, 0, $mon, 1, $year);
+        $stop = mktime(0, 0, 0, $mon+1, 0, $year);
 
-        $query = "select *,UNIX_TIMESTAMP(`when`) as `when` from `dnsStats` where `when` >= from_unixtime('$start') and `when` <= from_unixtime('$stop')";
-        $res = mysqli_query($link, $query);
-        while($row = mysqli_fetch_assoc($res))
+        for($i = $start; $i < $stop; $i += 86400)
         {
-                if(date("i", $row['when']) == 0)
+		$query = "select unix_timestamp(`when`) as `when`,`config`,`config`+`cached`+`forwarded` as `total` from `daily` where `when` >= from_unixtime('$i') and `when` <= from_unixtime('".($i + 86399)."')";
+		$res = mysqli_query($link, $query);
+                if(mysqli_num_rows($res) <= 0)
                 {
-                        $data .= "'".date("H:i", $row['when'])."', ";
-                } else
-                        $data .= "'', ";
+			if(date("U") >= $i and date("U") <= $i + 86399)
+			{
+				$query = "select `when`, sum(`config`) as `config`, sum(`config`+`cached`+`forwarded`) as `total` from `dnsStats` where `when` >= from_unixtime('$i') and `when` <= from_unixtime('".($i + 86399)."') limit 1";
+                                $dres = mysqli_query($link, $query);
+                                $drow = mysqli_fetch_assoc($dres);
 
-                if($data2 != "")
-                        $data2 .= ',';
-                $data2 .= $row['forwarded'] + $row['cached'] + $row['config'];
+                                if($data != "")
+                                        $data .= ',';
+                                $data .= $drow['total'];
 
-                if($data3 != "")
-                        $data3 .= ',';
-                $data3 .= $row['config'];
+                                if($data2 != "")
+                                        $data2 .= ',';
+                                $data2 .= "".$drow['config'];
 
-                $lastTS = $row['when'];
-                if($firstTS == 0)
-                        $firstTS = $lastTS;
-        }
+                                $lastTS = $drow['when'];
 
-        if($lastTS == 0)
-                $lastTS = $start;
+                                if($firstTS == 0)
+                                        $firstTS = $lastTS;
+                        } else {
+                                if($data != "")
+                                        $data .= ',';
+                                $data .= "null";
 
-        if($lastTS < $stop - 299)
-        {
-                for($i = $lastTS; $i <= $stop - 299; $i += 300)
-                {
-			$hr = date("H", $i);
-			$min = date("i", $i);
+                                if($data2 != "")
+                                        $data2 .= ',';
+                                $data2 .= "null";
+                        }
+		} else {
+			$row = mysqli_fetch_assoc($res);
 
                         if($data != "")
                                 $data .= ',';
-
-			if($min == 0)
-				$data .= "'$hr:00'";
+                        $data .= $row['total'];
 
                         if($data2 != "")
-				$data2 .= ",";
-                        $data2 .= 'null';
+                                $data2 .= ',';
+                        $data2 .= "".$row['config'];
 
-                        if($data3 != "")
-                                $data3 .= ',';
-                        $data3 .= 'null';
-                }
-        }
+                        $lastTS = $row['datetime'];
+
+                        if($firstTS == 0)
+                                $firstTS = $lastTS;
+		}
+	}
+
+	$seconds = 3600;
 
         if($firstTS == 0)
-        {
                 $firstTS = $start;
-                $lastTS = $stop;
-        }
 
-	$seconds = 300;
+        if($lastTS == 0)
+                $lastTS = $stop;
 
         $from = date("Y-m-d g:i A", $firstTS);
         $to = date("Y-m-d g:i A", $lastTS);
+
+        $count = 0;
+        for($i = $start; $i <= $stop; $i += 86400)
+        {
+
+                if($cats != "")
+                        $cats .= ',';
+                $cats .= "'".date("Y-m-d", $i)."'";
+
+                if($showcat != "")
+                        $showcat .= ',';
+
+                $showcat .= "'".date("jS", $i)."'";
+        }
 
 	$pageTitle = "Blacklist Settings";
 ?>
@@ -168,11 +183,11 @@
         {
             type: 'line',
             data: {
-                labels: [<?=$data?>],
+                labels: [<?=$showcat?>],
                 datasets: [{
                     label: 'DNS Requests',
                     backgroundColor: window.chartColors.blue,
-                    data: [<?=$data2?>],
+                    data: [<?=$data?>],
                     pointRadius: 1,
                     pointHoverRadius: 5,
                     pointHitRadius: 5,
@@ -198,11 +213,11 @@
         {
             type: 'line',
             data: {
-                labels: [<?=$data?>],
+                labels: [<?=$showcat?>],
                 datasets: [{
                     label: 'DNS Blocked',
                     backgroundColor: window.chartColors.red,
-                    data: [<?=$data3?>],
+                    data: [<?=$data2?>],
                     pointRadius: 1,
                     pointHoverRadius: 5,
                     pointHitRadius: 5,
