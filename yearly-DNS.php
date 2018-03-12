@@ -69,7 +69,7 @@
 		$s1 = mktime(0, 0, 0, $i, 1, $year);
                 $s2 = mktime(23, 59, 59, $i+1, 0, $year);
 
-		$query = "select unix_timestamp(`when`) as `when`, `config`, `config`+`cached`+`forwarded` as `total` from `daily` where `when` >= from_unixtime('$s1') and `when` <= from_unixtime('$s2') limit 1";
+		$query = "select unix_timestamp(`when`) as `when`, sum(`config`) as `config`, sum(`config`+`cached`+`forwarded`) as `total` from `daily` where `when` >= from_unixtime('$s1') and `when` <= from_unixtime('$s2')";
 		$res = mysqli_query($link, $query);
                 if(mysqli_num_rows($res) <= 0)
                 {
@@ -83,11 +83,29 @@
                                         $data2 .= ',';
                                 $data2 .= "null";
 			} else {
-				$query = "select `when`, sum(`config`) as `config`, sum(`config`)+sum(`cached`)+sum(`forwarded`) as `total` from `dnsStats` where `when` >= from_unixtime('$s1') and `when` <= from_unixtime('$s2') limit 1";
-echo $query."<br>\n";
+				$query = "select unix_timestamp(`when`) as `when`, sum(`config`) as `config`, sum(`config`+`cached`+`forwarded`) as `total` from `dnsStats` where `when` >= from_unixtime('$s1') and `when` <= from_unixtime('$s2')";
                                 $dres = mysqli_query($link, $query);
                                 $drow = mysqli_fetch_assoc($dres);
 
+                                if($data != "")
+                                        $data .= ',';
+                                $data .= "'".$drow['total']."'";
+
+                                if($data2 != "")
+                                        $data2 .= ',';
+                                $data2 .= "'".$drow['config']."'";
+
+                                $lastTS = $drow['when'];
+
+                                if($firstTS == 0)
+                                        $firstTS = $lastTS;
+                        }
+		} else {
+			if($year == date("Y") && $i == date("m"))
+                        {
+				$query = "select unix_timestamp(`when`) as `when`, sum(`config`) as `config`, sum(`config`+`cached`+`forwarded`) as `total` from `dnsStats` where `when` >= from_unixtime('$s1') and `when` <= from_unixtime('$s2')";
+				$dres = mysqli_query($link, $query);
+				$drow = mysqli_fetch_assoc($dres);
                                 if($data != "")
                                         $data .= ',';
                                 $data .= $drow['total'];
@@ -100,22 +118,22 @@ echo $query."<br>\n";
 
                                 if($firstTS == 0)
                                         $firstTS = $lastTS;
-                        }
-		} else {
-			$row = mysqli_fetch_assoc($res);
+			} else {
+				$row = mysqli_fetch_assoc($res);
+	                        if($data != "")
+        	                        $data .= ',';
 
-                        if($data != "")
-                                $data .= ',';
-                        $data .= $row['total'];
+                	        $data .= "'".$row['total']."'";
 
-                        if($data2 != "")
-                                $data2 .= ',';
-                        $data2 .= "".$row['config'];
+	                        if($data2 != "")
+        	                        $data2 .= ',';
+                	        $data2 .= "'".$row['config']."'";
 
-                        $lastTS = $row['datetime'];
+	                        $lastTS = $row['datetime'];
 
-                        if($firstTS == 0)
-                                $firstTS = $lastTS;
+        	                if($firstTS == 0)
+                	                $firstTS = $lastTS;
+			}
 		}
 	}
 
