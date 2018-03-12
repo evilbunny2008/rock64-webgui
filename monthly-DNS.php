@@ -66,11 +66,11 @@
 
         for($i = $start; $i < $stop; $i += 86400)
         {
-		$query = "select unix_timestamp(`when`) as `when`,`config`,`config`+`cached`+`forwarded` as `total` from `daily` where `when` >= from_unixtime('$i') and `when` <= from_unixtime('".($i + 86399)."')";
+		$query = "select unix_timestamp(`when`) as `when`,`config`,`config`+`cached`+`forwarded` as `total` from `daily` where `when` >= from_unixtime('$i') and `when` <= from_unixtime('".($i + 86399)."') limit 1";
 		$res = mysqli_query($link, $query);
                 if(mysqli_num_rows($res) <= 0)
                 {
-			if(date("U") >= $i and date("U") <= $i + 86399)
+			if(date("U") >= $i && date("U") <= $i + 86399)
 			{
 				$query = "select `when`, sum(`config`) as `config`, sum(`config`+`cached`+`forwarded`) as `total` from `dnsStats` where `when` >= from_unixtime('$i') and `when` <= from_unixtime('".($i + 86399)."') limit 1";
                                 $dres = mysqli_query($link, $query);
@@ -99,7 +99,6 @@
                         }
 		} else {
 			$row = mysqli_fetch_assoc($res);
-
                         if($data != "")
                                 $data .= ',';
                         $data .= $row['total'];
@@ -181,7 +180,7 @@
         var ctx1 = document.getElementById("myChart1");
         var myChart1 = new Chart(ctx1,
         {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: [<?=$showcat?>],
                 datasets: [{
@@ -211,7 +210,7 @@
         var ctx2 = document.getElementById("myChart2");
         var myChart2 = new Chart(ctx2,
         {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: [<?=$showcat?>],
                 datasets: [{
