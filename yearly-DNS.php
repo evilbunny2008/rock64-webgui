@@ -137,7 +137,7 @@
 		}
 	}
 
-	$seconds = 3600;
+	$seconds = 86400;
 
         if($firstTS == 0)
                 $firstTS = $start;
