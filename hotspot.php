@@ -121,7 +121,7 @@
 			}
 		}
 
-		$cmd = "echo 'post-up /usr/sbin/hostapd -e /dev/urandom -B -P '/var/run/${wificard2}.pid' -f /var/log/hostapd.log /etc/hostapd/hostapd.conf' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
+		$cmd = "echo 'post-up /usr/sbin/hostapd -dd -B -P '/var/run/${wificard2}.pid' -f /var/log/hostapd.log /etc/hostapd/hostapd.conf' | sudo tee -a '/etc/network/interfaces.d/$wificard2'";
 		$do = `$cmd`;
 
 		if(isset($_POST['enableNAT']))
