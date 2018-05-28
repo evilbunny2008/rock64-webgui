@@ -94,7 +94,8 @@ rm -rf /var/www/html
 git clone https://github.com/evilbunny2008/rock64-webgui.git /var/www/html
 
 cd /var/www/html
-gcc -g -lpam -o chkpasswd pam.c
+gcc -fPIC -c pam.c
+gcc -o chkpasswd pam.o -lpam
 lighty-enable-mod fastcgi-php
 
 cp /var/www/html/mysql.default.php /var/www/html/mysql.php
