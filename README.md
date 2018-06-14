@@ -62,7 +62,7 @@ update-locale LANG=en_US.UTF-8
 
 sed -i -e "s/^# deb /deb /" /etc/apt/sources.list.d/ayufan-rock64.list
 sed -i -e "s/^deb-src/# deb-src/" /etc/apt/sources.list
-sed -i -e "s/^#kernel.printk = 3 4 1 3/kernel.printk = 3 4 1 3/" /etc/sysctl.conf
+sed -i -e "s/^#kernel.printk = 3 4 1 3/kernel.printk = 4 4 1 7/" /etc/sysctl.conf
 sed -i -e "s/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/" /etc/sysctl.conf
 
 rm -f /etc/apt/sources.list.save
