@@ -72,15 +72,15 @@ cp /etc/skel/.bashrc /root/.bashrc
 cp /etc/skel/.bash_logout /root/.bash_logout
 
 apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync \
-	gamin lighttpd openvpn php-cgi libpam0g-dev php-cli mtr-tiny telnet tor haveged
+        gamin lighttpd openvpn php-cgi libpam0g-dev php-cli mtr-tiny telnet tor haveged
 
 dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-glib-2.0 iso-codes \
-	gir1.2-packagekitglib-1.0 jq libasound2 libasound2-data libdbus-glib-1-2 libfftw3-single3 \
-	libgirepository-1.0-1 libjq1 libmpdec2 libonig4 libpackagekit-glib2-18 libpython3-stdlib \
-	libpython3.5-minimal libpython3.5-stdlib libsamplerate0 lsb-release python-apt-common \
-	python3 python3-apt python3-dbus python3-gi python3-minimal python3-pycurl python3.5 \
-	python3.5-minimal software-properties-common python3-software-properties linux-rock64 \
-	avahi-daemon libavahi-common-data libavahi-common3 libavahi-core7 libdaemon0
+        gir1.2-packagekitglib-1.0 jq libasound2 libasound2-data libdbus-glib-1-2 libfftw3-single3 \
+        libgirepository-1.0-1 libjq1 libmpdec2 libonig4 libpackagekit-glib2-18 libpython3-stdlib \
+        libpython3.5-minimal libpython3.5-stdlib libsamplerate0 lsb-release python-apt-common \
+        python3 python3-apt python3-dbus python3-gi python3-minimal python3-pycurl python3.5 \
+        python3.5-minimal software-properties-common python3-software-properties linux-rock64 \
+        avahi-daemon libavahi-common-data libavahi-common3 libavahi-core7 libdaemon0
 
 apt-get -y dist-upgrade; apt-get autoremove; apt-get clean
 
@@ -193,15 +193,15 @@ rm -f /var/lib/apt/lists/*
 
 cd /usr/share/locale
 rm -rf aa as bn ca@valencia csb dv es_AR es_MX es_UY fil ga haw hu ja kok lb mai mr ne oc pms ru shn \
-	sr@ijekavian szl ti tt uz@cyrillic wo zu ace ast bn_IN ce cv dz es_CL es_NI es_VE fo \
-	gd he hy jv ks li mg ms nl om ps rw si sr@ijekavianlatin ta tig tt@iqtelif ve xh af \
-	az bo chr cy el es_CO es_PA et fr gez hi ia ka ku ln mhr mt nl_NL or pt sa sk sr@latin \
-	ta_LK tk ug vec yi am be br ckb da es_CR es_PE eu fr_CA gl hne id kk ku_IQ lo mi my nn os \
-	pt_BR sc sl sr@Latn te tl uk vi yo an be@latin bs cmn de eo es_DO es_PR fa frp gu hr \
-	ig km kw mk nah no pa pt_PT sco so st tet tr ur wa zh_CN ar bem byn crh de_CH \
-	en@boldquot es es_EC es_SV fa_AF fur gv hsb is kn ky lt ml nb nqo pam qu sd sq \
-	sv tg trv ur_PK wae zh_HK ary bg ca cs de_DE es_419 es_ES es_US fi fy ha ht it \
-	ko la lv mn nds nso pl ro se sr sw th ts uz wal zh_TW
+        sr@ijekavian szl ti tt uz@cyrillic wo zu ace ast bn_IN ce cv dz es_CL es_NI es_VE fo \
+        gd he hy jv ks li mg ms nl om ps rw si sr@ijekavianlatin ta tig tt@iqtelif ve xh af \
+        az bo chr cy el es_CO es_PA et fr gez hi ia ka ku ln mhr mt nl_NL or pt sa sk sr@latin \
+        ta_LK tk ug vec yi am be br ckb da es_CR es_PE eu fr_CA gl hne id kk ku_IQ lo mi my nn os \
+        pt_BR sc sl sr@Latn te tl uk vi yo an be@latin bs cmn de eo es_DO es_PR fa frp gu hr \
+        ig km kw mk nah no pa pt_PT sco so st tet tr ur wa zh_CN ar bem byn crh de_CH \
+        en@boldquot es es_EC es_SV fa_AF fur gv hsb is kn ky lt ml nb nqo pam qu sd sq \
+        sv tg trv ur_PK wae zh_HK ary bg ca cs de_DE es_419 es_ES es_US fi fy ha ht it \
+        ko la lv mn nds nso pl ro se sr sw th ts uz wal zh_TW
 cd /
 
 rm -rf /usr/share/doc /usr/share/man /usr/local/sbin/install_* /var/cache/apt/*.bin
