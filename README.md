@@ -14,6 +14,8 @@ This is community maintained project in my free time. Don't expect everything to
 
 For those not able or willing to set this up themselves I have an [image on my website](https://files.evilbunny.org/stretch-router-rock64-0.6.15-175-arm64.img.xz) based on [ayufan's stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/download/0.6.15/stretch-minimal-rock64-0.6.15-175-arm64.img.xz).
 
+For RockPro64 image you can now get it from [my site](https://files.evilbunny.org/stretch-router-rockpro64-0.7.8-1061-arm64.img.xz).
+
 ## Screen Shots
 
 ![](https://i.imgur.com/q9vq6ZB.jpg)
