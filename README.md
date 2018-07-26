@@ -47,7 +47,7 @@ mount /dev/loop0p6 /mnt/boot/efi
 
 cp -a /usr/local/sbin/resize_rootfs.sh /mnt/usr/local/sbin/resize_rootfs.sh
 cp -a /usr/local/sbin/rock64_diagnostics.sh /mnt/usr/local/sbin/rock64_diagnostics.sh
-cp /usr/local/sbin/rtl8812au-dkms_5.2.20-1_all.deb /mnt/usr/src/rtl8812au-dkms_5.2.20-1_all.deb
+cp /usr/local/sbin/rtl8812au-dkms_4.3.22-4_all.deb /mnt/usr/src/rtl8812au-dkms_4.3.22-4_all.deb
 
 echo -e "#disable eth1 from working in network manager\niface eth1 inet manual" > /mnt/etc/network/interfaces.d/eth1
 
@@ -85,7 +85,7 @@ dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-gli
 apt-get -y dist-upgrade; apt-get autoremove; apt-get clean
 
 # This takes 3-4minutes if nothing else is using CPUs
-dpkg -i /usr/src/rtl8812au-dkms_5.2.20-1_all.deb
+dpkg -i /usr/src/rtl8812au-dkms_4.3.22-4_all.deb
 
 # disable predictive device names to make it easier for scripts to support unknown wifi devices 
 sed -i -e "s/swapaccount=1/swapaccount=1 net.ifnames=0 biosdevname=0/" /boot/efi/extlinux/extlinux.conf
