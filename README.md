@@ -37,11 +37,11 @@ Inspired by the [raspap webgui](https://github.com/billz/raspap-webgui)
 Below is the steps to take to use [ayufan's debian stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/) to configure the rock64 via a web browser.
 
 ```
-wget https://github.com/ayufan-rock64/linux-build/releases/download/0.6.15/stretch-minimal-rock64-0.6.15-175-arm64.img.xz
-xz -d -v stretch-minimal-rock64-0.6.15-175-arm64.img.xz
-mv stretch-minimal-rock64-0.6.15-175-arm64.img stretch-router-rock64-0.6.15-175-arm64.img
+wget https://github.com/ayufan-rock64/linux-build/releases/download/0.7.8/stretch-minimal-rockpro64-0.7.8-1061-arm64.img.xz
+xz -d -v stretch-minimal-rockpro64-0.7.8-1061-arm64.img.xz
+mv stretch-minimal-rockpro64-0.7.8-1061-arm64.img stretch-router-rockpro64-0.7.8-1061-arm64.img
 
-losetup -Pf stretch-router-rock64-0.6.15-175-arm64.img
+losetup -Pf stretch-router-rockpro64-0.7.8-1061-arm64.img
 mount /dev/loop0p7 /mnt
 mount /dev/loop0p6 /mnt/boot/efi
 
