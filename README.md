@@ -100,7 +100,7 @@ lighty-enable-mod fastcgi-php
 
 cp /var/www/html/mysql.default.php /var/www/html/mysql.php
 
-apt-get -y install php-mysql mysql-server
+apt-get -y install php-mysql mariadb-server
 
 mysql
 CREATE DATABASE webgui;
