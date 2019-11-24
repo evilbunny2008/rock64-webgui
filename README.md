@@ -71,7 +71,7 @@ cp /etc/skel/.bash_logout /root/.bash_logout
 
 apt update
 
-apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync \
+apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync \
         gamin lighttpd openvpn php-cgi libpam0g-dev php-cli mtr-tiny telnet tor haveged
 
 dpkg --purge distro-info-data alsa-utils dh-python firmware-brcm80211 gir1.2-glib-2.0 iso-codes \
