@@ -39,19 +39,15 @@ Inspired by the [raspap webgui](https://github.com/billz/raspap-webgui)
 Below is the steps to take to use [ayufan's debian stretch minimal image](https://github.com/ayufan-rock64/linux-build/releases/) to configure the rock64 via a web browser.
 
 ```
-wget https://github.com/ayufan-rock64/linux-build/releases/download/0.7.8/stretch-minimal-rockpro64-0.7.8-1061-arm64.img.xz
-xz -d -v stretch-minimal-rockpro64-0.7.8-1061-arm64.img.xz
-mv stretch-minimal-rockpro64-0.7.8-1061-arm64.img stretch-router-rockpro64-0.7.8-1061-arm64.img
+wget https://github.com/ayufan-rock64/linux-build/releases/download/0.9.16/buster-minimal-rockpro64-0.9.16-1163-arm64.img.xz
+xz -d -v buster-minimal-rockpro64-0.9.16-1163-arm64.img.xz
+mv buster-minimal-rockpro64-0.9.16-1163-arm64.img buster-router-rockpro64-0.9.16-1163-arm64.img
 
-losetup -Pf stretch-router-rockpro64-0.7.8-1061-arm64.img
+losetup -Pf buster-router-rockpro64-0.9.16-1163-arm64.img
 mount /dev/loop0p7 /mnt
 mount /dev/loop0p6 /mnt/boot/efi
 
-cp -a /usr/local/sbin/resize_rootfs.sh /mnt/usr/local/sbin/resize_rootfs.sh
-cp -a /usr/local/sbin/rock64_diagnostics.sh /mnt/usr/local/sbin/rock64_diagnostics.sh
-cp /usr/local/sbin/rtl8812au-dkms_4.3.22-4_all.deb /mnt/usr/src/rtl8812au-dkms_4.3.22-4_all.deb
-
-echo -e "#disable eth1 from working in network manager\niface eth1 inet manual" > /mnt/etc/network/interfaces.d/eth1
+wget -O /mnt/usr/src/rtl8812au-dkms_5.2.20.2-1_all.deb http://files.evilbunny.org/rtl8812au-dkms_5.2.20.2-1_all.deb
 
 chroot /mnt
 mount -t proc proc /proc
@@ -72,6 +68,8 @@ rm -f /etc/apt/sources.list.save
 cp /etc/skel/.profile /root/.profile
 cp /etc/skel/.bashrc /root/.bashrc
 cp /etc/skel/.bash_logout /root/.bash_logout
+
+apt update
 
 apt-get update; apt-get -y install debfoster dnsutils python dkms less hostapd dnsmasq bc rsync \
         gamin lighttpd openvpn php-cgi libpam0g-dev php-cli mtr-tiny telnet tor haveged
