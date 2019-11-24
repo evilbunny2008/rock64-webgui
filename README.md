@@ -209,6 +209,9 @@ dd if=/dev/zero of=zero.txt bs=30M
 dd if=/dev/zero of=/boot/efi/zero.txt bs=30M
 rm -f zero.txt /boot/efi/zero.txt
 
+/etc/init.d/mysql stop
+/etc/init.d/dnsmasq stop
+
 umount /proc
 exit
 
